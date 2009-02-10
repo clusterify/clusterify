@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Progjects - Search profiles{% endblock %}
+{% block titleInPage %}Search results for '{{ search_terms }}' in Profiles{% endblock %}
+
+{% block moreStyle %}
+{% endblock %}
+
+{% block content %}
+
+{% if error %}
+	<span style="color: red;">{{ error }}</span>
+{% else %}
+	<ul>
+	{% for profile in paginated_profiles.object_list %}
+		<li>{{ profile.description_html }} (username: {{ profile.user.username }})</li>
+	{% endfor %}
+	</ul>
+
+<br style="clear: both;"/>
+<div class="pagination">
+    <span class="step-links">
+        {% if paginated_profiles.has_previous %}
+            <a href="?page={{ paginated_profiles.previous_page_number }}">&lt;&lt; previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ paginated_profiles.number }} of {{ paginated_profiles.paginator.num_pages }}
+        </span>
+
+        {% if paginated_profiles.has_next %}
+            <a href="?page={{ paginated_profiles.next_page_number }}">next &gt;&gt;</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html"  %}
+
+{% block title %}Progjects - Confirm{% endblock %}
+{% block titleInPage %}Confirm decision{% endblock %}
+
+{% block moreStyle %}
+
+.confirm_link {
+	display: block;
+	margin: 10px auto;
+	background-color: #666;
+	color: #fff;
+	border-left: 1px solid #999;
+	border-top: 1px solid #999;
+	padding: 10px;
+	width: 200px;
+}
+
+a.confirm_link:hover {
+	background-color: #888;
+	color: #fff;
+}
+
+{% endblock %}
+
+{% block content %}
+
+<div style="text-align: center;">
+{{ question }}
+<a href="{{ url_yes }}" class="confirm_link">Yes</a>
+<a href="{{ url_no }}" class="confirm_link">No</a>
+</div>
+
+{% endblock %}

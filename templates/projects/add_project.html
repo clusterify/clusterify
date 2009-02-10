@@ -1,0 +1,48 @@
+{% extends "base.html"  %}
+
+{% block titleInPage %}Add project{% endblock %}
+
+{% block content %}
+<form action="/projects/add/" method="POST">
+
+<div class="content_subtitle">Basic project information</div>
+
+<table cellpadding="5" cellspacing="0" class="form_subtable">
+	<tr class=" form_color_1">
+		<td class="form_field_cell">Title
+		{% if field.errors %}
+			<ul class="form_errors">{{ form.title.errors }}</ul>
+		{% endif %}
+		</td>
+		<td class="form_field_cell" align="right">{{ form.title }}</td>
+	</tr>
+	<tr class="form_color_2">
+		<td class="form_field_cell">Estimated duration (hours)</td>
+		<td class="form_field_cell" align="right">{{ form.time_estimate }}</td></td>
+	</tr>
+	<tr class="form_color_1">
+		<td class="form_field_cell">Tags required in joining users' profiles</td>
+		<td class="form_field_cell" align="right">{{ form.required_tags }}</td>
+	</tr>
+	<tr class="form_color_2">
+		<td class="form_field_cell">Other descriptive tags</td>
+		<td class="form_field_cell" align="right">{{ form.description_tags }}</td>
+	</tr>
+</table>
+
+<script><!--
+$(function(){
+	$('#id_required_tags').autocomplete({list: site_tags});
+	$('#id_description_tags').autocomplete({list: site_tags});
+});
+//--></script>
+
+<div class="content_subtitle">Project description</div>
+
+{{ form.description }}
+
+<div class="form_field_div form_color_1"><input type="submit" value="Submit" class="button_link" /></div>
+
+</form>
+
+{% endblock %}

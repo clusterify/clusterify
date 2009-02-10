@@ -1,0 +1,31 @@
+{% extends "base.html"  %}
+
+{% block titleInPage %}{{ page_title }}{% endblock %}
+
+{% block subtabs %}
+<a class="subtab" href="{{ list_mytags_url }}">My tags</a>
+<a class="subtab" href="{{ list_new_url }}">New</a>
+<a class="subtab" href="{{ list_top_url }}">Top</a>
+{% endblock %}
+
+{% block content %}
+
+	{% if filter_description %}
+	<div class="content_subsubtitle">
+		Also filtering for:
+		<ul>
+			{% autoescape off %}{{ filter_description }}{% endautoescape %}
+		</ul>
+	</div>
+	{% endif %}
+	
+	{# project_list.object_list is a Paginator object #}
+	{% for project in project_list_page.object_list %}
+	
+		{% include "projects/project_snippet.html" %}
+	
+	{% endfor %}
+	
+	{% with project_list_page as paginator_page %}{% include "projects/pagination_snippet.html" %}{% endwith %}
+
+{% endblock %}

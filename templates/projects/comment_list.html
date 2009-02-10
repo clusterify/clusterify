@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Progjects - {{ page_title }}{% endblock %}
+{% block titleInPage %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+	{% if filter_description %}
+	<div class="content_subsubtitle">
+		Also filtering for:
+		<ul>
+			{% autoescape off %}{{ filter_description }}{% endautoescape %}
+		</ul>
+	</div>
+	{% endif %}
+
+	{% for comment in paginated_comments.object_list %}
+		<div class="content_subsubtitle">concerning <a href="{{ comment.project.get_absolute_url }}">{{ comment.project.title }}</a></div>
+		{% include "projects/comment_snippet.html" %}
+	{% endfor %}
+
+	{% with paginated_comments as paginator_page %}{% include "projects/pagination_snippet.html" %}{% endwith %}
+
+
+{% endblock %}

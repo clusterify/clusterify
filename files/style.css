@@ -1,0 +1,529 @@
+/***************** Generic *******************/
+
+body,html {
+	margin: 10px 0; padding: 0;
+	background-color: #dfdfdf;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000;
+	text-align:center;
+}
+
+.clear { clear: both; }
+
+a {
+	color: #0055aa;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #002277;
+}
+
+img, h1,h2,h3,h4,h5,h6,input,textarea,form {
+	margin: 0; border: 0; padding: 0;
+}
+
+textarea, input {
+	border: 1px solid #555;
+}
+
+/******************** Header and footer *********************/
+
+#topbar {
+	text-align: left;
+	
+	width: 960px;
+
+	margin: 0 auto;
+	padding: 0;
+}
+
+#logo {
+	margin: 0 0 10px 0;
+	padding: 0.8em;
+	background-color: #777744;
+	color: #fff;
+
+	border-top: 1px solid #bbbb99;
+	border-left: 1px solid #bbbb99;
+	
+	float: left;
+
+	font-size: x-large;
+}
+
+#footer {
+	clear: both;
+	width: 940px;
+	margin: 15px auto;
+	padding: 10px;
+	background-color: #ccc;
+	border: 1px solid #888;
+}
+
+/******************** Menu *********************/
+
+#loginmenu_div {
+	text-align: right;
+	width: 600px;
+	margin: 0; padding: 0;
+	float: right;
+}
+
+#sitemenu_div {
+	margin: 0 0 10px 0;
+
+	width: 600px;
+
+	float: right;
+	
+	padding: 0;
+}
+
+ul#sitemenu_ul {
+	margin: 0; padding: 0;
+	float: right;
+}
+
+ul#sitemenu_ul li {
+	list-style-type: none;
+
+	margin: 0.5em 0 0 0.5em;
+	
+	border: 0;
+	
+	float: left;
+}
+
+#sitemenu_ul li a {
+	margin: 0;
+
+	border-top: 1px solid #0088dd;
+	border-left: 1px solid #0088dd;
+
+	background-color: #003399;
+	padding: 0.5em 1em 0.5em 1em;
+	
+	float: left;
+	
+	color: #ffffff;
+	
+	text-decoration: none;
+}
+
+#sitemenu_ul li a:hover {
+	background-color: #2255BB;
+	color: #fff;
+}
+
+.subtab {
+	float: right;
+	display: block;
+	background-color: #ddd;
+	border: 1px solid #555;
+	font-weight: bold;
+	padding: 10px;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.subtab:hover {
+	background-color: #bbb;
+}
+
+/******************** Sidebar ************************/
+
+#sidebar {
+	float: right;
+	border: 1px solid #555;
+	text-align: center;
+	padding: 0;
+	width: 200px;
+	margin: 0 0 10px 0;
+}
+
+.sidebar_block {
+	text-align: left;
+	padding: 10px;
+	width: 180px;
+}
+
+.sidebar_title {
+	text-align: left;
+	clear: both;
+	background-color: #555;
+	padding: 5px;
+	color: white;
+	font-weight: bold;
+}
+
+ul.sidebar_ul {
+	padding: 0;
+	margin: 0;	
+}
+
+ul.sidebar_horiz_ul {
+	padding: 0;
+	margin: 0;
+}
+
+ul.sidebar_ul li {
+	list-style-type: none;
+}
+
+ul.sidebar_horiz_ul li {
+	list-style-type: none;
+	margin: 0.5em 0 0 0;
+	display: inline;
+}
+
+.sidebar_button_a {
+	display:block;
+	background-color: #666;
+	color: white;
+	font-weight: bold;
+	padding: 8px 10px;
+	text-decoration: none;
+	margin: 10px;
+	border-left: 1px solid #aaa;
+	border-top: 1px solid #aaa;
+}
+
+.sidebar_button_a:hover {
+	background-color: #888;
+	color: white;
+}
+
+.sidebar_info {
+	display:block;
+	font-weight: bold;
+	padding: 8px 10px;
+	text-decoration: none;
+	margin: 10px;
+	background-color: #777744;
+	color: #fff;
+
+	border-top: 1px solid #bbbb99;
+	border-left: 1px solid #bbbb99;
+}
+
+/******************* Content **********************/
+
+#maincontainer {
+	clear: both;
+	width: 960px;
+	margin: 0 auto;
+}
+
+#content {
+	float: left;
+
+	text-align: left;
+
+	width: 720px;
+	background-color: #fff;
+
+	clear: both;
+	
+	padding: 15px;
+
+	margin-bottom: 10px;
+}
+
+.titleInPage {
+	margin-bottom: 5px;
+	float: left;
+}
+
+.content_subtitle {
+	clear: both;
+	background-color: #cdcca0;
+	font-size: x-large;
+	padding: 8px;
+	margin: 20px 0 10px 0;
+}
+
+.content_subsubtitle {
+	clear: both;
+	background-color: #ddd;
+	padding: 8px;
+	margin-bottom: 10px;
+}
+
+
+/************************** Pagination ******************/
+
+.pagination {
+	clear: both;
+	text-align: center;
+	margin: 15px;
+}
+
+.pagination a, .pagination .current {
+	clear: both;
+	background-color: #ddd;
+	font-weight: bold;
+	padding: 8px;
+	margin-left: 5px;
+	margin-top: 15px;
+	border: 1px solid #555;
+}
+
+/************************** Tags ***********************/
+
+a.tag_link {
+	color: #fff;
+	padding: 2px 4px ;
+	margin: 2px 2px 10px 2px;
+	text-decoration: none;
+	float: left;
+	display: block;
+
+	background-color: #666;
+	border-top: 1px solid #aaa;
+	border-left: 1px solid #aaa;
+}
+
+a.tag_link:hover {
+	color: white;
+	background-color: #0077cc;
+}
+
+/************************* Forms *************************/
+
+input.required, error {
+	border: 2px solid red;
+}
+
+
+.form_div {
+	text-align: center;
+	padding: 10px;
+}
+
+/* Standalone table, used with form.as_table for quick styling */
+.form_table {
+	margin-left:auto; margin-right:auto;
+	border: 1px dotted #555;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+/* Table with more elaborate style, as a subsection in a form */
+.form_subtable {
+	width: 100%
+}
+
+.form_field_cell {
+	padding: 10px;
+}
+
+.form_field_div {
+	margin: 10px 0;
+	padding: 10px;
+}
+
+.form_color_1 {
+	background-color: #ddd;
+}
+
+.form_color_2 {
+	background-color: #fff;
+}
+
+.form_errors {
+	color: red;
+}
+
+.markdown_textarea {
+	width: 95%;
+}
+
+/*********** Vote, join counts badges *************/
+
+.badge_group_container {
+	float: left;
+	clear: both;
+	padding: 10px 0 10px 10px;
+}
+
+.count_widget_container {
+	float: left;
+	display: block;
+	width: 50px;
+	padding: 0;
+	margin-right: 10px;
+}
+
+.idea_votes_container {
+	overflow: hidden;
+	margin: 0;
+
+	float: left;
+	background-color: #449944;
+	font-size: small;
+	width: 40px;
+	text-align: center;
+	color: #fff;
+	padding: 5px;
+	border-top: 1px solid #88dd88;
+	border-left: 1px solid #88dd88;
+}
+
+.job_votes_container {
+	overflow: hidden;
+	margin: 0;
+
+	float: left;
+	background-color: #a7b100;
+	font-size: small;
+	width: 40px;
+	text-align: center;
+	color: #fff;
+	padding: 5px;
+	border-top: 1px solid #ddee33;
+	border-left: 1px solid #ddee33;
+}
+
+.votes_count {
+	font-size: large;
+	font-weight: bold;
+	margin: 0;
+}
+
+.joins_count_container {
+	overflow: hidden;
+	margin: 0;
+	float: left;
+	background-color: #994444;
+	font-size: small;
+	width: 40px;
+	text-align: center;
+	color: #fff;
+	padding: 5px;
+	border-top: 1px solid #dd8888;
+	border-left: 1px solid #dd8888;
+}
+
+.joins_count {
+	font-size: large;
+	font-weight: bold;
+}
+
+.disabled_badge_container {
+	overflow: hidden;
+	margin-right: 0px;
+	float: left;
+	background-color: #777;
+	font-size: small;
+	width: 40px;
+	text-align: center;
+	color: #bbb;
+	padding: 5px;
+	border-top: 1px solid #bbb;
+	border-left: 1px solid #bbb;
+}
+
+/*************** User infos *****************/
+
+.user_info_div {
+	float: right;
+	width: 160px;
+	text-align: right;
+}
+
+.user_icon_div {
+	float: right;
+	width: 50px;
+	margin-left: 5px;
+}
+
+.user_icon_div img {
+	border: 1px solid black;
+}
+
+/****************** Project listing ************/
+
+.project_row {
+	border-bottom: 1px dotted #555;
+	padding: 10px 0 10px 0;
+	clear: both;
+	margin: 0;
+	text-align: left;
+	width: 100%;
+	overflow:hidden;
+	float: left;
+}
+
+.project_row_badges {
+	padding: 0;
+	margin: 0;
+	width: 125px;
+	float: left;
+}
+
+.project_row_text {
+	width: 580px;
+	float: left;
+}
+
+.project_row_title {
+	margin-bottom: 5px;
+	padding: 0;
+	float: left;
+	width: 580px;
+	font-weight: bold;
+}
+
+.project_row_desc {
+	padding: 0;
+	margin-bottom: 10px; 
+	float: left;
+	width: 580px;
+}
+
+.project_row_tags {
+	float: left;
+	width: 360px;
+}
+
+/****************** Comments ******************/
+
+.project_comment {
+	padding: 10px;
+	clear: both;
+	border-bottom: 1px dotted #555;
+	float: left;
+	width: 700px;
+}
+
+.project_comment_author_and_date {
+	width: 200px;
+	text-align: right;
+	float: right;
+	overflow:hidden;
+}
+
+.project_comment_author_icon {
+	margin-left: 10px;
+	float: right;
+	width: 40px;
+}
+
+/****************** Other controls ************/
+
+.button_link {
+	display: block;
+	margin: 5px auto;
+	background-color: #666;
+	color: #fff;
+	border-left: 1px solid #999;
+	border-top: 1px solid #999;
+	padding: 10px;
+	width: 200px;
+}
+
+.button_link:hover {
+	background-color: #888;
+	color: #fff;
+}

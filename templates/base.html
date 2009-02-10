@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<script src="/tags/js/"></script>
+	<script src="/files/jquery.js"></script>
+	<script src="/files/jquery.ui.autocomplete.js"></script>
+	
+	<link rel="stylesheet" href="/files/style.css"/>
+	<link rel="stylesheet" href="/files/jquery.ui.autocomplete.css"/>
+	
+	<style type="text/css">
+
+{% block moreStyle %}
+{% endblock %}
+
+	</style>
+    <title>{% block title %}Progjects{% endblock %}</title>
+</head>
+
+<body>
+	
+    <div id="topbar">
+        <div id="logo">PerfectlyGoodIdeas</div>
+		<div id="loginmenu_div">
+			{% if user.is_authenticated %}
+				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
+				<a href="/accounts/logout/">logout</a> |
+				<a href="/accounts/profile/edit/">edit profile</a>
+			{% else %}
+				<a href="/accounts/login/">login</a> | 
+				<a href="/accounts/register/">register</a>
+			{% endif %}
+		</div>
+		<div id="sitemenu_div"><ul id="sitemenu_ul">
+			{% if user.is_authenticated %}
+			<li><a href="/projects/add/">new project</a></li>
+			{% endif %}
+			<li><a href="/projects/proposed/">proposals</a></li>
+			<li><a href="/projects/completed/">completed</a></li>
+			<li><a href="/accounts/people/">people</a></li>
+			<li><a href="#">help</a></li>
+		</ul></div>
+	</div>
+	<div class="clear"></div>
+	<div id="maincontainer">
+		<div id="content">
+			<div style="float: right;">{% block subtabs %}{% endblock %}</div>
+			<h2 class="titleInPage">{% block titleInPage %}{% endblock %}</h2>
+			<br style="clear: both;">
+			{% block content %}{% endblock %}
+		</div>
+		
+		<div id="sidebar">
+			<div class="sidebar_title">Search site</div>
+			<div class="sidebar_block">
+				<form action="/projects/search/" method="GET">
+					<input type="text" name="terms" style="width: 95%" value="{{ search_terms }}"/><br/>
+					<select name="search_results_type">
+						<option value="projects" {% ifequal "projects" search_results_type %}selected{% endifequal %}>in projects</option>
+						<option value="profiles" {% ifequal "profiles" search_results_type %}selected{% endifequal %}>in profiles</option>
+						<option value="comments" {% ifequal "comments" search_results_type %}selected{% endifequal %}>in comments</option>
+					</select>
+				</form>
+			</div>
+			{% block sidebar %}{% endblock %}
+			{% if user.is_authenticated %}
+				<div class="sidebar_title">Reference</div>
+				<div class="sidebar_block">Take 2 minutes to learn <a href="#">basic concepts</a> first.</div>
+			{% else %}
+				<div class="sidebar_title">New here?</div>
+				<div class="sidebar_block">Take 2 minutes to learn <a href="#">basic concepts</a>.<br/><br/>
+				PGI is a great way to meet other programmers, by working on small-scale projects.
+				</div>
+			{% endif %}
+		</div>
+	</div>
+	<div id="footer">Site by - Design inspired by StackOverflow</div>
+</body>
+</html>

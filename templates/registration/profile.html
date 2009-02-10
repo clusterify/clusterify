@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Progjects - Profile for {{ profile.user.username }}{% endblock %}
+{% block titleInPage %}Profile for {{ profile.user.username }}{% endblock %}
+
+{% block content %}
+
+<div class="content_subsubtitle">Joined on {{ profile.user.date_joined|date:"M d, Y" }}</div>
+
+<div class="content_subtitle">{{ profile.user.username }}'s tags</div>
+
+{% if user_tags %}
+	{% for t in user_tags %}
+		<a class="tag_link" href="/projects/proposed/?tags={{ t }}">{{ t }}</a>
+	{% endfor %}
+{% else %}
+	({{ profile.user.username }} has not entered tags yet)
+{% endif %}
+<br style="clear: both;"/>
+
+<div class="content_subtitle">Extended information</div>
+
+{% if profile.description_html %}
+	{% autoescape off %}{{ profile.description_html }}{% endautoescape %}
+{% else %}
+	({{ profile.user.username }} has not entered a description yet)
+{% endif %}
+
+<div class="content_subtitle">Randomly chosen {{profile.user.username}}'s comments
+  <a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all) </a>
+</div>
+
+{% for comment in comments %}
+	{% include "projects/comment_snippet.html" %}
+{% endfor %}
+
+<div class="content_subtitle">Randomly chosen {{profile.user.username}}'s projects
+  <a href="/projects/?foruser={{ profile.user.username }}"> (view all) </a>
+</div>
+
+{% for project in projects %}
+	{% include "projects/project_snippet.html" %}
+{% endfor %}
+
+
+{% endblock %}

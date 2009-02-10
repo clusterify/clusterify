@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Progjects - Login{% endblock %}
+{% block titleInPage %}Login{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+<div class="form_div">
+	<form method="post" action=".">
+	<table class="form_table" cellpadding="5" cellspacing="5">
+	<tr><td>{{ form.username.label_tag }}</td><td>{{ form.username }}</td></tr>
+	<tr><td>{{ form.password.label_tag }}</td><td>{{ form.password }}</td></tr>
+	</table>
+	
+	<input type="submit" value="login" />
+	<input type="hidden" name="next" value="{{ next }}" />
+	</form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load util_filters %}
+
+<div class="project_row">
+	<div class="project_row_badges">
+		{% if not project.p_completed %}
+		<div class="count_widget_container">
+			<div class="idea_votes_container">
+				great
+				<div class="votes_count">
+				{{ project.proposed_votes.count }}
+				</div>
+				idea
+			</div>
+		</div>
+		{% endif %}
+		<div class="count_widget_container">
+			<div class="joins_count_container">
+				&nbsp;
+				<div class="joins_count">
+				{{ project.get_joined_users_count }}
+				</div>
+				joined
+			</div>
+		</div>
+		{% if project.p_completed %}
+		<div class="count_widget_container">
+			<div class="job_votes_container">
+				great
+				<div class="votes_count">
+				{{ project.completed_votes.count }}
+				</div>
+				job
+			</div>
+		</div>
+		{% endif %}
+	</div>
+	<div class="project_row_text">
+		<div class="project_row_title">
+			<a href="{{ project.get_absolute_url }}">{{ project.title }}</a> {% if not project.p_completed %} (est. {{ project.hour_estimate }} hr){% endif %}
+		</div>
+		<div class="project_row_desc">
+			{% autoescape off %}{{ project.description_html|striptags|truncatewords:30 }}{% endautoescape %}
+		</div>
+		<div class="project_row_tags">
+			{% for t in project.get_required_tags %}<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
+			{% for t in project.get_description_tags %}<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
+		</div>
+		<div class="user_icon_div">
+			<img src="{{ project.author.get_profile.get_gravatar_url }}" width="50" height="50"/>
+		</div>
+		<div class="user_info_div">
+			<a href="/accounts/profile/view/{{ project.author }}">{{ project.author }}</a> ({{ project.author.get_profile.completed_projects_karma }})<br/>
+			{{ project.pub_date|ago }}
+		</div>
+	</div>
+</div>
