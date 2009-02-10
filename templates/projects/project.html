@@ -174,7 +174,9 @@
 		</div>
 	{% else %}
 		<div class="count_widget_container" style="margin-right: 0;">
-			<div class="invisible_vote_widget_button"></div>
+			<div class="invisible_vote_widget_button">
+				<img src="/files/images/empty_vote_button.gif">
+			</div>
 			<div class="disabled_badge_container" style="margin: 0;">
 				great<div class="votes_count">N/A</div>job
 			</div>
@@ -214,16 +216,9 @@
 	</ul>
 </div>
 
-<div class="sidebar_title">Required tags</div>
+<div class="sidebar_title">Project tags</div>
 <div class="sidebar_block">
-{% for t in project.get_required_tags %}
-	<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>
-{% endfor %}
-</div>
-
-<div class="sidebar_title">Description tags</div>
-<div class="sidebar_block">
-{% for t in project.get_description_tags %}
+{% for t in project.get_tags %}
 	<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>
 {% endfor %}
 </div>

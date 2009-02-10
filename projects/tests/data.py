@@ -24,68 +24,55 @@ def populate_projects(request):
 	
 	project = Project(author=u, title="Project 1", description_markdown="Lorem ipsum.", score_proposed=131.0)
 	project.save()
-	project.set_description_tags("dtag1 dtag2 dtag3")
-	project.set_required_tags("rtag4 rtag5 rtag6")
+	project.set_tags("dtag1 dtag2 dtag3")
 	
 	project = Project(author=u, title="Project 2 -- completed", description_markdown="And dolor sit amet and stuff.", p_completed=True)
 	project.save()
-	project.set_description_tags("dtag4 dtag5 dtag6")
-	project.set_required_tags("rtag1 rtag2 rtag3")
+	project.set_tags("dtag4 dtag5 dtag6")
 	
 	project = Project(author=u, title="Project 3", description_markdown="", score_proposed=131.3)
 	project.save()
-	project.set_description_tags("dtag1 dtag2 dtag3")
-	project.set_required_tags("rtag4 rtag5 rtag6")
+	project.set_tags("dtag1 dtag2 dtag3")
 	
 	project = Project(author=u, title="Project 4", description_markdown="", score_proposed=131.6)
 	project.save()
-	project.set_description_tags("dtag4 dtag5 dtag6")
-	project.set_required_tags("rtag1 rtag2 rtag3")
+	project.set_tags("dtag4 dtag5 dtag6")
 	
 	project = Project(author=u, title="Project 5", description_markdown="", score_proposed=132.0)
 	project.save()
-	project.set_description_tags("dtag1 dtag2 dtag3")
-	project.set_required_tags("rtag4 rtag5 rtag6")
+	project.set_tags("dtag1 dtag2 dtag3")
 	
 	project = Project(author=u2, title="Project 6", description_markdown="", score_proposed=133.0)
 	project.save()
-	project.set_description_tags("dtag4 dtag5 dtag6")
-	project.set_required_tags("rtag1 rtag2 rtag3")
+	project.set_tags("dtag4 dtag5 dtag6")
 	
 	project = Project(author=u2, title="Project 7", description_markdown="")
 	project.save()
-	project.set_description_tags("dtag1 dtag2 dtag3")
-	project.set_required_tags("rtag4 rtag5 rtag6")
+	project.set_tags("dtag1 dtag2 dtag3")
 	
 	project = Project(author=u2, title="Project 8", description_markdown="")
 	project.save()
-	project.set_description_tags("dtag4 dtag5 dtag6")
-	project.set_required_tags("rtag1 rtag2 rtag3")
+	project.set_tags("dtag4 dtag5 dtag6")
 	
 	project = Project(author=u2, title="Project 9", description_markdown="")
 	project.save()
-	project.set_description_tags("dtag1 dtag2 dtag3")
-	project.set_required_tags("rtag4 rtag5 rtag6")
+	project.set_tags("dtag1 dtag2 dtag3")
 	
 	project = Project(author=u2, title="Project 10", description_markdown="")
 	project.save()
-	project.set_description_tags("dtag4 dtag5 dtag6")
-	project.set_required_tags("rtag1 rtag2 rtag3")
+	project.set_tags("dtag4 dtag5 dtag6")
 	
 	project = Project(author=u2, title="Project 11", description_markdown="")
 	project.save()
-	project.set_description_tags("dtag1 dtag2 dtag3")
-	project.set_required_tags("rtag4 rtag5 rtag6")
+	project.set_tags("dtag1 dtag2 dtag3")
 	
 	project = Project(author=u2, title="Project 12", description_markdown="")
 	project.save()
-	project.set_description_tags("dtag4 dtag5 dtag6")
-	project.set_required_tags("rtag1 rtag2 rtag3")
+	project.set_tags("dtag4 dtag5 dtag6")
 	
 	project = Project(author=u2, title="Project 13", description_markdown="")
 	project.save()
-	project.set_description_tags("dtag4 dtag5 dtag6")
-	project.set_required_tags("rtag4 rtag5 rtag6")
+	project.set_tags("dtag4 dtag5 dtag6")
 	
 	
 	##########

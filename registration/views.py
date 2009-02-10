@@ -2,6 +2,8 @@
 Views which allow users to create and activate accounts.
 """
 
+import urllib
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -13,20 +15,91 @@ from django.contrib.auth.models import User
 
 from registration.forms import RegistrationForm, ProfileForm
 from registration.models import RegistrationProfile, Profile
-from projects.models import Comment
 
-from progjects.utils import get_paginator_page
+from tagging.models import Tag, TaggedItem
+
+from projects.models import Comment
+from progjects.utils import get_paginator_page, get_query
 
 USERS_PER_PAGE = 20
 SEARCH_RESULTS_PER_PAGE = 10
 
-def list_users(request):
-	users = User.objects.all()
+def list_users(request, list_type='new'):
+	user = request.user
+	tags = request.GET.get('tags', "")
+	terms = request.GET.get('terms', "")
+	
+	profiles = None
+	
+	page_title = "People"
+	filter_description = ""
+	
+	# Filter by tags (comes first since we use TaggedItem.objects.get_by_model)
+	if list_type=='recommend':
+		# Should not be called without @login_required, so we're sure we have a user
+		profile = Profile.objects.get(user=user)
+		user_tags = profile.get_tags()
 		
-	list_paginator_page = get_paginator_page(request, users, USERS_PER_PAGE)
+		# get all profiles matching >=1 of the user's tags
+		profiles = TaggedItem.objects.get_union_by_model(Profile, user_tags)
+	elif tags != "":
+		profiles = TaggedItem.objects.get_by_model(Profile, tags)
+		filter_description += "<li>tags: %s</li>" % tags
+	# or select a first crude set of results to be filtered
+	else:
+		profiles = Profile.objects.all()
+
+	# Filter by search terms
+	if terms != "":
+		page_title = "Search results for '%s'" % terms
+		# TODO: find a way to make a join to also search usernames
+		query = get_query(terms, ['description_markdown',])
+		profiles = profiles.filter(query)
+	
+	# Order results
+	if list_type == 'top':
+		page_title += " (top)"
+		profiles = profiles.order_by('-completed_projects_karma')
+	elif list_type == 'recommend':
+		page_title += " (my tags)"
+	else:
+		page_title += " (new)"
+		profiles = profiles.order_by('-user__date_joined')
+	
+	# Prepare query string given filters, for link URLs
+	qs = ""
+	qs_dict = {}
+	if tags:
+		qs_dict['tags'] = tags
+	if terms:
+		qs_dict['terms'] = terms
+	if qs_dict:
+		qs = "?" + urllib.urlencode(qs_dict)
+	
+	# ...
+	list_paginator_page = get_paginator_page(request, profiles, USERS_PER_PAGE)
+	
 	return render_to_response('registration/user_list.html',
-			{'user_list_page':list_paginator_page},
+			{'profile_list_page':list_paginator_page,
+			'page_title': page_title,
+			'filter_description': filter_description,
+			# TODO: also include tags in those urls
+			'list_top_url': '/accounts/people/top/' + qs,
+			'list_new_url': '/accounts/people/new/' + qs,
+			'list_mytags_url': '/accounts/people/recommend/' + qs},
 			context_instance=RequestContext(request))
+
+@login_required
+def list_users_mytags(request):
+	return list_users(request, "recommend")
+
+#def list_users(request):
+#	users = User.objects.all()
+#		
+#	list_paginator_page = get_paginator_page(request, users, USERS_PER_PAGE)
+#	return render_to_response('registration/user_list.html',
+#			{'user_list_page':list_paginator_page},
+#			context_instance=RequestContext(request))
 
 # MODIF: added these two profile-related functions
 @login_required
@@ -79,24 +152,6 @@ def view_profile(request, username):
         raise Http404
     except Profile.DoesNotExist:
         raise Http404
-
-def profile_search(request):
-	terms = request.GET.get('terms', '')
-	
-	error = None
-	if terms == '' or len(terms) <= 3:
-		error = "Query must be at least 4 characters long"
-		
-	profile_matches = Profile.search(terms)
-	
-	paginated_profiles = get_paginator_page(request, profile_matches, SEARCH_RESULTS_PER_PAGE)
-	
-	return render_to_response('registration/profile_search_results.html',
-			{'error': error,
-			'search_terms': terms,
-			'search_results_type': 'profiles',
-			'paginated_profiles': paginated_profiles},
-			context_instance=RequestContext(request))
 
 def view_comments(request, username):
     try:

@@ -1,7 +1,7 @@
 {% extends "base.html"  %}
 {% load util_filters %}
 
-{% block titleInPage %} People (ordered by date) {% endblock %}
+{% block titleInPage %} {{ page_title }} {% endblock %}
 
 {% block moreStyle %}
 
@@ -60,28 +60,41 @@
 
 {% endblock %}
 
+{% block subtabs %}
+<a class="subtab" href="{{ list_mytags_url }}">My tags</a>
+<a class="subtab" href="{{ list_new_url }}">New</a>
+<a class="subtab" href="{{ list_top_url }}">Top</a>
+{% endblock %}
+
 
 
 {% block content %}
 
-	{# user_list.object_list is a Paginator object #}
-	{% for user in user_list_page.object_list %}
+	{% if filter_description %}
+	<div class="content_subsubtitle">
+		Also filtering for:
+		<ul>
+			{% autoescape off %}{{ filter_description }}{% endautoescape %}
+		</ul>
+	</div>
+	{% endif %}
+
+	{% for profile in profile_list_page.object_list %}
 
 	<div class="user_row">
 		<div class="user_row_icon">
-			<img src="{{ user.get_profile.get_gravatar_url }}" width="50" height="50" />
+			<img src="{{ profile.user.get_profile.get_gravatar_url }}" width="50" height="50" />
 		</div>
 		<div class="user_row_text">
 			<div class="user_row_username">
-				<a href="{{ user.get_profile.get_absolute_url }}">{{ user.username }}</a> ({{ user.get_profile.completed_projects_karma }})
+				<a href="{{ profile.user.get_profile.get_absolute_url }}">{{ profile.user.username }}</a> ({{ profile.completed_projects_karma }})
 			</div>
-			<div class="user_row_date">Joined {{ user.date_joined|ago }}</div>
+			<div class="user_row_date">Joined {{ profile.user.date_joined|ago }}</div>
 			<div class="user_row_desc">
-				
-				{% autoescape off %}{{ user.get_profile.description_html|striptags|truncatewords:30 }}{% endautoescape %}
+				{% autoescape off %}{{ profile.user.get_profile.description_html|striptags|truncatewords:30 }}{% endautoescape %}
 			</div>
 			<div class="user_row_tags">
-			{% for t in user.get_profile.get_tags %}
+			{% for t in profile.user.get_profile.get_tags %}
 				<a class="tag_link" href="/users/?tags={{ t }}">{{ t }}</a>
 			{% endfor %}
 			</div>
@@ -90,7 +103,7 @@
 
 	{% endfor %}
 
-	{% with user_list_page as paginator_page %}{% include "projects/pagination_snippet.html" %}{% endwith %}
+	{% with profile_list_page as paginator_page %}{% include "projects/pagination_snippet.html" %}{% endwith %}
 
 
 {% endblock %}

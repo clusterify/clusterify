@@ -42,8 +42,7 @@
 			{% autoescape off %}{{ project.description_html|striptags|truncatewords:30 }}{% endautoescape %}
 		</div>
 		<div class="project_row_tags">
-			{% for t in project.get_required_tags %}<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
-			{% for t in project.get_description_tags %}<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
+			{% for t in project.get_tags %}<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
 		</div>
 		<div class="user_icon_div">
 			<img src="{{ project.author.get_profile.get_gravatar_url }}" width="50" height="50"/>

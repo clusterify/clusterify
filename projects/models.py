@@ -98,23 +98,30 @@ class Project(models.Model):
 	# as otherwise the pk is not set yet
 	
 	# To be called BEFORE setting required tags, for them to take precedence
-	def set_description_tags(self, tags_string):
-		Tag.objects.add_tags_with_weight(self, tags_string, 0)
 	
-	def set_required_tags(self, tags_string):
-		Tag.objects.add_tags_with_weight(self, tags_string, 1)
+	#def set_description_tags(self, tags_string):
+	#	Tag.objects.add_tags_with_weight(self, tags_string, 0)
 	
-	def get_required_tags(self):
-		return Tag.objects.get_tags_with_weight(self, 1)
+	#def set_required_tags(self, tags_string):
+	#	Tag.objects.add_tags_with_weight(self, tags_string, 1)
 	
-	def get_description_tags(self):
-		return Tag.objects.get_tags_with_weight(self, 0)
+	#def get_required_tags(self):
+	#	return Tag.objects.get_tags_with_weight(self, 1)
 	
-	def get_editable_desc_tags(self):
-		return taglist_to_string(self.get_description_tags())
+	#def get_description_tags(self):
+	#	return Tag.objects.get_tags_with_weight(self, 0)
 	
-	def get_editable_reqd_tags(self):
-		return taglist_to_string(self.get_required_tags())
+	#def get_editable_desc_tags(self):
+	#	return taglist_to_string(self.get_description_tags())
+	
+	#def get_editable_reqd_tags(self):
+	#	return taglist_to_string(self.get_required_tags())
+	
+	def get_editable_tags(self):
+		return taglist_to_string(self.get_tags())
+	
+	def set_tags(self, tags):
+		return Tag.objects.update_tags(self, tags)
 	
 	def get_tags(self):
 		return Tag.objects.get_for_object(self)

@@ -43,7 +43,7 @@ def list_projects(request, list_type='top', is_completed=None):
 		
 		# get all projects matching >=1 of the user's tags
 		projects = TaggedItem.objects.get_union_by_model(Project, user_tags)
-	if tags != "":
+	elif tags != "":
 		projects = TaggedItem.objects.get_by_model(Project, tags)
 		filter_description += "<li>tags: %s</li>" % tags
 	# or select a first crude set of results to be filtered
@@ -125,7 +125,7 @@ def search_portal(request):
 	terms = request.GET.get('terms', '')
 	
 	if res_type == 'profiles':
-		return HttpResponseRedirect('/accounts/profile/search/?terms='+terms)
+		return HttpResponseRedirect('/accounts/people/?terms='+terms)
 	elif res_type == 'comments':
 		return list_comments(request)
 	else:
@@ -242,26 +242,19 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 			if form.cleaned_data['time_estimate']:
 				project.hour_estimate = form.cleaned_data['time_estimate']
 			
-			required_tags = form.cleaned_data['required_tags']
-			description_tags = form.cleaned_data['description_tags']
+			tags = form.cleaned_data['tags']
 			
 			project.save()
-
-			project.set_description_tags(description_tags)
-			project.set_required_tags(required_tags)
+			
+			project.set_tags(tags)
 			
 			return HttpResponseRedirect(project.get_absolute_url())
 	elif not is_add:
-		#convert list of Tags to string for editing
-		editable_desc_tags = project.get_editable_desc_tags()
-		editable_reqd_tags = project.get_editable_reqd_tags()
-
 		# initialize the form with existing project info
 		form = ProjectForm(initial={
 						'title':project.title,
 						'description':project.description_markdown,
-						'description_tags':editable_desc_tags,
-						'required_tags':editable_reqd_tags,
+						'tags':project.get_editable_tags,
 						'time_estimate':project.hour_estimate})
 	else:
 		form = ProjectForm()

@@ -24,7 +24,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
 
-from registration.views import activate, register, edit_profile, view_profile, view_default_profile, view_comments, view_projects, profile_search, list_users
+from registration.views import activate, register, edit_profile, view_profile, view_default_profile, view_comments, view_projects, list_users, list_users_mytags
 
 
 urlpatterns = patterns('',
@@ -71,6 +71,11 @@ urlpatterns = patterns('',
                        # MODIF: added these two handlers
                        url(r'^profile/edit/$',
                           edit_profile),
+                       url(r'^people/recommend/$',
+                          list_users_mytags),
+                       # Important that /recommend/ comes first, as we need @login_required for that list_type
+                       url(r'^people/(?P<list_type>\w+)/$',
+                          list_users),
                        url(r'^people/$',
                           list_users),
                        url(r'^profile/view/(?P<username>\w+)/$',
@@ -79,8 +84,6 @@ urlpatterns = patterns('',
                           view_comments),
                        url(r'^profile/view/(?P<username>\w+)/projects/$',
                           view_projects),
-                       url(r'^profile/search/$',
-                          profile_search),
                        url(r'^profile/$',
                           view_default_profile),
      )
