@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects
+from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed
 from tests.data import populate_projects
 
 urlpatterns = patterns('',
@@ -21,9 +21,13 @@ urlpatterns = patterns('',
 			vote_for_project),
 		url(r'^add/$',
 			add_project),
-		url(r'^completed/(?P<list_type>\w+)/$',
+		url(r'^rss/(?P<completeness>(completed|proposed))/(?P<list_type>(top|new))/$',
+			list_projects_as_feed),
+		url(r'^rss/(?P<completeness>(completed|proposed))/$',
+			list_projects_as_feed),
+		url(r'^completed/(?P<list_type>(top|new))/$',
 			list_completed_projects),
-		url(r'^proposed/(?P<list_type>\w+)/$',
+		url(r'^proposed/(?P<list_type>(top|new))/$',
 			list_proposed_projects),
 		url(r'^comments/$',
 			list_comments),
@@ -31,7 +35,7 @@ urlpatterns = patterns('',
 			list_completed_projects),
 		url(r'^proposed/$',
 			list_proposed_projects),
-		url(r'^(?P<completed_or_proposed>(completed|proposed))/recommended/$',
+		url(r'^(?P<completed_or_proposed>(completed|proposed))/recommend/$',
 			recommended_projects),
 		url(r'^search/$',
 			search_portal),

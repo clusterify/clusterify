@@ -2,6 +2,12 @@
 
 {% block titleInPage %}{{ page_title }}{% endblock %}
 
+{% block moreHead %}
+	{% if rss_url %}
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ rss_url }}"/>
+	{% endif %}
+{% endblock %}
+
 {% block subtabs %}
 <a class="subtab" href="{{ list_mytags_url }}">My tags</a>
 <a class="subtab" href="{{ list_new_url }}">New</a>
@@ -16,6 +22,12 @@
 		<ul>
 			{% autoescape off %}{{ filter_description }}{% endautoescape %}
 		</ul>
+	</div>
+	{% endif %}
+
+	{% if rss_url %}
+	<div class="content_subsubtitle">
+		Get as an <a href="{{ rss_url }}">RSS feed</a>.
 	</div>
 	{% endif %}
 	

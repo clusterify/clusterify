@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
+from django.utils import feedgenerator
 
 from tagging.models import Tag, TaggedItem
 
@@ -18,14 +19,14 @@ from forms import ProjectForm, CommentForm
 from models import Project, Comment
 
 PROJECTS_PER_PAGE = 10
-
+ITEMS_IN_FEED = 20
 
 
 ##############################################################################
 # Project listing & search
 
 # List of projects, filtered by different criterion
-def list_projects(request, list_type='top', is_completed=None):
+def list_projects(request, list_type='top', is_completed=None, return_raw_projects=False):
 	user = request.user
 	tags = request.GET.get('tags', "")
 	for_user = request.GET.get('foruser', "")
@@ -71,19 +72,6 @@ def list_projects(request, list_type='top', is_completed=None):
 		for_user_obj = get_object_or_404(User, username=for_user)
 		projects = projects.filter(author=for_user_obj)
 	
-	# Order results
-	if list_type == 'new':
-		page_title += " (new)"
-		projects = projects.order_by('-pub_date')
-	elif list_type == 'recommend':
-		page_title += " (my tags)"
-	else:
-		page_title += " (top)"
-		if is_completed:
-			projects = projects.order_by('-score_completed')
-		else:
-			projects = projects.order_by('-score_proposed')
-	
 	# Prepare query string given filters, for link URLs
 	qs = ""
 	qs_dict = {}
@@ -95,6 +83,34 @@ def list_projects(request, list_type='top', is_completed=None):
 		qs_dict['terms'] = terms
 	if qs_dict:
 		qs = "?" + urllib.urlencode(qs_dict)
+		
+	top_url = '/projects/' + (is_completed and 'completed' or 'proposed') + '/top/' + qs
+	new_url = '/projects/' + (is_completed and 'completed' or 'proposed') + '/new/' + qs
+	mytags_url = '/projects/' + (is_completed and 'completed' or 'proposed') + '/recommend/' + qs
+	this_page_url = None
+	
+	# Order results
+	page_url = ""
+	rss_url = ""
+	if list_type == 'new':
+		page_title += " (new)"
+		this_page_url = new_url
+		rss_url = '/projects/rss/' + (is_completed and 'completed' or 'proposed') + '/new/' + qs
+		projects = projects.order_by('-pub_date')
+	elif list_type == 'recommend':
+		page_title += " (my tags)"
+		this_page_url = mytags_url
+	else:
+		page_title += " (top)"
+		rss_url = '/projects/rss/' + (is_completed and 'completed' or 'proposed') + '/top/' + qs
+		this_page_url = top_url
+		if is_completed:
+			projects = projects.order_by('-score_completed')
+		else:
+			projects = projects.order_by('-score_proposed')
+	
+	if return_raw_projects:
+		return page_title, this_page_url, projects
 	
 	# ...
 	list_paginator_page = get_paginator_page(request, projects, PROJECTS_PER_PAGE)
@@ -104,10 +120,29 @@ def list_projects(request, list_type='top', is_completed=None):
 			'page_title': page_title,
 			'filter_description': filter_description,
 			# TODO: also include tags in those urls
-			'list_top_url': '/projects/' + (is_completed and 'completed' or 'proposed') + '/top/' + qs,
-			'list_new_url': '/projects/' + (is_completed and 'completed' or 'proposed') + '/new/' + qs,
-			'list_mytags_url': '/projects/' + (is_completed and 'completed' or 'proposed') + '/recommend/' + qs},
+			'list_top_url': top_url,
+			'list_new_url': new_url,
+			'rss_url': rss_url,
+			'list_mytags_url': mytags_url},
 			context_instance=RequestContext(request))
+
+def list_projects_as_feed(request, completeness, list_type='top'):
+	page_title, url, projects = list_projects(request, list_type, completeness=='completed', return_raw_projects=True)
+	
+	f = feedgenerator.Rss201rev2Feed(
+			title=page_title,
+			link=url,
+			description=u"",
+			language=u"en")
+
+	to_print = projects[0:min(ITEMS_IN_FEED, projects.count())]
+	for p in to_print:
+		f.add_item(title=p.title, 
+				link=p.get_absolute_url(), 
+				description=p.description_html,
+				pubdate=p.pub_date)
+	
+	return HttpResponse(f.writeString('UTF-8'), mimetype="application/rss+xml")
 
 @login_required
 def recommended_projects(request, completed_or_proposed):
