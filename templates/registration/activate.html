@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}Progjects - Activation required{% endblock %}
-{% block titleInPage %}Activation required{% endblock %}
+{% block title %}Account activation{% endblock %}
+{% block titleInPage %}Account activation{% endblock %}
 
 {% block content %}
-Hello {{ account }}!<br/>
-Check your email to confirm the activation. There are {{ expiration_days }} days left to do it.
+
+<p>Registration complete. You may now <a href="/accounts/login/">log into your account</a>.</p>
+
 {% endblock %}

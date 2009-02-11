@@ -17,13 +17,13 @@
 {% endblock %}
 
 	</style>
-    <title>{% block title %}Progjects{% endblock %}</title>
+    <title>Clusterify - {% block title %}{% endblock %}</title>
 </head>
 
 <body>
 	
     <div id="topbar">
-        <div id="logo">PerfectlyGoodIdeas</div>
+        <div id="logo"><a href="/"><img src="/files/images/logo.gif"></a></div>
 		<div id="loginmenu_div">
 			{% if user.is_authenticated %}
 				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
@@ -38,7 +38,7 @@
 			{% if user.is_authenticated %}
 			<li><a href="/projects/add/">new project</a></li>
 			{% endif %}
-			<li><a href="/projects/proposed/">proposals</a></li>
+			<li><a href="/projects/proposed/">proposed</a></li>
 			<li><a href="/projects/completed/">completed</a></li>
 			<li><a href="/accounts/people/">people</a></li>
 			<li><a href="#">help</a></li>
@@ -54,6 +54,15 @@
 		</div>
 		
 		<div id="sidebar">
+			{% if user.is_authenticated %}
+				<div class="sidebar_title">Reference</div>
+				<div class="sidebar_block">Take 2 minutes to learn <a href="#">basic concepts</a> first.</div>
+			{% else %}
+				<div class="sidebar_title">New here?</div>
+				<div class="sidebar_block">Take 2 minutes to learn <a href="#">basic concepts</a>.<br/><br/>
+				Clusterify: work on fun, small (~2hr) projects and meet other coders.
+				</div>
+			{% endif %}
 			<div class="sidebar_title">Search site</div>
 			<div class="sidebar_block">
 				<form action="/projects/search/" method="GET">
@@ -66,17 +75,15 @@
 				</form>
 			</div>
 			{% block sidebar %}{% endblock %}
-			{% if user.is_authenticated %}
-				<div class="sidebar_title">Reference</div>
-				<div class="sidebar_block">Take 2 minutes to learn <a href="#">basic concepts</a> first.</div>
-			{% else %}
-				<div class="sidebar_title">New here?</div>
-				<div class="sidebar_block">Take 2 minutes to learn <a href="#">basic concepts</a>.<br/><br/>
-				PGI is a great way to meet other programmers, by working on small-scale projects.
-				</div>
-			{% endif %}
+
 		</div>
 	</div>
-	<div id="footer">Site by - Design inspired by StackOverflow</div>
+	<div id="footer">
+		<a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangomade124x25.gif" border="0" alt="Made with Django." title="Made with Django."/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="/concepts/">Help</a> |
+		<a href="/about/">About and contact</a> |
+		<a href="/terms/">Terms of Service</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="http://www.webfaction.com/"><img src="/files/images/105x22-hosted.png" border="0" alt="Hosted by Webfaction" title="Hosted by Webfaction"/></a>
+	</div>
 </body>
 </html>

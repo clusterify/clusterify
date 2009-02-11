@@ -1,6 +1,6 @@
 {% extends "base.html"  %}
 
-{% block title %}Progjects - {% if is_editing %}Edit{% else %}Add{% endif %} project{% endblock %}
+{% block title %}{% if is_editing %}Edit{% else %}Add{% endif %} project{% endblock %}
 {% block titleInPage %}{% if is_editing %}Edit{% else %}Add{% endif %} project{% endblock %}
 
 {% block content %}

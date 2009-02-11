@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Progjects - Login{% endblock %}
+{% block title %}Login{% endblock %}
 {% block titleInPage %}Login{% endblock %}
 
 {% block content %}
@@ -19,6 +19,10 @@
 	<input type="submit" value="login" />
 	<input type="hidden" name="next" value="{{ next }}" />
 	</form>
+</div>
+
+<div class="content_subsubtitle">
+	Forgot your password? <a href="/accounts/password_reset/">Click here</a>.
 </div>
 
 {% endblock %}

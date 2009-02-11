@@ -40,12 +40,7 @@ textarea, input {
 
 #logo {
 	margin: 0 0 10px 0;
-	padding: 0.8em;
-	background-color: #777744;
 	color: #fff;
-
-	border-top: 1px solid #bbbb99;
-	border-left: 1px solid #bbbb99;
 	
 	float: left;
 
@@ -59,6 +54,10 @@ textarea, input {
 	padding: 10px;
 	background-color: #ccc;
 	border: 1px solid #888;
+}
+
+#footer img {
+	vertical-align:middle;
 }
 
 /******************** Menu *********************/
@@ -291,10 +290,9 @@ a.tag_link:hover {
 
 /************************* Forms *************************/
 
-input.required, error {
+.error {
 	border: 2px solid red;
 }
-
 
 .form_div {
 	text-align: center;

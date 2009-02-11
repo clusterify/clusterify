@@ -1,10 +1,11 @@
 {% extends "base.html"  %}
  
-{% block title %}Progjects - Registration complete{% endblock %}
-{% block titleInPage %}Registration complete{% endblock %}
+{% block title %}Activation required{% endblock %}
+{% block titleInPage %}Activation required{% endblock %}
 
 {% block content %}
 
-<p>Registration complete. You may now <a href="/accounts/login/">log into your account</a>.</p>
+<p>Hello {{ account }}!<br/>
+Check your email to confirm the activation. There are {{ expiration_days }} days left to do it.</p>
 
 {% endblock %}

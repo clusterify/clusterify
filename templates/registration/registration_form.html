@@ -1,19 +1,32 @@
 {% extends "base.html" %}
  
-{% block title %}Progjects - Registration form{% endblock %}
+{% block title %}Registration form{% endblock %}
 {% block titleInPage %}Register a new profile{% endblock %}
 
 {% block content %}
 <form method="post" action="">
-<dl>
-{% for field in form %}
-    <dt>{{ field.label_tag }}</dt>
-    <dd>{{ field }}</dd>
-    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
-    {% if field.errors %}<dd class="myerrors">{{ field.errors }}</dd>{% endif %}
-{% endfor %}
-</dl>
-<input type="submit" />
+
+<table cellpadding="5" cellspacing="0" class="form_subtable">
+	<tr class="form_color_1">
+		<td class="form_field_cell">Desired username</td>
+		<td class="form_field_cell" align="right">{{ form.username }}</td>
+	</tr>
+	<tr class="form_color_2">
+		<td class="form_field_cell">Email address</td>
+		<td class="form_field_cell" align="right">{{ form.email }}</td></td>
+	</tr>
+	<tr class="form_color_1">
+		<td class="form_field_cell">Password</td>
+		<td class="form_field_cell" align="right">{{ form.password1 }}</td>
+	</tr>
+	<tr class="form_color_2">
+		<td class="form_field_cell">Password (confirm)</td>
+		<td class="form_field_cell" align="right">{{ form.password2 }}</td>
+	</tr>
+</table>
+
+<div class="form_field_div form_color_1"><input type="submit" value="Submit" class="button_link" /></div>
+
 </form>
  
 {% endblock %}

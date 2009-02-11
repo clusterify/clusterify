@@ -23,6 +23,7 @@ various steps of the user-signup process.
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import password_reset, password_reset_done, password_change, password_change_done
 
 from registration.views import activate, register, edit_profile, view_profile, view_default_profile, view_comments, view_projects, list_users, list_users_mytags
 
@@ -87,3 +88,25 @@ urlpatterns = patterns('',
                        url(r'^profile/$',
                           view_default_profile),
      )
+
+urlpatterns += patterns('',
+  (r'^password/reset/$', password_reset,
+  	{'template_name': 'registration/password_reset.html',
+	'email_template_name':'registration/password_reset_email.html',
+	'post_reset_redirect': '/accounts/password/reset/email_sent/'}),
+  (r'^password/reset/email_sent/$', password_reset_done,
+  	{'template_name': 'registration/password_reset_done.html'}),
+  (r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+  	'django.contrib.auth.views.password_reset_confirm',
+	{'template_name':'registration/password_reset_confirm.html',
+	'post_reset_redirect': '/accounts/password/reset/complete/'}),
+  (r'^password/reset/complete/$',
+  	'django.contrib.auth.views.password_reset_complete',
+  	{'template_name':'registration/password_reset_complete.html'}),
+
+  (r'^password/change/$', password_change,
+  	{'template_name': 'registration/password_change.html',
+	'post_change_redirect': '/accounts/password/change/done'}),
+  (r'^password/change/done/$', password_change_done,
+  	{'template_name': 'registration/password_change_done.html'}),
+)

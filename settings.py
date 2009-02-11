@@ -100,6 +100,7 @@ INSTALLED_APPS = (
 )
 
 # for registration
+DEFAULT_FROM_EMAIL='do_not_reply@clusterify.com'
 ACCOUNT_ACTIVATION_DAYS=7
 EMAIL_HOST='relais.videotron.ca'
 #EMAIL_HOST='smtp.comcast.net'
