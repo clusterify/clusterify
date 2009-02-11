@@ -36,6 +36,9 @@ class Project(models.Model):
 	description_html = models.TextField(blank=True)
 	description_markdown = models.TextField(blank=True)
 	
+	showcase_html = models.TextField(blank=True)
+	showcase_markdown = models.TextField(blank=True)
+	
 	hour_estimate = models.PositiveIntegerField(default=2)
 	
 	# set manually
@@ -65,8 +68,9 @@ class Project(models.Model):
 	def save(self):
 		if not self.pk:
 			self.pub_date = datetime.datetime.now()
-		md = Markdown()
+		md = Markdown(safe_mode = True)
 		self.description_html = md.convert(self.description_markdown)
+		self.showcase_html = md.convert(self.showcase_markdown)
 		super(Project, self).save()
 	
 	@staticmethod

@@ -39,8 +39,14 @@ $(function(){
 //--></script>
 
 <div class="content_subtitle">Project description</div>
-
+<div class="content_subsubtitle">Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.</div>
 {{ form.description }}
+
+{% if project.p_completed %}
+<div class="content_subtitle">Project showcase</div>
+<div class="content_subsubtitle">Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.</div>
+{{ form.showcase }}
+{% endif %}
 
 <div class="form_field_div form_color_1"><input type="submit" value="Submit" class="button_link" /></div>
 

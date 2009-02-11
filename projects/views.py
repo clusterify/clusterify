@@ -276,6 +276,8 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 			project.description_markdown = form.cleaned_data['description']
 			if form.cleaned_data['time_estimate']:
 				project.hour_estimate = form.cleaned_data['time_estimate']
+			if project.p_completed:
+				project.showcase_markdown = form.cleaned_data['showcase']
 			
 			tags = form.cleaned_data['tags']
 			
@@ -289,6 +291,7 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 		form = ProjectForm(initial={
 						'title':project.title,
 						'description':project.description_markdown,
+						'showcase':project.showcase_markdown,
 						'tags':project.get_editable_tags,
 						'time_estimate':project.hour_estimate})
 	else:
@@ -296,7 +299,8 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 
 	return render_to_response('projects/add_or_edit_project.html',
 		{'form': form,
-		'is_editing': not is_add},
+		'is_editing': not is_add,
+		'project': project},
 		context_instance=RequestContext(request))
 
 ##############################################################################

@@ -80,6 +80,16 @@
 <div class="content_subtitle">{{ project.title }} (est. {{ project.hour_estimate }} hr)</div>
 <div class="content_subsubtitle">Suggested by <a href="/accounts/profile/view/{{ project.author.username }}">{{ project.author.username }}</a> on {{ project.pub_date|date:"M d, Y" }} at {{ project.pub_date|date:"G:i" }}</div>
 
+{% if project.p_completed %}
+<div class="content_subtitle">Project showcase</div>
+	{% if not project.showcase_html %}
+		(No showcase created yet. The author can create one by editing the project.)
+	{% else %}
+		{% autoescape off %}{{ project.showcase_html }}{% endautoescape %}
+	{% endif %}
+<div class="content_subtitle">Project description</div>
+{% endif %}
+
 <div class="project_description">
 {% if not project.description_html %}(No description yet){% endif %}
 {% autoescape off %}{{ project.description_html }}{% endautoescape %}

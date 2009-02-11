@@ -2,8 +2,11 @@ from django.conf.urls.defaults import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 from views import tags_js
+
 import os.path
+
 admin.autodiscover()
 
 urlpatterns = patterns('',

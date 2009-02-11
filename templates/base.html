@@ -48,8 +48,18 @@
 	<div id="maincontainer">
 		<div id="content">
 			<div style="float: right;">{% block subtabs %}{% endblock %}</div>
-			<h2 class="titleInPage">{% block titleInPage %}{% endblock %}</h2>
+			<div class="titleInPage">{% block titleInPage %}{% endblock %}</div>
 			<br style="clear: both;">
+			{% if messages %}
+			<div class="user_messages">
+				<strong>Messages:</strong>
+				<ul>
+					{% for message in messages %}
+					<li>{{ message }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
 			{% block content %}{% endblock %}
 		</div>
 		

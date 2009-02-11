@@ -4,6 +4,7 @@ class ProjectForm(forms.Form):
 	title = forms.CharField()
 	time_estimate = forms.IntegerField(min_value=1, required=False)
 	description = forms.CharField(required=False, widget=forms.widgets.Textarea(attrs={'class':'markdown_textarea','rows':'20'}))
+	showcase = forms.CharField(required=False, widget=forms.widgets.Textarea(attrs={'class':'markdown_textarea','rows':'15'}))
 	tags = forms.CharField(required=False)
 	#required_tags = forms.CharField(required=False)
 	#description_tags = forms.CharField(required=False)

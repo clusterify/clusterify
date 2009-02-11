@@ -54,7 +54,7 @@ class Profile(models.Model):
 		return "/accounts/profile/view/%s/" % (self.user.username,)
 	
 	def save(self, *args, **kwargs):
-		md = Markdown()
+		md = Markdown(safe_mode = True)
 		self.description_html = md.convert(self.description_markdown)
 		super(Profile, self).save()
 		
@@ -68,7 +68,7 @@ class Profile(models.Model):
 	
 	##########################################################################
 	# Tags
-		
+	
 	def get_tags(self):
 		return Tag.objects.get_for_object(self)
 	

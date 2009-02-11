@@ -1,3 +1,5 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0;padding:0;border:0;vertical-align:baseline;}
+
 /***************** Generic *******************/
 
 body,html {
@@ -17,10 +19,6 @@ a {
 
 a:hover {
 	color: #002277;
-}
-
-img, h1,h2,h3,h4,h5,h6,input,textarea,form {
-	margin: 0; border: 0; padding: 0;
 }
 
 textarea, input {
@@ -232,6 +230,7 @@ ul.sidebar_horiz_ul li {
 .titleInPage {
 	margin-bottom: 5px;
 	float: left;
+	font-size: xx-large;
 }
 
 .content_subtitle {
@@ -249,6 +248,10 @@ ul.sidebar_horiz_ul li {
 	margin-bottom: 10px;
 }
 
+.user_messages {
+	clear: both;
+	background-color: #aec3ff;
+}
 
 /************************** Pagination ******************/
 
