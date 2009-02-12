@@ -207,11 +207,15 @@
 	{% if project.p_completed %}
 		<div class="sidebar_info">This project is completed.</div>
 	{% else %}
-		{% if user_not_in_project %}
+		{% ifequal user_project_status "None" %}
 			<a href="join/" class="join_button">Join this project</a>
-		{% else %}
-			<div class="sidebar_info">You are part of this project</div>
-		{% endif %}
+			{% else %}
+			{% ifequal user_project_status "Interested" %}
+				<div class="sidebar_info">Awaiting author's approval to join</div>		
+			{% else %}
+				<div class="sidebar_info">You are part of this project</div>
+			{% endifequal %}
+		{% endifequal %}
 	{% endif %}
 {% endifequal %}
 
@@ -225,6 +229,21 @@
 		{% endfor %}
 	</ul>
 </div>
+
+{% ifequal user project.author %}
+{% if project.interested_users.all %}
+<div class="sidebar_title">Users interested</div>
+<div class="sidebar_block">
+	<ul class="sidebar_ul">
+		{% for user in project.interested_users.all %}
+			<li><a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
+			  <a href="{{user}}/approve/"> (Approve)</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+{% endifequal %}
 
 <div class="sidebar_title">Project tags</div>
 <div class="sidebar_block">

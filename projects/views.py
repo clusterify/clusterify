@@ -175,11 +175,7 @@ def single_project(request, project_author, project_pk, comment_form=CommentForm
 	
 	# Data we can't get through template accessor mechanisms
 	similar_projects = TaggedItem.objects.get_related(project, Project, 3)
-	
-	user_not_in_project = True
-	if project.join_status(user) != "None":
-		user_not_in_project = False
-	
+
 	voted_for_proposed = False
 	voted_for_completed = False
 	if user.is_authenticated():
@@ -189,7 +185,7 @@ def single_project(request, project_author, project_pk, comment_form=CommentForm
 	return render_to_response('projects/project.html', 
 					{'project':project,
 					'similar_projects':similar_projects,
-					'user_not_in_project':user_not_in_project,
+					'user_project_status':project.join_status(user),
 					'form':comment_form,
 					'voted_for_proposed':voted_for_proposed,
 					'voted_for_completed':voted_for_completed},
@@ -264,8 +260,13 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 	project = None
 	if not is_add:
 		project = get_object_or_404(Project, pk=project_pk)
-	
-	# TODO: make sure user == project.author
+
+		# only a project's author can edit it
+		if(not user == project.author):
+			return render_to_response('oops.html', {},
+			context_instance=RequestContext(request))
+		
+
 	if request.method == 'POST':
 		if is_add:
 			project = Project(author=user)
@@ -308,9 +309,13 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 
 @login_required
 def set_completed_confirm(request, project_author, project_pk):
+	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)
 	
-	# TODO: verify the user is the author
+	# only a project's author can edit it
+	if(not user == project.author):
+		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
 	
 	return generic_confirmation_view(request,
 			"Are you sure you want to set the project as completed?",
@@ -319,9 +324,14 @@ def set_completed_confirm(request, project_author, project_pk):
 
 @login_required
 def set_completed_doit(request, project_author, project_pk):
+	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)
-	
-	# TODO: verify the user is the author
+
+	# only a project's author can edit it
+	if(not user == project.author):
+		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
+
 	project.p_completed = True
 	project.save()
 	
@@ -331,7 +341,19 @@ def set_completed_doit(request, project_author, project_pk):
 def join_project(request, project_author, project_pk):
 	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)
-	project.join_user(user)
+	project.add_interested_user(user)
+
+	return HttpResponseRedirect(project.get_absolute_url())
+
+@login_required
+def approve_join(request, project_author, project_pk, joining_username):
+	user = request.user
+	project = get_object_or_404(Project, pk=project_pk)
+	joining_user = get_object_or_404(User, username=joining_username)
+	if(user == project.author):
+		project.join_user(joining_user)
+		project.remove_interested_user(joining_user)
+	
 	return HttpResponseRedirect(project.get_absolute_url())
 
 @login_required

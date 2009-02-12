@@ -136,21 +136,32 @@ class Project(models.Model):
 
 	# The add_user functions must be called AFTER the object has been saved
 	def add_interested_user(self, user):
-		self.interested_users.add(user)
+		if not self.p_completed:
+			self.interested_users.add(user)
+
+	# used when a user moves from "Interested" to "Member" on a project
+	def remove_interested_user(self, user):
+		self.interested_users.remove(user)
+
+	def get_interested_users_count(self):
+		self.interested_users.count()
 
 	def join_user(self, user):
-		self.joined_users.add(user)
+		if not self.p_completed:
+			self.joined_users.add(user)
 
 	def get_joined_users_count(self):
 		return self.joined_users.count()
 
 	# Given a user, returns the user's position in the project 
-	# (Author, Member, None)
+	# (Author, Member, Interested, None)
 	def join_status(self, user):
 		if user == self.author:
 			return "Author"
 		elif user in self.joined_users.all():
 			return "Member"
+		elif user in self.interested_users.all():
+			return "Interested"
 		else:
 			return "None"
 
