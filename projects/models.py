@@ -11,7 +11,7 @@ from tagging.fields import TagField
 from tagging.models import Tag
 from tagging.utils import taglist_to_string
 
-from progjects.utils import get_query
+from clusterify.utils import get_query
 
 #### Constants
 

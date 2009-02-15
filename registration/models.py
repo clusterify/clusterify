@@ -17,7 +17,7 @@ from tagging.utils import taglist_to_string
 
 from markdown.markdown import Markdown
 
-from progjects.utils import get_query
+from clusterify.utils import get_query
 
 import urllib, hashlib 
 

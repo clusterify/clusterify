@@ -19,7 +19,7 @@ from registration.models import RegistrationProfile, Profile
 from tagging.models import Tag, TaggedItem
 
 from projects.models import Comment
-from progjects.utils import get_paginator_page, get_query
+from clusterify.utils import get_paginator_page, get_query
 
 USERS_PER_PAGE = 20
 SEARCH_RESULTS_PER_PAGE = 10

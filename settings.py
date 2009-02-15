@@ -1,4 +1,4 @@
-# Django settings for progjects project.
+# Django settings for clusterify project.
 
 import os.path
 
@@ -76,7 +76,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'progjects.urls'
+ROOT_URLCONF = 'clusterify.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

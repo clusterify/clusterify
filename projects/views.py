@@ -11,7 +11,7 @@ from django.utils import feedgenerator
 
 from tagging.models import Tag, TaggedItem
 
-from progjects.utils import get_paginator_page, generic_confirmation_view, get_query
+from clusterify.utils import get_paginator_page, generic_confirmation_view, get_query
 
 from registration.models import Profile
 
