@@ -8,19 +8,35 @@
 
 <table cellpadding="5" cellspacing="0" class="form_subtable">
 	<tr class="form_color_1">
-		<td class="form_field_cell">Desired username</td>
+		<td class="form_field_cell">Desired username
+			{% if form.username.errors %}
+			<div class="error">{{ form.username.errors }}</div>
+			{% endif %}
+		</td>
 		<td class="form_field_cell" align="right">{{ form.username }}</td>
 	</tr>
 	<tr class="form_color_2">
-		<td class="form_field_cell">Email address</td>
+		<td class="form_field_cell">Email address
+			{% if form.email.errors %}
+			<div class="error">{{ form.email.errors }}</div>
+			{% endif %}
+		</td>
 		<td class="form_field_cell" align="right">{{ form.email }}</td></td>
 	</tr>
 	<tr class="form_color_1">
-		<td class="form_field_cell">Password</td>
+		<td class="form_field_cell">Password
+			{% if form.password1.errors %}
+			<div class="error">{{ form.password1.errors }}</div>
+			{% endif %}
+		</td>
 		<td class="form_field_cell" align="right">{{ form.password1 }}</td>
 	</tr>
 	<tr class="form_color_2">
-		<td class="form_field_cell">Password (confirm)</td>
+		<td class="form_field_cell">Password (confirm)
+			{% if form.password2.errors %}
+			<div class="error">{{ form.password2.errors }}</div>
+			{% endif %}
+		</td>
 		<td class="form_field_cell" align="right">{{ form.password2 }}</td>
 	</tr>
 </table>

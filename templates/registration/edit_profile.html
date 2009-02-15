@@ -16,21 +16,34 @@
 
 <table cellpadding="5" cellspacing="0" class="form_subtable">
 	<tr class=" form_color_1">
-		<td class="form_field_cell">username</td>
+		<td class="form_field_cell">username
+		</td>
 		<td class="form_field_cell" align="right">{{ user.username }}</td>
 	</tr>
 	<tr class="form_color_2">
-		<td class="form_field_cell">Email address</td>
+		<td class="form_field_cell">Email address
+			{% if form.email.errors %}
+			<div class="error">{{ form.email.errors }}</div>
+			{% endif %}
+		</td>
 		<td class="form_field_cell" align="right">{{ form.email }}</td></td>
 	</tr>
 	<tr class="form_color_1">
-		<td class="form_field_cell">Tags</td>
+		<td class="form_field_cell">Tags
+			{% if form.tags.errors %}
+			<div class="error">{{ form.tags.errors }}</div>
+			{% endif %}
+		</td>
 		<td class="form_field_cell" align="right">{{ form.tags }}</td>
 	</tr>
 </table>
 
 <div class="content_subtitle">Extended description</div>
-<div class="content_subsubtitle">Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.</div>
+<div class="content_subsubtitle">Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+	{% if form.description.errors %}
+	<div class="error">{{ form.description.errors }}</div>
+	{% endif %}
+</div>
 {{ form.description }}
 
 <div class="form_field_div form_color_1"><input type="submit" value="Submit" class="button_link" /></div>

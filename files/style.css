@@ -297,7 +297,7 @@ a.tag_link:hover {
 /************************* Forms *************************/
 
 .error {
-	border: 2px solid red;
+	color: red;
 }
 
 .form_div {
