@@ -109,6 +109,7 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 		else:
 			projects = projects.order_by('-score_proposed')
 	
+	# For RSS feeds
 	if return_raw_projects:
 		return page_title, this_page_url, projects
 	
@@ -145,8 +146,8 @@ def list_projects_as_feed(request, completeness, list_type='top'):
 	return HttpResponse(f.writeString('UTF-8'), mimetype="application/rss+xml")
 
 @login_required
-def recommended_projects(request, completed_or_proposed):
-	return list_projects(request, 'recommend', completed_or_proposed=='completed')
+def recommended_projects(request, completeness):
+	return list_projects(request, 'recommend', completeness=='completed')
 
 def list_proposed_projects(request, list_type='top'):
 	return list_projects(request, list_type, False)
@@ -270,6 +271,9 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 	if request.method == 'POST':
 		if is_add:
 			project = Project(author=user)
+		elif project.author != user:
+			return render_to_response('oops.html', {},
+				context_instance=RequestContext(request))
 		
 		form = ProjectForm(request.POST)
 		if form.is_valid():
