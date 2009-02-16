@@ -6,6 +6,13 @@
 {% block content %}
 <form method="post" action="">
 
+{% if form.non_field_errors %}
+<div class="error">
+<ul>
+	{{ form.non_field_errors.as_ul }}
+</ul></div>
+{% endif %}
+
 <table cellpadding="5" cellspacing="0" class="form_subtable">
 	<tr class="form_color_1">
 		<td class="form_field_cell">Desired username
@@ -17,6 +24,7 @@
 	</tr>
 	<tr class="form_color_2">
 		<td class="form_field_cell">Email address
+			<div class="form_help_text">Used for confirmation. Not shown publicly.</div>
 			{% if form.email.errors %}
 			<div class="error">{{ form.email.errors }}</div>
 			{% endif %}

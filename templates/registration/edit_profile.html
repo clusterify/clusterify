@@ -12,6 +12,12 @@
 {{ field }}
 {% endfor %}
 
+{% if form.non_field_errors %}
+<div class="error"><ul>
+	{{ form.non_field_errors.as_ul }}
+</ul></div>
+{% endif %}
+
 <div class="content_subtitle">Basic profile information</div>
 
 <table cellpadding="5" cellspacing="0" class="form_subtable">
@@ -22,6 +28,7 @@
 	</tr>
 	<tr class="form_color_2">
 		<td class="form_field_cell">Email address
+			<div class="form_help_text">Not shown publicly.</div>
 			{% if form.email.errors %}
 			<div class="error">{{ form.email.errors }}</div>
 			{% endif %}
@@ -30,6 +37,7 @@
 	</tr>
 	<tr class="form_color_1">
 		<td class="form_field_cell">Tags
+			<div class="form_help_text">Alphanumeric, word junction by dash, separation by space</div>
 			{% if form.tags.errors %}
 			<div class="error">{{ form.tags.errors }}</div>
 			{% endif %}
@@ -39,7 +47,7 @@
 </table>
 
 <div class="content_subtitle">Extended description</div>
-<div class="content_subsubtitle">Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+<div class="content_subsubtitle">Max 5k characters. Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
 	{% if form.description.errors %}
 	<div class="error">{{ form.description.errors }}</div>
 	{% endif %}

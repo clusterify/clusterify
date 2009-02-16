@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from registration.models import RegistrationProfile
 
-
 # I put this on all required fields, because it's easier to pick up
 # on them with CSS or JavaScript if they have a class of "required"
 # in the HTML. Your mileage may vary. If/when Django ticket #3515
@@ -19,9 +18,15 @@ attrs_dict = { 'class': 'required' }
 
 # MODIF: added this class
 class ProfileForm(forms.Form):
-    description = forms.CharField(required=False, widget=forms.widgets.Textarea(attrs={'class':'markdown_textarea','rows':'20'}))
+    description = forms.CharField(
+					required=False,
+					widget=forms.widgets.Textarea(
+						attrs={'class':'markdown_textarea','rows':'20'}),
+					max_length=5000)
     email = forms.EmailField(required=False)
-    tags = forms.CharField(required=False)
+	tags = forms.RegexField(
+				required=False,
+				regex=r'^[A-Za-z0-9\- ]+$')
     
 
 class RegistrationForm(forms.Form):
@@ -38,6 +43,7 @@ class RegistrationForm(forms.Form):
     """
     username = forms.RegexField(regex=r'^\w+$',
                                 max_length=30,
+								min_length=3,
                                 widget=forms.TextInput(attrs=attrs_dict),
                                 label=_(u'username'))
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,

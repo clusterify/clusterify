@@ -298,6 +298,7 @@ a.tag_link:hover {
 
 .error {
 	color: red;
+	font-weight: bold;
 }
 
 .form_div {
@@ -319,7 +320,13 @@ a.tag_link:hover {
 }
 
 .form_field_cell {
+	font-weight: bold;
 	padding: 10px;
+}
+
+.form_help_text {
+	font-weight: normal;
+	font-size: small;
 }
 
 .form_field_div {

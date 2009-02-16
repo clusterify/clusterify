@@ -10,11 +10,19 @@
 {{ field }}
 {% endfor %}
 
+{% if form.non_field_errors %}
+<div class="error">
+<ul>
+	{{ form.non_field_errors.as_ul }}
+</ul></div>
+{% endif %}
+
 <div class="content_subtitle">Basic project information</div>
 
 <table cellpadding="5" cellspacing="0" class="form_subtable">
 	<tr class=" form_color_1">
 		<td class="form_field_cell">Title
+			<div class="form_help_text">Max 200 characters.</div>
 			{% if form.title.errors %}
 			<div class="error">{{ form.title.errors }}</div>
 			{% endif %}
@@ -22,7 +30,8 @@
 		<td class="form_field_cell" align="right">{{ form.title }}</td>
 	</tr>
 	<tr class="form_color_2">
-		<td class="form_field_cell">Estimated duration (hours)
+		<td class="form_field_cell">Estimated duration
+			<div class="form_help_text">Integer, in hours for a team of 2-3 persons</div>
 			{% if form.time_estimate.errors %}
 			<div class="error">{{ form.time_estimate.errors }}</div>
 			{% endif %}
@@ -31,6 +40,7 @@
 	</tr>
 	<tr class="form_color_1">
 		<td class="form_field_cell">Tags
+			<div class="form_help_text">Alphanumeric, word junction by dash, separation by space</div>
 			{% if form.tags.errors %}
 			<div class="error">{{ form.tags.errors }}</div>
 			{% endif %}
@@ -50,7 +60,7 @@ $(function(){
 //--></script>
 
 <div class="content_subtitle">Project description</div>
-<div class="content_subsubtitle">Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+<div class="content_subsubtitle">Max 5k characters. Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
 	{% if form.description.errors %}
 	<div class="error">{{ form.description.errors }}</div>
 	{% endif %}
@@ -59,7 +69,7 @@ $(function(){
 
 {% if project.p_completed %}
 <div class="content_subtitle">Project showcase</div>
-<div class="content_subsubtitle">Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+<div class="content_subsubtitle">Max 5k characters. Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
 	{% if form.showcase.errors %}
 	<div class="error">{{ form.showcase.errors }}</div>
 	{% endif %}
