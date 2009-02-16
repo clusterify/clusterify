@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Project
+from models import Project, Comment
 
 class ProjectAdmin(admin.ModelAdmin):
 	list_display = ['author','title']
