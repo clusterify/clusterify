@@ -9,11 +9,11 @@ import os.path
 
 PROJECT_DIR = os.path.join(os.path.dirname(__file__),"..")
 
-DEBUG = False
+DEBUG = False 
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('ClusterifyAdmins', 'webmaster@clusterify.com'),
 )
 
 MANAGERS = ADMINS
@@ -49,7 +49,7 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://clusterify.com/media/'
+MEDIA_URL = 'http://www.clusterify.com/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -104,8 +104,11 @@ INSTALLED_APPS = (
 # for registration
 DEFAULT_FROM_EMAIL='do_not_reply@clusterify.com'
 ACCOUNT_ACTIVATION_DAYS=7
-EMAIL_HOST='stmp.webfaction.com'
+EMAIL_HOST='smtp.webfaction.com'
 EMAIL_PORT=25
+EMAIL_HOST_USER='sender'
+EMAIL_HOST_PASSWORD='74e34b4d'
+SERVER_EMAIL='webmaster@clusterify.com'
 EMAIL_HOST_USER='sender'
 EMAIL_HOST_PASSWORD='74e34b4d'
 SERVER_EMAIL='webmaster@cluterify.com'
