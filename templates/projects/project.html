@@ -257,7 +257,7 @@
 <div class="sidebar_block">
 
 {% for project in similar_projects %}
-<a href="{{ project.get_absolute_url }}">{{ project.title }}</a><br/>
+<a href="{{ project.get_absolute_url }}">{{ project.title|truncatewords:4 }}</a><br/>
 {% endfor %}
 
 </div>
