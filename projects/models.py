@@ -218,7 +218,8 @@ class Comment(models.Model):
 	author = models.ForeignKey(User)
 	project = models.ForeignKey(Project)
 	pub_date = models.DateTimeField(auto_now_add=True)
-	flagged_by = models.ManyToManyField(User, related_name='flagged_by')
+	# blank and null is for Django admin
+	flagged_by = models.ManyToManyField(User, related_name='flagged_by', blank=True, null=True)
 
 	@staticmethod
 	def search(terms):
