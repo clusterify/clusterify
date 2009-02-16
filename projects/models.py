@@ -218,6 +218,7 @@ class Comment(models.Model):
 	author = models.ForeignKey(User)
 	project = models.ForeignKey(Project)
 	pub_date = models.DateTimeField(auto_now_add=True)
+	flagged_by = models.ManyToMany(User)
 
 	@staticmethod
 	def search(terms):
