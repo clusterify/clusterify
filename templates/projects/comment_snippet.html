@@ -1,3 +1,5 @@
+{% load util_filters %}
+
 	<div class="project_comment">
 		<div class="project_comment_text">{{ comment.text }}</div>
 
@@ -7,7 +9,7 @@
 
 		<div class="user_info_div" style="float: right;">
 				by <a href="/accounts/profile/view/{{ comment.author }}">{{ comment.author }}</a><br/>
-				on {{ comment.pub_date|date:"M d, Y" }} at {{ comment.pub_date|date:"G:i" }}
+				{{ comment.pub_date|ago }}
 		</div>
 	</div>
 	<br style="clear: both;"/>
