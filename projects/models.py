@@ -214,7 +214,7 @@ class Project(models.Model):
 		self.save()
 
 class Comment(models.Model):
-	text = models.CharField(max_length=200)
+	text = models.CharField(max_length=5000)
 	author = models.ForeignKey(User)
 	project = models.ForeignKey(Project)
 	pub_date = models.DateTimeField(auto_now_add=True)
