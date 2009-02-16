@@ -24,11 +24,11 @@ class ProfileForm(forms.Form):
 						attrs={'class':'markdown_textarea','rows':'20'}),
 					max_length=5000)
 	email = forms.EmailField(required=False)
-	tags = forms.RegexField(
-				required=False,
-				regex=r'^[A-Za-z0-9\- ]+$')
+    tags = forms.RegexField(
+        required=False,
+        regex=r'^[A-Za-z0-9\- ]+$')
     
-
+    
 class RegistrationForm(forms.Form):
     """
     Form for registering a new user account.
