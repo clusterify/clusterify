@@ -18,4 +18,6 @@ class ProjectForm(forms.Form):
 				regex=r'^[A-Za-z0-9\- ]+$')
 
 class CommentForm(forms.Form):
-	text = forms.CharField(widget=forms.widgets.Textarea(attrs={'rows':'5','style':'width:90%'}), max_length=500)
+	text = forms.CharField(
+				widget=forms.widgets.Textarea(attrs={'rows':'5','style':'width:90%'}),
+				max_length=5000)
