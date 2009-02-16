@@ -9,7 +9,7 @@ import os.path
 
 PROJECT_DIR = os.path.join(os.path.dirname(__file__),"..")
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -18,10 +18,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3'           # 'mediapostgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = os.path.join(PROJECT_DIR, 'db.sqlite')             # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
+DATABASE_ENGINE = 'mysql'           # 'mediapostgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_NAME = 'fsavard_clfy'             # Or path to database file if using sqlite3.
+DATABASE_USER = 'root'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'f8f5161c'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
@@ -49,7 +49,7 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://127.0.0.1:8000/media/'
+MEDIA_URL = 'http://clusterify.com/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -93,22 +93,22 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django.contrib.sessions',
     'django.contrib.sites',
-	'django.contrib.humanize',
+    'django.contrib.humanize',
     'django.contrib.admin',
-	'registration',
-	'projects',
-	'tagging',
-	'voting',
+    'registration',
+    'projects',
+    'tagging',
+    'voting',
 )
 
 # for registration
 DEFAULT_FROM_EMAIL='do_not_reply@clusterify.com'
 ACCOUNT_ACTIVATION_DAYS=7
-EMAIL_HOST='relais.videotron.ca'
-#EMAIL_HOST='smtp.comcast.net'
+EMAIL_HOST='stmp.webfaction.com'
 EMAIL_PORT=25
-EMAIL_HOST_USER=''
-EMAIL_HOST_PASSWORD=''
+EMAIL_HOST_USER='sender'
+EMAIL_HOST_PASSWORD='74e34b4d'
+SERVER_EMAIL='webmaster@cluterify.com'
 
 # to do user.get_profile
 AUTH_PROFILE_MODULE = 'registration.Profile'
