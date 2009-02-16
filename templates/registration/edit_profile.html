@@ -51,7 +51,11 @@
 </form>
 
 <script><!--
-$('#id_tags').autocomplete({list: site_tags});
+	$('#id_tags').autocomplete(
+		{list: site_tags, 
+		match: customTextMatch, 
+		insertText: customTextInsertBinder($("#id_tags")),
+		template: customTemplate});
 //--></script>
 
 

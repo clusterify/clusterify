@@ -51,7 +51,8 @@
 
     var select = function() {
       active = $("> *", container).removeClass("active").slice(selected, selected + 1).addClass("active");
-      input.trigger("itemSelected.autocomplete", [$.data(active[0], "originalObject")]);     
+      input.trigger("itemSelected.autocomplete", [$.data(active[0], "originalObject")]);
+	console.log("setting value "+opt.insertText($.data(active[0], "originalObject")));
       input.val(opt.insertText($.data(active[0], "originalObject")));
     };
     
