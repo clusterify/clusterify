@@ -18,12 +18,12 @@ attrs_dict = { 'class': 'required' }
 
 # MODIF: added this class
 class ProfileForm(forms.Form):
-    description = forms.CharField(
+	description = forms.CharField(
 					required=False,
 					widget=forms.widgets.Textarea(
 						attrs={'class':'markdown_textarea','rows':'20'}),
 					max_length=5000)
-    email = forms.EmailField(required=False)
+	email = forms.EmailField(required=False)
 	tags = forms.RegexField(
 				required=False,
 				regex=r'^[A-Za-z0-9\- ]+$')
@@ -43,7 +43,7 @@ class RegistrationForm(forms.Form):
     """
     username = forms.RegexField(regex=r'^\w+$',
                                 max_length=30,
-								min_length=3,
+                                min_length=3,
                                 widget=forms.TextInput(attrs=attrs_dict),
                                 label=_(u'username'))
     email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
