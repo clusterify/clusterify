@@ -13,7 +13,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('ClusterifyAdmins', 'webmaster@clusterify.com'),
+    ('ClusterifyAdmins', 'francois@fsavard.com'),
 )
 
 MANAGERS = ADMINS
