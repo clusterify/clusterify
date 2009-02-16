@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     (r'^accounts/', include('registration.urls')),
     (r'^projects/', include('projects.urls')),
     (r'^tags/js/$', tags_js),
+	(r'^concepts/$', direct_to_template, {'template_name': 'concepts.html'}),
     # TODO: remove this in prod
     (r'^files/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(os.path.dirname(__file__), 'files')}),
