@@ -365,9 +365,12 @@ def vote_for_project(request, project_author, project_pk, vote_type):
 	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)
 	
-	if vote_type == 'completed':
-		project.add_completed_vote(user)
-	else:
-		project.add_proposed_vote(user)
+	try:
+		if vote_type == 'completed':
+			project.add_completed_vote(user)
+		else:
+			project.add_proposed_vote(user)
+	except:
+		user.message_set.create(message="You have already voted for this item.")
 	
 	return HttpResponseRedirect(project.get_absolute_url())
