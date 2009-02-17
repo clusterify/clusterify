@@ -214,12 +214,19 @@ class Project(models.Model):
 		self.save()
 
 class Comment(models.Model):
-	text = models.CharField(max_length=5000)
+	text = models.CharField(max_length=5000, blank=False)
+	text_html = models.CharField()
+	
 	author = models.ForeignKey(User)
 	project = models.ForeignKey(Project)
 	pub_date = models.DateTimeField(auto_now_add=True)
 	# blank and null is for Django admin
 	flagged_by = models.ManyToManyField(User, related_name='flagged_by', blank=True, null=True)
+
+	def save(self):
+		md = Markdown(safe_mode = True)
+		self.text_html = md.convert(self.text)
+		super(Comment, self).save()
 
 	@staticmethod
 	def search(terms):

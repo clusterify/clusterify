@@ -1,7 +1,7 @@
 {% load util_filters %}
 
 	<div class="project_comment">
-		<div class="project_comment_text">{{ comment.text }}</div>
+		<div class="project_comment_text">{% autoescape off %}{{ comment.text_html }}{% endautoescape %}</div>
 
 		<div class="user_icon_div" style="float: right;">
 			<img src="{{ comment.author.get_profile.get_gravatar_url }}" width="50" height="50"/>
