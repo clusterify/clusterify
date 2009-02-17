@@ -112,7 +112,9 @@
 	
 	{% if user.is_authenticated %}
 	<div class="form_div">
-		New comment
+<div class="content_subsubtitle"><strong>New comment</strong><br/><br/>
+Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+</div>
 		<form action="{{ project.get_postcomment_url }}" method="POST">
 				{{ form.text }}
 			<br/>
