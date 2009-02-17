@@ -151,7 +151,7 @@ class Project(models.Model):
 			self.joined_users.add(user)
 
 	def get_joined_users_count(self):
-		return self.joined_users.count()
+		return self.joined_users.count() + 1
 
 	# Given a user, returns the user's position in the project 
 	# (Author, Member, Interested, None)
