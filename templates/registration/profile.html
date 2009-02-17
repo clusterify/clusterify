@@ -5,7 +5,15 @@
 
 {% block content %}
 
-<div class="content_subsubtitle">Joined on {{ profile.user.date_joined|date:"M d, Y" }}</div>
+<div class="content_subsubtitle">
+	<div style="float: left; width: 50px; margin-right: 10px;">
+		<img src="{{ comment.author.get_profile.get_gravatar_url }}" width="50" height="50"/>
+	</div>
+	<div style="float: left: width: 500px;">
+		Joined on {{ profile.user.date_joined|date:"M d, Y" }}<br/>
+		Karma from completed projects: {{ profile.completed_projects_karma }}
+	</div>
+</div>
 
 <div class="content_subtitle">{{ profile.user.username }}'s tags</div>
 

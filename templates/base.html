@@ -25,7 +25,8 @@
 <body>
 	
     <div id="topbar">
-        <div id="logo"><a href="/"><img src="/files/images/logo2.gif"></a></div>
+		<div style="float: left;"><img src="/files/images/tagline.gif"></div><br style="clear: both;"/>
+        <div id="logo"><a href="/"><img src="/files/images/logo2_beta.gif"></a></div>
 		<div id="loginmenu_div">
 			{% if user.is_authenticated %}
 				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |

@@ -8,7 +8,7 @@
 		</div>
 
 		<div class="user_info_div" style="float: right;">
-				by <a href="/accounts/profile/view/{{ comment.author }}">{{ comment.author }}</a><br/>
+				by <a href="/accounts/profile/view/{{ comment.author }}">{{ comment.author }}</a> ({{ comment.author.get_profile.completed_projects_karma }})<br/>
 				{{ comment.pub_date|ago }}
 		</div>
 	</div>
