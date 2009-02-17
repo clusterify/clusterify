@@ -102,7 +102,7 @@
 	
 	{% with project.get_comments as project_comments %}
 		{% if not project_comments.count %}
-		No comments for the moment.
+		<p>No comments for the moment.</p>
 		{% endif %}
 	
 		{% for comment in project_comments %}
