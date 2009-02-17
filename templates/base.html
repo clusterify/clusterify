@@ -69,7 +69,10 @@
 		<div id="sidebar">
 			{% if user.is_authenticated %}
 				<div class="sidebar_title">Reference</div>
-				<div class="sidebar_block">Take 2 minutes to learn <a href="/concepts/">basic concepts</a> first.</div>
+				<div class="sidebar_block">
+					- <a href="/concepts/">Basic concepts</a><br/>
+					- <a href="/collaboration/">Collaboration tools and tips</a>
+				</div>
 			{% else %}
 				<div class="sidebar_title">New here?</div>
 				<div class="sidebar_block">Take 2 minutes to learn <a href="/concepts/">basic concepts</a>.<br/><br/>
