@@ -254,6 +254,7 @@ ul.sidebar_horiz_ul li {
 .user_messages {
 	clear: both;
 	background-color: #aec3ff;
+	padding: 10px;
 }
 
 /************************** Pagination ******************/
