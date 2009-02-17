@@ -170,9 +170,12 @@ def search_portal(request):
 	else:
 		return list_projects(request)
 
-def project_notification(project, notification_source_user, subject, content):
-	project_members = [u for u in project.joined_users.all()]
-	project_members += [project.author]
+def project_notification(project, notification_source_user, subject, content, just_to_author=False):
+	if just_to_author:
+		project_members = [project.author]
+	else:
+		project_members = [u for u in project.joined_users.all()]
+		project_members += [project.author]
 	
 	for m in project_members:
 		if m != notification_source_user:
@@ -364,6 +367,11 @@ def join_project(request, project_author, project_pk):
 	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)
 	project.add_interested_user(user)
+	
+	project_notification(project, user, "Clusterify -- user wants to join project",
+				render_to_string('projects/emails/author_approve_join.txt',
+								{ 'project': project,
+								'joining_user': user}), True)
 
 	return HttpResponseRedirect(project.get_absolute_url())
 
@@ -372,9 +380,15 @@ def approve_join(request, project_author, project_pk, joining_username):
 	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)
 	joining_user = get_object_or_404(User, username=joining_username)
+	
 	if(user == project.author):
 		project.join_user(joining_user)
 		project.remove_interested_user(joining_user)
+		
+		project_notification(project, user, "Clusterify -- new user joined project",
+			render_to_string('projects/emails/join_approved.txt',
+							{ 'project': project,
+							'joining_user': user}))
 	
 	return HttpResponseRedirect(project.get_absolute_url())
 
