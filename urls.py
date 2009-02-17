@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     (r'^about/$', direct_to_template, {'template': 'about.html'}),
     (r'^terms/$', direct_to_template, {'template': 'terms.html'}),
     (r'^collaboration/$', direct_to_template, {'template': 'collaboration.html'}),
+    (r'^idea_guide/$', direct_to_template, {'template': 'idea_guide.html'}),
     # TODO: remove this in prod
     (r'^files/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(os.path.dirname(__file__), 'files')}),
