@@ -385,7 +385,7 @@ def approve_join(request, project_author, project_pk, joining_username):
 		project.join_user(joining_user)
 		project.remove_interested_user(joining_user)
 		
-		project_notification(project, user, "Clusterify -- new user joined project",
+		project_notification(project, None, "Clusterify -- new user joined project",
 			render_to_string('projects/emails/join_approved.txt',
 							{ 'project': project,
 							'joining_user': user}))
