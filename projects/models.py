@@ -45,15 +45,15 @@ class Project(models.Model):
 	pub_date = models.DateTimeField(auto_now_add=False, auto_now=False)
 	p_completed = models.BooleanField(default=False)
 
-	proposed_votes = models.ManyToManyField(User, related_name='projects_proposed_votes')
-	completed_votes = models.ManyToManyField(User, related_name='projects_completed_votes')
+	proposed_votes = models.ManyToManyField(User, related_name='projects_proposed_votes', blank=True, null=True)
+	completed_votes = models.ManyToManyField(User, related_name='projects_completed_votes', blank=True, null=True)
 
 	# Using ManyToMany fields to record votes so we know who voted for what, if only to check if a user already voted
 	#proposed_votes = models.PositiveIntegerField(default=1)
 	#completed_votes = models.PositiveIntegerField(default=1)
 	
-	interested_users = models.ManyToManyField(User, related_name='projects_interested')
-	joined_users = models.ManyToManyField(User, related_name='projects_joined')
+	interested_users = models.ManyToManyField(User, related_name='projects_interested', blank=True, null=True)
+	joined_users = models.ManyToManyField(User, related_name='projects_joined', blank=True, null=True)
 	
 	score_proposed = models.FloatField(default=0.0)
 	score_completed = models.FloatField(default=0.0)
