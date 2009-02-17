@@ -108,9 +108,6 @@ EMAIL_HOST='smtp.webfaction.com'
 EMAIL_PORT=25
 EMAIL_HOST_USER='sender'
 EMAIL_HOST_PASSWORD='74e34b4d'
-SERVER_EMAIL='webmaster@clusterify.com'
-EMAIL_HOST_USER='sender'
-EMAIL_HOST_PASSWORD='74e34b4d'
 SERVER_EMAIL='webmaster@cluterify.com'
 
 # to do user.get_profile

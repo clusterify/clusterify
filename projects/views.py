@@ -4,10 +4,13 @@ import urllib
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template.loader import render_to_string
 from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.utils import feedgenerator
+from django.core.mail import send_mail
+from django.conf import settings
 
 from tagging.models import Tag, TaggedItem
 
@@ -167,6 +170,16 @@ def search_portal(request):
 	else:
 		return list_projects(request)
 
+def project_notification(project, notification_source_user, subject, content):
+	project_members = [u for u in project.joined_users.all()]
+	project_members += [project.author]
+	
+	for m in project_members:
+		if m != notification_source_user:
+			send_mail(subject, content, settings.DEFAULT_FROM_EMAIL,
+				[m.email], fail_silently=True)
+
+
 ##############################################################################
 # Displays a single project
 
@@ -206,6 +219,11 @@ def post_project_comment(request, project_author, project_pk):
 		        text = comment_form.cleaned_data['text']
 			comment = Comment(text=text, author=user, project=project)
 			comment.save()
+			
+			project_notification(project, user, "Clusterify -- new comment on project",
+						render_to_string('projects/emails/comment_on_project.txt',
+										{ 'project': project,
+										'comment': comment}))
 			
 			return HttpResponseRedirect(project.get_absolute_url())
 	else:

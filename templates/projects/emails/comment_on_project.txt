@@ -1,0 +1,11 @@
+User {{ comment.author.username }} left a comment on Clusterify project "{{ project.title }}".
+
+Here's the text of the comment:
+
+-------------------------------------------------
+{{ comment.text }}
+-------------------------------------------------
+
+And here's the project URL:
+
+http://www.clusterify.com{{ project.get_absolute_url }}
