@@ -388,7 +388,7 @@ def approve_join(request, project_author, project_pk, joining_username):
 		project_notification(project, None, "Clusterify -- new user joined project",
 			render_to_string('projects/emails/join_approved.txt',
 							{ 'project': project,
-							'joining_user': user}))
+							'joining_user': joining_user}))
 	
 	return HttpResponseRedirect(project.get_absolute_url())
 
