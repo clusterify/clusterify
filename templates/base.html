@@ -72,8 +72,7 @@
 				<div class="sidebar_block">
 					- <a href="/concepts/">Basic concepts</a><br/>
 					- <a href="/collaboration/">Collaboration tools and tips</a><br/>
-					- <a href="/idea_guide/">Project idea guide</a><br/><br/>
-					<a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss28.png" style="vertical-align: middle;"/></a>&nbsp;&nbsp;<a href="http://blog.clusterify.com/?feed=rss2">Site news (blog)</a>
+					- <a href="/idea_guide/">Project idea guide</a><br/>
 				</div>
 			{% else %}
 				<div class="sidebar_title">New here?</div>
@@ -91,6 +90,10 @@
 						<option value="comments" {% ifequal "comments" search_results_type %}selected{% endifequal %}>in comments</option>
 					</select>
 				</form>
+			</div>
+			<div class="sidebar_title">Site news</div>
+			<div class="sidebar_block" style="text-align: center;">
+				<a href="http://blog.clusterify.com">The blog | <a href="http://blog.clusterify.com/?feed=rss2">The feed</a>&nbsp;&nbsp;<a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss14.png" style="vertical-align: middle;"/></a>
 			</div>
 			{% block sidebar %}{% endblock %}
 
