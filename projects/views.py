@@ -142,7 +142,7 @@ def list_projects_as_feed(request, completeness, list_type='top'):
 	to_print = projects[0:min(ITEMS_IN_FEED, projects.count())]
 	for p in to_print:
 		f.add_item(title=p.title, 
-				link=p.get_absolute_url(), 
+				link="http://www.clusterify.com"+p.get_absolute_url(), 
 				description=p.description_html,
 				pubdate=p.pub_date)
 	
