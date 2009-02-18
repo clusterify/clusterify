@@ -215,7 +215,7 @@ class Project(models.Model):
 
 class Comment(models.Model):
 	text = models.CharField(max_length=5000, blank=False)
-	text_html = models.CharField(blank=True) # only for admin reasons is blank=True
+	text_html = models.CharField(max_length=5000, blank=True) # only for admin reasons is blank=True
 	
 	author = models.ForeignKey(User)
 	project = models.ForeignKey(Project)

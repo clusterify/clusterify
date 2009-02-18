@@ -12,6 +12,10 @@ from django.template import RequestContext
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.template import RequestContext
+from django.contrib.auth import authenticate, login
+
+
 
 from registration.forms import RegistrationForm, ProfileForm
 from registration.models import RegistrationProfile, Profile
@@ -308,12 +312,29 @@ def register(request, success_url=None,
     if request.method == 'POST':
         form = form_class(data=request.POST, files=request.FILES)
         if form.is_valid():
-            new_user = form.save()
+            new_user = User.objects.create_user(form.cleaned_data['username'],
+                                                form.cleaned_data['email'],
+                                                form.cleaned_data['password1'])
+            new_user.is_active = True
+            new_user.save()
+            
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+            login(request, user)
+			
+            user.message_set.create(message="Your profile has been successfully created.")
+            
+            return HttpResponseRedirect('/accounts/profile/')
+            
+            #return render_to_response('registration/activate.html',
+            #                        {},
+            #                        context_instance=RequestContext(request))
+            
+            #new_user = form.save()
             # success_url needs to be dynamically generated here; setting a
             # a default value using reverse() will cause circular-import
             # problems with the default URLConf for this application, which
             # imports this file.
-            return HttpResponseRedirect(success_url or reverse('registration_complete'))
+            #return HttpResponseRedirect(success_url or reverse('registration_complete'))
     else:
         form = form_class()
     
