@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join
+from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment
 
 from tests.data import populate_projects
 
@@ -9,8 +9,6 @@ urlpatterns = patterns('',
 		# Individual project actions
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/$',
 			single_project),
-		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/postcomment/$',
-			post_project_comment),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/join/$',
 			join_project),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/(?P<joining_username>\w+)/approve/$',
@@ -24,6 +22,12 @@ urlpatterns = patterns('',
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/vote/(?P<vote_type>(completed|proposed))/$',
 			vote_for_project),
 	   
+		# Comments
+		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/postcomment/$',
+			post_project_comment),
+		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/editcomment/(?P<comment_pk>\d+)/$',
+			edit_project_comment),
+	  
 		# rss -- only available for top/new
 		url(r'^rss/(?P<completeness>(completed|proposed))/(?P<list_type>(top|new))/$',
 			list_projects_as_feed),

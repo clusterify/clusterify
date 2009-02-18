@@ -1,0 +1,26 @@
+{% extends "base.html"  %}
+
+{% block title %}Edit comment{% endblock %}
+{% block titleInPage %}Edit comment{% endblock %}
+
+{% block content %}
+
+<div class="content_subtitle">Original comment</div>
+
+{% autoescape off %}{{ comment.text_html }}{% endautoescape %}
+
+<div class="content_subtitle">Edit comment</div>
+
+<div class="content_subsubtitle">
+Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+</div>
+
+<div class="form_div">
+	<form action="{{ comment.get_edit_url }}" method="POST">
+		{{ form.text }}
+		<br/><br/>
+		<input type="submit" value="Submit" />
+	</form>
+</div>
+
+{% endblock %}

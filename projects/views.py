@@ -233,6 +233,27 @@ def post_project_comment(request, project_author, project_pk):
 		comment_form = CommentForm()
 		
 	return single_project(request, project_author, project_pk, comment_form)
+	
+@login_required
+def edit_project_comment(request, project_author, project_pk, comment_pk):
+	user = request.user
+	comment = get_object_or_404(Comment, pk=comment_pk)
+	
+	if request.method == 'POST':
+		comment_form = CommentForm(request.POST)
+		
+		if comment_form.is_valid():
+			comment.text = comment_form.cleaned_data['text']
+			comment.save()
+			
+			return HttpResponseRedirect(comment.get_edit_url())
+	else:
+		comment_form = CommentForm(initial={'text':comment.text})
+		
+	return render_to_response('projects/edit_comment.html',
+							{'comment':comment,
+							'form':comment_form},
+							context_instance=RequestContext(request))
 
 def list_comments(request):
 	terms = request.GET.get('terms', '')

@@ -233,3 +233,5 @@ class Comment(models.Model):
 		query = get_query(terms, ['text',])
 		return Comment.objects.filter(query)
 
+	def get_edit_url(self):
+		return self.project.get_absolute_url() + 'editcomment/' + str(self.pk) + '/'
