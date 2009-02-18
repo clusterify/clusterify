@@ -135,7 +135,7 @@ def list_projects_as_feed(request, completeness, list_type='top'):
 	
 	f = feedgenerator.Rss201rev2Feed(
 			title=page_title,
-			link=url,
+			link="http://www.clusterify.com"+url,
 			description=u"",
 			language=u"en")
 
