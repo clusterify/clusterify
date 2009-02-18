@@ -18,12 +18,30 @@
 {% block moreStyle %}
 {% endblock %}
 
+#announcements {
+	width: 960px;
+	text-align: center;
+	margin: 10px auto;
+	background-color: #449944;
+	color: white;
+	padding:  10px 0;
+}
+
+#announcements a {
+	font-weight: bold;
+	color: white;
+}
+
 	</style>
     <title>Clusterify - {% block title %}{% endblock %}</title>
 </head>
 
 <body>
-	
+
+{% if not hide_announcement %}
+	<div id="announcements">Features will be moving fast in the next few days/weeks. <a href="http://blog.clusterify.com/?feed=rss2">Grab the announcement feed</a> <a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss14.png" style="vertical-align: middle;"/></a>. &nbsp;&nbsp;&nbsp;<a href="#" onclick="$.getScript('/hide_announcement/'); $('#announcements').fadeOut('slow'); ">(hide)</a></div>
+{% endif %}
+
     <div id="topbar">
 		<div style="float: left;"><img src="/files/images/tagline.gif"></div><br style="clear: both;"/>
         <div id="logo"><a href="/"><img src="/files/images/logo2_beta.gif"></a></div>

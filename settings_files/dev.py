@@ -70,6 +70,7 @@ TEMPLATE_LOADERS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
 	# to make User available to the Templates
 	'django.core.context_processors.auth',
+	'clusterify.views.should_hide_announcement',
 )
 
 MIDDLEWARE_CLASSES = (

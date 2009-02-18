@@ -4,7 +4,7 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.views.generic.simple import direct_to_template
 
-from views import tags_js
+from views import tags_js, hide_announcement
 
 import os.path
 
@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     (r'^terms/$', direct_to_template, {'template': 'terms.html'}),
     (r'^collaboration/$', direct_to_template, {'template': 'collaboration.html'}),
     (r'^idea_guide/$', direct_to_template, {'template': 'idea_guide.html'}),
+    (r'^hide_announcement/$', hide_announcement),
     # TODO: remove this in prod
     (r'^files/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(os.path.dirname(__file__), 'files')}),
