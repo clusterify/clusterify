@@ -83,7 +83,7 @@
 
 	<div class="user_row">
 		<div class="user_row_icon">
-			<img src="{{ profile.user.get_profile.get_gravatar_url }}" width="50" height="50" />
+			<a href="{{ profile.user.get_profile.get_absolute_url }}"><img src="{{ profile.user.get_profile.get_gravatar_url }}" width="50" height="50" /></a>
 		</div>
 		<div class="user_row_text">
 			<div class="user_row_username">
@@ -95,7 +95,7 @@
 			</div>
 			<div class="user_row_tags">
 			{% for t in profile.user.get_profile.get_tags %}
-				<a class="tag_link" href="/users/?tags={{ t }}">{{ t }}</a>
+				<a class="tag_link" href="/accounts/people/?tags={{ t }}">{{ t }}</a>
 			{% endfor %}
 			</div>
 		</div>

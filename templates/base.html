@@ -85,6 +85,7 @@
 		</div>
 		
 		<div id="sidebar">
+			{% block sidebar %}{% endblock %}
 			{% if user.is_authenticated %}
 				<div class="sidebar_title">Reference</div>
 				<div class="sidebar_block">
@@ -113,7 +114,7 @@
 			<div class="sidebar_block" style="text-align: center;">
 				<a href="http://blog.clusterify.com">The blog</a> | <a href="http://blog.clusterify.com/?feed=rss2">The feed</a>
 			</div>
-			{% block sidebar %}{% endblock %}
+
 
 		</div>
 	</div>
