@@ -16,6 +16,9 @@ ADMINS = (
     ('ClusterifyAdmins', 'francois@fsavard.com'),
 )
 
+# This is to allow sessions to work both on www.clutsterify.com and just clusterify.com
+SESSION_COOKIE_DOMAIN = 'clusterify.com'
+
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'mysql'           # 'mediapostgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
