@@ -436,6 +436,20 @@ a.tag_link:hover {
 	border-left: 1px solid #bbb;
 }
 
+.comment_count {
+	float: left;
+	background-color: #ddd;
+	padding: 5px;
+	margin-top: 10px;
+	width: 100px;
+	text-align: center;
+	
+}
+
+.comment_count_text {
+	font-size: 70%;
+}
+
 /*************** User infos *****************/
 
 .user_info_div {

@@ -33,6 +33,9 @@
 			</div>
 		</div>
 		{% endif %}
+		<div class="comment_count">
+			{{ project.get_comments.count }} <span class="comment_count_text">comment{{ project.get_comments.count|pluralize }}</span>
+		</div>
 	</div>
 	<div class="project_row_text">
 		<div class="project_row_title">
