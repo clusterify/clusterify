@@ -5,11 +5,15 @@
 
 {% block content %}
 
+<div class="content_subsubtitle"><a href="{{ comment.project.get_absolute_url }}">&lt;&lt; Back to project page</a></div>
+
 <div class="content_subtitle">Original comment</div>
 
 {% autoescape off %}{{ comment.text_html }}{% endautoescape %}
 
 <div class="content_subtitle">Edit comment</div>
+
+
 
 <div class="content_subsubtitle">
 Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
@@ -22,5 +26,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 		<input type="submit" value="Submit" />
 	</form>
 </div>
+
+
 
 {% endblock %}
