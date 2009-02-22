@@ -60,8 +60,9 @@
 		</div>
 		<div id="sitemenu_div"><ul id="sitemenu_ul">
 			{% if user.is_authenticated %}
-			<li><a href="/projects/add/">new project</a></li>
+			<li><a href="/projects/add/">new</a></li>
 			{% endif %}
+			<li><a href="/projects/seeds/">seeds</a></li>
 			<li><a href="/projects/proposed/">proposed</a></li>
 			<li><a href="/projects/completed/">completed</a></li>
 			<li><a href="/accounts/people/">people</a></li>

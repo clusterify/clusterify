@@ -1,0 +1,41 @@
+{% extends "base.html"  %}
+
+{% block title %}{{page_title }}{% endblock %}
+{% block titleInPage %}{{ page_title }}{% endblock %}
+
+{% block subtabs %}
+<a class="subtab" href="/projects/seeds/list/top/">Top</a>
+<a class="subtab" href="/projects/seeds/list/new/">New</a>
+{% endblock %}
+
+{% block content %}
+
+	{% for seed in paginated_seeds.object_list %}
+	
+		{% include "projects/seed_snippet.html" %}
+	
+	{% endfor %}
+	
+	{% with paginated_seeds as paginator_page %}{% include "projects/pagination_snippet.html" %}{% endwith %}
+
+{% endblock %}
+
+{% block sidebar %}
+
+<div class="sidebar_title">Suggest project seed</div>
+<div class="sidebar_block">
+	Seeds are <strong>ideas anyone can use</strong> to start a project. Go ahead and <strong>suggest a new one</strong> (200 chars. max):
+	
+	<form action="/projects/seeds/postnew/" method="post">
+	<p>{{ seed_form.title }}</p>
+	{% if user.is_authenticated %}
+		<p>{{ seed_form.anonymous }} anonymous</p>
+	{% else %}
+		<p>Author (optional):<br/>
+		{{ seed_form.author_string }}</p>
+	{% endif %}
+	<input type="submit" value="Submit"/>
+	</form>
+</div>
+
+{% endblock %}

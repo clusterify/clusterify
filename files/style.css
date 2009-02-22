@@ -105,7 +105,7 @@ ul#sitemenu_ul {
 ul#sitemenu_ul li {
 	list-style-type: none;
 
-	margin: 5px 0 0 8px;
+	margin: 5px 0 0 5px;
 	
 	border: 0;
 	
@@ -119,7 +119,7 @@ ul#sitemenu_ul li {
 	border-left: 1px solid #0088dd;
 
 	background-color: #003399;
-	padding: 6px 13px 6px 13px;
+	padding: 5px 11px 5px 11px;
 	
 	float: left;
 	
@@ -224,6 +224,10 @@ ul.sidebar_horiz_ul li {
 
 	border-top: 1px solid #bbbb99;
 	border-left: 1px solid #bbbb99;
+}
+
+.sidebar_block input {
+	width: 95%;
 }
 
 /******************* Content **********************/
@@ -334,16 +338,19 @@ a.tag_link:hover {
 	border: 1px dotted #555;
 	margin-bottom: 10px;
 	text-align: left;
+	vertical-align: top;
 }
 
 /* Table with more elaborate style, as a subsection in a form */
 .form_subtable {
 	width: 100%
+	vertical-align: top;
 }
 
 .form_field_cell {
 	font-weight: bold;
 	padding: 10px;
+	vertical-align: top;
 }
 
 .form_help_text {
@@ -573,4 +580,99 @@ a.tag_link:hover {
 .button_link:hover {
 	background-color: #888;
 	color: #fff;
+}
+
+.invisible_vote_widget_button {
+	width: 40px;
+	padding: 5px;
+	display: block;
+	color: #fff;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	margin-bottom: 3px;
+	float: left;
+	overflow: hidden;
+}
+
+.idea_vote_widget_button {
+	width: 40px;
+	padding: 5px;
+	display: block;
+	background-color: #449944;
+	color: #fff;
+	border-top: 1px solid #88dd88;
+	border-left: 1px solid #88dd88;
+	margin-bottom: 3px;
+	float: left;
+	overflow: hidden;
+
+	text-align: center;
+}
+
+.idea_vote_widget_button:hover {
+	color: #ddd;
+	background-color: #66bb66;
+}
+
+.job_vote_widget_button {
+	width: 40px;
+	padding: 5px;
+	display: block;
+	background-color: #a7b100;
+	color: #fff;
+	border-top: 1px solid #ddee33;
+	border-left: 1px solid #ddee33;
+	margin-bottom: 3px;
+	font-weight: bold;
+	float: left;
+	overflow: hidden;
+
+	text-align: center;
+}
+
+.job_vote_widget_button:hover {
+	color: #ddd;
+	background-color: #c7d122;
+}
+
+.join_button {
+	display:block;
+	color: white;
+	font-weight: bold;
+	padding: 8px 10px;
+	text-decoration: none;
+	margin: 10px;
+
+	background-color: #994444;
+	color: #fff;
+	border-top: 1px solid #dd8888;
+	border-left: 1px solid #dd8888;
+
+	text-align: center;
+}
+
+.join_button:hover {
+	color: #ddd;
+	background-color: #cc8888;
+}
+
+/********************* Seeds *********************/
+
+.seed_row_text{
+	width: 640px;
+	float: left;
+}
+
+.seed_row_menu {
+	margin-top: 10px;
+	width: 640px;
+	font-weight: bold;
+	float: left;
+	text-align: right;
+}
+
+.seed_row_poster {
+	float: left;
+	width: 640px;
+	text-align: right;
 }
