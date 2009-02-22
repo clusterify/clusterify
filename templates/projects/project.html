@@ -70,6 +70,8 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 
 <div class="sidebar_title">Project controls</div>
 
+<div class="sidebar_block">
+
 <div class="badge_group_container">
 	<div class="count_widget_container">
 		{% if voted_for_proposed %}
@@ -132,6 +134,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 </div>
 <br style="clear: both;">
 
+</div>
 
 {% ifequal user project.author %}
 	<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
