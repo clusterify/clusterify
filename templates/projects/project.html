@@ -70,95 +70,97 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 
 <div class="sidebar_title">Project controls</div>
 
-<div class="sidebar_block">
+<div class="sidebar_block" style="padding: 0;">
 
-<div class="badge_group_container">
-	<div class="count_widget_container">
-		{% if voted_for_proposed %}
-			<div class="idea_vote_widget_button" title="You already voted for this idea">
-				<img src="/files/images/dash.gif">
-			</div>
-		{% else %}
-			<a href="vote/proposed/" class="idea_vote_widget_button" title="Vote for this idea">
-				<img src="/files/images/up.gif">
-			</a>
-		{% endif %}
-		<div class="idea_votes_container">
-			great
-			<div class="votes_count">
-			{{ project.proposed_votes.count }}
-			</div>
-			idea
-		</div>
-	</div>
-	
-	<div class="count_widget_container">
-		<div class="invisible_vote_widget_button">
-			<img src="/files/images/empty_vote_button.gif">
-		</div>
-		<div class="joins_count_container">
-			&nbsp;
-			<div class="joins_count">
-			{{ project.get_joined_users_count }}
-			</div>
-			joined
-		</div>
-	</div>
-	{% if project.p_completed %}
-		<div class="count_widget_container" style="margin-right: 0;">
-			{% if voted_for_completed %}
-				<div class="job_vote_widget_button" title="You already voted for this implementation">
+	<div class="badge_group_container">
+		<div class="count_widget_container">
+			{% if voted_for_proposed %}
+				<div class="idea_vote_widget_button" title="You already voted for this idea">
 					<img src="/files/images/dash.gif">
 				</div>
 			{% else %}
-				<a href="vote/completed/" class="job_vote_widget_button" title="Vote for this implementation">
+				<a href="vote/proposed/" class="idea_vote_widget_button" title="Vote for this idea">
 					<img src="/files/images/up.gif">
 				</a>
 			{% endif %}
-			<div class="job_votes_container">
+			<div class="idea_votes_container">
 				great
-				<div class="votes_count">{{ project.completed_votes.count }}</div>
-				job
+				<div class="votes_count">
+				{{ project.proposed_votes.count }}
+				</div>
+				idea
 			</div>
 		</div>
-	{% else %}
-		<div class="count_widget_container" style="margin-right: 0;">
+		
+		<div class="count_widget_container">
 			<div class="invisible_vote_widget_button">
 				<img src="/files/images/empty_vote_button.gif">
 			</div>
-			<div class="disabled_badge_container" style="margin: 0;">
-				great<div class="votes_count">N/A</div>job
+			<div class="joins_count_container">
+				&nbsp;
+				<div class="joins_count">
+				{{ project.get_joined_users_count }}
+				</div>
+				joined
 			</div>
 		</div>
-	{% endif %}
-</div>
-<br style="clear: both;">
-
-</div>
-
-{% ifequal user project.author %}
-	<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
-	{% if project.p_completed %}
-		<div class="sidebar_info">This project is completed.</div>
+		{% if project.p_completed %}
+			<div class="count_widget_container" style="margin-right: 0;">
+				{% if voted_for_completed %}
+					<div class="job_vote_widget_button" title="You already voted for this implementation">
+						<img src="/files/images/dash.gif">
+					</div>
+				{% else %}
+					<a href="vote/completed/" class="job_vote_widget_button" title="Vote for this implementation">
+						<img src="/files/images/up.gif">
+					</a>
+				{% endif %}
+				<div class="job_votes_container">
+					great
+					<div class="votes_count">{{ project.completed_votes.count }}</div>
+					job
+				</div>
+			</div>
+		{% else %}
+			<div class="count_widget_container" style="margin-right: 0;">
+				<div class="invisible_vote_widget_button">
+					<img src="/files/images/empty_vote_button.gif">
+				</div>
+				<div class="disabled_badge_container" style="margin: 0;">
+					great<div class="votes_count">N/A</div>job
+				</div>
+			</div>
+		{% endif %}
+	</div>
+	<br style="clear: both;">
+	
+	
+	
+	{% ifequal user project.author %}
+		<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
+		{% if project.p_completed %}
+			<div class="sidebar_info">This project is completed.</div>
+		{% else %}
+			<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
+		{% endif %}
 	{% else %}
-		<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
-	{% endif %}
-{% else %}
-	{% if project.p_completed %}
-		<div class="sidebar_info">This project is completed.</div>
-	{% else %}
-		{% ifequal user_project_status "None" %}
-			<a href="join/" class="join_button">Join this project</a>
-			{% else %}
-			{% ifequal user_project_status "Interested" %}
-				<div class="sidebar_info">Awaiting author's approval to join</div>		
-			{% else %}
-				<div class="sidebar_info">You are part of this project</div>
+		{% if project.p_completed %}
+			<div class="sidebar_info">This project is completed.</div>
+		{% else %}
+			{% ifequal user_project_status "None" %}
+				<a href="join/" class="join_button">Join this project</a>
+				{% else %}
+				{% ifequal user_project_status "Interested" %}
+					<div class="sidebar_info">Awaiting author's approval to join</div>		
+				{% else %}
+					<div class="sidebar_info">You are part of this project</div>
+				{% endifequal %}
 			{% endifequal %}
-		{% endifequal %}
-	{% endif %}
-{% endifequal %}
+		{% endif %}
+	{% endifequal %}
 
+
+</div>
 
 <div class="sidebar_title">Users joined</div>
 <div class="sidebar_block">
