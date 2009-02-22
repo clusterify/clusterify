@@ -213,6 +213,45 @@ class Project(models.Model):
 		self.score_completed = self.get_score_given_count(self.completed_votes.count())
 		self.save()
 
+
+
+class Seed(models.Model):
+	title = models.CharField(max_length=200)
+	
+	anonymous = models.BooleanField(default=False)
+	author_string = models.CharField(max_length=120, blank=True)
+	author_user = models.ForeignKey(User, related_name='seeds_authored', null=True)
+	
+	pub_date = models.DateTimeField(auto_now_add=True)
+	
+	score = models.FloatField(default=0.0)
+	votes = models.ManyToManyField(User, related_name='seeds_votes', blank=True, null=True)
+	
+	###################################
+	# Votes
+	
+	def add_vote(self, user):
+		if self.user_voted(user):
+			raise Exception('User already voted.')
+		
+		self.votes.add(user)
+		self.update_score()
+	
+	def update_score(self):
+		self.score = self.get_score_given_count(self.votes.count())
+		self.save()
+	
+	def get_score_given_count(self, vote_count):
+		now = datetime.datetime.now()
+		delta = now - REFERENCE_DATE_FOR_SCORE
+		delta = delta.days * 3600 * 24 + delta.seconds
+		return math.log(vote_count) + delta / DAMP_FACTOR_FOR_TIMEDELTA
+	
+	def user_voted(self, user):
+		count = Seed.objects.filter(pk=self.pk, votes__id__exact=user.pk).count()
+		
+		return count > 0
+
 class Comment(models.Model):
 	text = models.CharField(max_length=5000, blank=False)
 	text_html = models.CharField(max_length=5000, blank=True) # only for admin reasons is blank=True

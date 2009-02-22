@@ -5,12 +5,13 @@ p, ol, ul, li {
 
 /***************** Generic *******************/
 
-body,html {
-	margin: 10px 0; padding: 0;
-	background-color: #dfdfdf;
+body {
+	margin: 0; padding: 0;
+	background-color: #ffffff;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: #000;
 	text-align:center;
+	background-image: url('/files/images/bg3.gif');
 }
 
 .clear { clear: both; }
@@ -33,10 +34,13 @@ textarea, input {
 #topbar {
 	text-align: left;
 	
-	width: 960px;
+	width: 950px;
 
-	margin: 0 auto;
-	padding: 0;
+	margin: 0 auto 10px auto;
+	padding: 0 10px 0 0;
+
+	height: 75px;
+	background-color: #90a4b5;
 }
 
 #logo {
@@ -65,19 +69,32 @@ textarea, input {
 
 #loginmenu_div {
 	text-align: right;
-	width: 600px;
-	margin: 0; padding: 0;
+	width: 550px;
+	margin: 0; padding: 8px 0 0 0;
 	float: right;
+
+	color: white;
 }
 
-#sitemenu_div {
-	margin: 0 0 10px 0;
+#loginmenu_div a {
+	color: #003399;
+}
 
-	width: 600px;
+#loginmenu_div a:hover {
+	color: #0066cc;
+}
+
+
+
+#sitemenu_div {
+	margin: 0 0 0 0;
+
+	width: 550px;
 
 	float: right;
 	
 	padding: 0;
+
 }
 
 ul#sitemenu_ul {
@@ -88,7 +105,7 @@ ul#sitemenu_ul {
 ul#sitemenu_ul li {
 	list-style-type: none;
 
-	margin: 0.5em 0 0 0.5em;
+	margin: 5px 0 0 8px;
 	
 	border: 0;
 	
@@ -102,7 +119,7 @@ ul#sitemenu_ul li {
 	border-left: 1px solid #0088dd;
 
 	background-color: #003399;
-	padding: 0.5em 1em 0.5em 1em;
+	padding: 6px 13px 6px 13px;
 	
 	float: left;
 	
@@ -146,6 +163,8 @@ ul#sitemenu_ul li {
 	text-align: left;
 	padding: 10px;
 	width: 180px;
+
+	background-color: #eee;
 }
 
 .sidebar_title {
@@ -225,9 +244,11 @@ ul.sidebar_horiz_ul li {
 
 	clear: both;
 	
-	padding: 15px;
+	padding: 13px;
 
 	margin-bottom: 10px;
+
+	border: 1px solid black;
 }
 
 .titleInPage {
