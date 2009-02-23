@@ -475,13 +475,4 @@ def vote_for_project(request, project_author, project_pk, vote_type):
 	
 	return HttpResponseRedirect(project.get_absolute_url())
 
-@login_required
-def add_all_as_joined(request):
-	projects = Project.objects.all()
-	
-	for p in projects:
-		p.proposed_by = p.author
-		p.save()
-
-	return HttpResponse("OK")
 	
