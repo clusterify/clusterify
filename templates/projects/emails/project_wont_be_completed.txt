@@ -1,0 +1,3 @@
+The Clusterify project "{{ project.title }}" has been set to "won't be completed" by its admin. Here's the project URL, for reference:
+
+http://www.clusterify.com{{ project.get_absolute_url }}
