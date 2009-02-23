@@ -2,7 +2,10 @@
 {% load util_filters %}
 
 {% block title %}Project details - {{ project.title }}{% endblock %}
-{% block titleInPage %}Project details {% if project.looking_for_admin %}(admin needed){% endif %}{% endblock %}
+{% block titleInPage %}Project details
+	{% if project.looking_for_admin %}<span style="color: #449944;">(admin needed)</span>{% endif %}
+	{% if project.wont_be_completed %}<span style="color: #994444;">(won't be completed)</span>{% endif %}
+{% endblock %}
 
 {% block moreStyle %}
 
@@ -21,7 +24,7 @@
 		{% else %}
 			Proposed by {{ project.proposed_by.username }} {{ project.pub_date|ago }}<br/>
 		{% endifequal %}
-		<strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong>
+		<span style="color: #449944;"><strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong></span>
 	{% else %}
 		Administered by {{ project.proposed_by.username }} who proposed it {{ project.pub_date|ago }}<br/>
 	{% endif %}
@@ -37,9 +40,10 @@
 	{% endifequal %}
 
 	{% if project.looking_for_admin %}
-		<strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong>
+		<span style="color: #449944;"><strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong></span>
 	{% endif %}
 {% endifequal %}
+{% if project.wont_be_completed %}<br/><span style="color: #994444;"><strong>This project is set as "won't be completed"</strong></span>{% endif %}
 </div>
 
 {% if project.p_completed %}
@@ -161,39 +165,45 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 	<br style="clear: both;">
 	
 	
-	
-{% ifequal user project.author %}
-	<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
-	{% if project.p_completed %}
-		<div class="sidebar_info">This project is completed.</div>
-	{% else %}
-		<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
-	{% endif %}
-{% endifequal %}
+
+{% if not project.wont_be_completed %}
+	{% ifequal user project.author %}
+		<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
+		{% if project.p_completed %}
+			<div class="sidebar_info">This project is completed.</div>
+		{% else %}
+			<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
+			<a href="{{ project.get_absolute_url }}set_wont_complete/" class="sidebar_button_a">Set as "won't be completed"</a>
+		{% endif %}
+	{% endifequal %}
+{% endif %}
 
 <div class="sidebar_title">Your membership</div>
 
-{% if not project.p_completed %}
-	{% if project.looking_for_admin %}
-		<div class="sidebar_info">This project needs an admin</div>
-		<a href="become_admin/" class="join_button">Become admin on this project</a>
-	{% else %}
-		{% ifequal user_project_status "None" %}
-			<a href="join/" class="join_button">Join this project</a>
+{% if project.wont_be_completed %}
+	<div class="sidebar_info">This project is closed: it won't be completed</div>
+{% else %}
+	{% if not project.p_completed %}
+		{% if project.looking_for_admin %}
+			<div class="sidebar_info">This project needs an admin</div>
+			<a href="become_admin/" class="join_button">Become admin on this project</a>
 		{% else %}
-			{% ifequal user_project_status "Interested" %}
-				<div class="sidebar_info">Awaiting author's approval to join</div>		
+			{% ifequal user_project_status "None" %}
+				<a href="join/" class="join_button">Join this project</a>
 			{% else %}
-				{% ifequal project.author user %}
-					<div class="sidebar_info">You are admin for this project</div>
+				{% ifequal user_project_status "Interested" %}
+					<div class="sidebar_info">Awaiting author's approval to join</div>		
 				{% else %}
-					<div class="sidebar_info">You are part of this project</div>
+					{% ifequal project.author user %}
+						<div class="sidebar_info">You are admin for this project</div>
+					{% else %}
+						<div class="sidebar_info">You are part of this project</div>
+					{% endifequal %}
 				{% endifequal %}
 			{% endifequal %}
-		{% endifequal %}
+		{% endif %}
 	{% endif %}
 {% endif %}
-
 
 <div class="sidebar_title">Users joined</div>
 <div class="sidebar_block">

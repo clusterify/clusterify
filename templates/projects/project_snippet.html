@@ -42,6 +42,7 @@
 			
 			<a href="{{ project.get_absolute_url }}">{{ project.title }}</a> {% if not project.p_completed %} (est. {{ project.hour_estimate }} hr){% endif %}
 			{% if project.looking_for_admin %}<br/><span style="color: #449944;">Just an idea (project needs admin)</span>{% endif %}
+			{% if project.wont_be_completed %}<br/><span style="color: #994444;">This project is closed: it is set as "won't be completed"</span>{% endif %}
 		</div>
 		<div class="project_row_desc">
 			{% autoescape off %}{{ project.description_html|striptags|truncatewords:30 }}{% endautoescape %}

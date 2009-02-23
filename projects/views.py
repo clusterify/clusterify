@@ -58,10 +58,10 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 	if not is_completed is None:
 		if is_completed:
 			page_title = "Completed project list"
-			projects = projects.filter(p_completed=True)
+			projects = projects.filter(p_completed=True, wont_be_completed=False)
 		else:
 			page_title = "Proposed project list"
-			projects = projects.filter(p_completed=False)
+			projects = projects.filter(p_completed=False, wont_be_completed=False)
 	
 	# Filter by search terms
 	if terms != "":
@@ -303,6 +303,11 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 	project = None
 	if not is_add:
 		project = get_object_or_404(Project, pk=project_pk)
+		
+		if project.wont_be_completed:
+			return render_to_response('oops.html',
+				{'error_message': "This project is set as 'won't be completed': you can't edit it"},
+				context_instance=RequestContext(request))
 
 		# only a project's author can edit it
 		if(not user == project.author):
@@ -375,6 +380,11 @@ def set_project_admin_confirm(request, project_author, project_pk):
 		return render_to_response('oops.html', {},
 		       context_instance=RequestContext(request))
 			   
+	if project.wont_be_completed:
+		return render_to_response('oops.html',
+				{'error_message': "The project is set as 'won't be completed': you can't do that."},
+		       context_instance=RequestContext(request))
+			   
 	return generic_confirmation_view(request,
 			"Are you sure you want to become admin for this project?",
 			project.get_absolute_url() + "become_admin/ok/",
@@ -387,6 +397,11 @@ def set_project_admin_doit(request, project_author, project_pk):
 	
 	if not project.looking_for_admin:
 		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
+			   
+	if project.wont_be_completed:
+		return render_to_response('oops.html',
+				{'error_message': "The project is set as 'won't be completed': you can't do that."},
 		       context_instance=RequestContext(request))
 	
 	project.author = user
@@ -406,8 +421,13 @@ def set_completed_confirm(request, project_author, project_pk):
 	project = get_object_or_404(Project, pk=project_pk)
 	
 	# only a project's author can edit it
-	if(not user == project.author):
+	if not user == project.author:
 		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
+			   
+	if project.wont_be_completed:
+		return render_to_response('oops.html',
+				{'error_message': "The project is set as 'won't be completed': you can't do that."},
 		       context_instance=RequestContext(request))
 	
 	return generic_confirmation_view(request,
@@ -424,9 +444,55 @@ def set_completed_doit(request, project_author, project_pk):
 	if(not user == project.author):
 		return render_to_response('oops.html', {},
 		       context_instance=RequestContext(request))
+			   
+	if project.wont_be_completed:
+		return render_to_response('oops.html',
+				{'error_message': "The project is set as 'won't be completed': you can't do that."},
+		       context_instance=RequestContext(request))
 
 	project.p_completed = True
+	project.looking_for_admin = False
 	project.save()
+	
+	return HttpResponseRedirect(project.get_absolute_url())
+
+@login_required
+def set_wont_be_completed_confirm(request, project_author, project_pk):
+	user = request.user
+	project = get_object_or_404(Project, pk=project_pk)
+	
+	# only a project's author can edit it
+	if not user == project.author:
+		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
+	
+	return generic_confirmation_view(request,
+			"Are you sure you want to set this project as 'won't be completed'. This will remove the project from the 'proposed' lists without putting it on the 'completed' list.",
+			"ok/",
+			project.get_absolute_url())
+
+@login_required
+def set_wont_be_completed_doit(request, project_author, project_pk):
+	user = request.user
+	project = get_object_or_404(Project, pk=project_pk)
+
+	# only a project's author can edit it
+	if not user == project.author and not project.p_completed:
+		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
+			   
+	if project.wont_be_completed:
+		return render_to_response('oops.html',
+				{'error_message': "The project is already set as 'won't be completed': you can't do that."},
+		       context_instance=RequestContext(request))
+
+	project.wont_be_completed = True
+	project.looking_for_admin = False # no point anymore
+	project.save()
+	
+	project_notification(project, user, "Clusterify -- project has been set as 'won't be completed'",
+				render_to_string('projects/emails/project_wont_be_completed.txt',
+								{ 'project': project}))
 	
 	return HttpResponseRedirect(project.get_absolute_url())
 
@@ -434,6 +500,12 @@ def set_completed_doit(request, project_author, project_pk):
 def join_project(request, project_author, project_pk):
 	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)
+	
+	if project.wont_be_completed:
+		return render_to_response('oops.html',
+				{'error_message':"This project won't be completed: you can't join it."},
+				context_instance=RequestContext(request))
+	
 	project.add_interested_user(user)
 	
 	project_notification(project, user, "Clusterify -- user wants to join project",

@@ -41,6 +41,8 @@ class Project(models.Model):
 			the user can act as an admin but anyone can take his place anytime
 	
 	- author = None, looking_for_admin = False: IMPOSSIBLE, MUST NOT HAPPEN
+	
+	Don't worry about wont_be_completed: if it's set, then looking_for_admin = False.
 	'''
 	author = models.ForeignKey(User, related_name='projects_authored', blank=True, null=True)
 	proposed_by = models.ForeignKey(User, related_name='projects_proposed')
@@ -57,10 +59,11 @@ class Project(models.Model):
 	# set manually
 	pub_date = models.DateTimeField(auto_now_add=False, auto_now=False)
 	p_completed = models.BooleanField(default=False)
-
+	wont_be_completed = models.BooleanField(default=False)
+	
 	proposed_votes = models.ManyToManyField(User, related_name='projects_proposed_votes', blank=True, null=True)
 	completed_votes = models.ManyToManyField(User, related_name='projects_completed_votes', blank=True, null=True)
-
+	
 	# Using ManyToMany fields to record votes so we know who voted for what, if only to check if a user already voted
 	#proposed_votes = models.PositiveIntegerField(default=1)
 	#completed_votes = models.PositiveIntegerField(default=1)
