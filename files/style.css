@@ -651,24 +651,3 @@ a.tag_link:hover {
 	color: #ddd;
 	background-color: #cc8888;
 }
-
-/********************* Seeds *********************/
-
-.seed_row_text{
-	width: 640px;
-	float: left;
-}
-
-.seed_row_menu {
-	margin-top: 10px;
-	width: 640px;
-	font-weight: bold;
-	float: left;
-	text-align: right;
-}
-
-.seed_row_poster {
-	float: left;
-	width: 640px;
-	text-align: right;
-}
