@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment, set_project_admin_confirm, set_project_admin_doit
+from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment, set_project_admin_confirm, set_project_admin_doit, add_all_as_joined
 
 from tests.data import populate_projects
 
@@ -61,6 +61,8 @@ urlpatterns = patterns('',
 			list_comments),
 		url(r'^add/$',
 			add_project),
+	   
+		url(r'^addallasjoined/$', add_all_as_joined)
 	   
 		# DEBUG
 		#url(r'^populate/$', 
