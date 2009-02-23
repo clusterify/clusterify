@@ -31,7 +31,20 @@ DAMP_FACTOR_FOR_TIMEDELTA = 3600*24*3
 class Project(models.Model):
 	title = models.CharField(max_length=200)
 	
-	author = models.ForeignKey(User, related_name='projects_authored')
+	'''
+	- proposed_by is always set to the original poster id, and never changes
+	- author is the project admin. This can change or be null.
+	
+	- author = None, looking_for_admin = True: can happen if the proposer was anonymous.
+	- author = x, looking_for_admin = False
+	- author = x, looking_for_admin = True : temporary admin, 
+			the user can act as an admin but anyone can take his place anytime
+	
+	- author = None, looking_for_admin = False: IMPOSSIBLE, MUST NOT HAPPEN
+	'''
+	author = models.ForeignKey(User, related_name='projects_authored', blank=True, null=True)
+	proposed_by = models.ForeignKey(User, related_name='projects_proposed')
+	looking_for_admin = models.BooleanField(default=False)
 	
 	description_html = models.TextField(blank=True)
 	description_markdown = models.TextField(blank=True)
@@ -151,7 +164,7 @@ class Project(models.Model):
 			self.joined_users.add(user)
 
 	def get_joined_users_count(self):
-		return self.joined_users.count() + 1
+		return self.joined_users.count()
 
 	# Given a user, returns the user's position in the project 
 	# (Author, Member, Interested, None)
@@ -176,7 +189,7 @@ class Project(models.Model):
 		self.update_proposed_score()
 		
 		self.author.get_profile().add_to_proposed_projects_karma(1)
-
+	
 	def add_completed_vote(self, user):
 		if self.user_voted_completed(user):
 			raise Exception('User already voted.')

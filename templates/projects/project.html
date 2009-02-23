@@ -1,7 +1,8 @@
 {% extends "base.html"  %}
+{% load util_filters %}
 
 {% block title %}Project details - {{ project.title }}{% endblock %}
-{% block titleInPage %}Project details{% endblock %}
+{% block titleInPage %}Project details {% if project.looking_for_admin %}(admin needed){% endif %}{% endblock %}
 
 {% block moreStyle %}
 
@@ -12,7 +13,34 @@
 {% block content %}
 
 <div class="content_subtitle">{{ project.title }} (est. {{ project.hour_estimate }} hr)</div>
-<div class="content_subsubtitle">Suggested by <a href="/accounts/profile/view/{{ project.author.username }}">{{ project.author.username }}</a> on {{ project.pub_date|date:"M d, Y" }} at {{ project.pub_date|date:"G:i" }}</div>
+<div class="content_subsubtitle">
+{% ifequal project.author project.proposed_by %}
+	{% if project.looking_for_admin %}
+		{% ifequal project.proposed_by "None" %}
+			Proposed anonymously {{ project.pub_date|ago }}<br/>
+		{% else %}
+			Proposed by {{ project.proposed_by.username }} {{ project.pub_date|ago }}<br/>
+		{% endifequal %}
+		<strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong>
+	{% else %}
+		Administered by {{ project.proposed_by.username }} who proposed it {{ project.pub_date|ago }}<br/>
+	{% endif %}
+{% else %}
+	{% if not project.looking_for_admin %}
+		Administered by {{ project.author.username }}<br/>
+	{% endif %}
+
+	{% ifequal project.proposed_by "None" %}
+		Originally proposed anonymously {{ project.pub_date|ago }}<br/>
+	{% else %}
+		Originally proposed by {{ project.proposed_by.username }} {{ project.pub_date|ago }}<br/>
+	{% endifequal %}
+
+	{% if project.looking_for_admin %}
+		<strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong>
+	{% endif %}
+{% endifequal %}
+</div>
 
 {% if project.p_completed %}
 <div class="content_subtitle">Project showcase</div>
@@ -134,53 +162,70 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 	
 	
 	
-	{% ifequal user project.author %}
-		<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
-		{% if project.p_completed %}
-			<div class="sidebar_info">This project is completed.</div>
-		{% else %}
-			<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
-		{% endif %}
+{% ifequal user project.author %}
+	<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
+	{% if project.p_completed %}
+		<div class="sidebar_info">This project is completed.</div>
 	{% else %}
-		{% if project.p_completed %}
-			<div class="sidebar_info">This project is completed.</div>
+		<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
+	{% endif %}
+{% endifequal %}
+
+<div class="sidebar_title">Your membership</div>
+
+{% if not project.p_completed %}
+	{% if project.looking_for_admin %}
+		<div class="sidebar_info">This project needs an admin</div>
+		<a href="become_admin/" class="join_button">Become admin on this project</a>
+	{% else %}
+		{% ifequal user_project_status "None" %}
+			<a href="join/" class="join_button">Join this project</a>
 		{% else %}
-			{% ifequal user_project_status "None" %}
-				<a href="join/" class="join_button">Join this project</a>
-				{% else %}
-				{% ifequal user_project_status "Interested" %}
-					<div class="sidebar_info">Awaiting author's approval to join</div>		
+			{% ifequal user_project_status "Interested" %}
+				<div class="sidebar_info">Awaiting author's approval to join</div>		
+			{% else %}
+				{% ifequal project.author user %}
+					<div class="sidebar_info">You are admin for this project</div>
 				{% else %}
 					<div class="sidebar_info">You are part of this project</div>
 				{% endifequal %}
 			{% endifequal %}
-		{% endif %}
-	{% endifequal %}
+		{% endifequal %}
+	{% endif %}
+{% endif %}
 
 
 <div class="sidebar_title">Users joined</div>
 <div class="sidebar_block">
 	<ul class="sidebar_ul">
-		<li><a href="/accounts/profile/view/{{ project.author.username }}">{{ project.author.username }} (author)</a></li>
 		{% for user in project.joined_users.all %}
-			<li><a href="/accounts/profile/view/{{ user }}">{{ user }}</a></li>
+			
+				<li><a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
+
+					{% ifequal user project.author %}
+						{% if not project.looking_for_admin %}
+							 (admin)
+						{% endif %}
+					{% endifequal %}
+
+				</li>
 		{% endfor %}
 	</ul>
 </div>
 
 {% ifequal user project.author %}
-{% if project.interested_users.all %}
-<div class="sidebar_title">Users interested</div>
-<div class="sidebar_block">
-	<ul class="sidebar_ul">
-		{% for user in project.interested_users.all %}
-			<li><a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
-			  <a href="{{user}}/approve/"> (Approve)</a>
-			</li>
-		{% endfor %}
-	</ul>
-</div>
-{% endif %}
+	{% if project.interested_users.all %}
+	<div class="sidebar_title">Users interested</div>
+	<div class="sidebar_block">
+		<ul class="sidebar_ul">
+			{% for user in project.interested_users.all %}
+				<li><a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
+				<a href="{{user}}/approve/"> (Approve)</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
 {% endifequal %}
 
 <div class="sidebar_title">Project tags</div>

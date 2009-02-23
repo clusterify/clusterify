@@ -9,6 +9,7 @@ class ProjectForm(forms.Form):
 				min_value=1,
 				required=False,
 				widget=forms.widgets.TextInput(attrs={'style':'width: 50px;'}))
+	not_involved = forms.BooleanField(required=False)
 	description = forms.CharField(
 				required=False,
 				widget=forms.widgets.Textarea(

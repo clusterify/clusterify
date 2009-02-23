@@ -47,6 +47,17 @@
 		</td>
 		<td class="form_field_cell" align="right">{{ form.tags }}</td>
 	</tr>
+	{% if not project.p_completed %}
+		<tr class="form_color_2">
+			<td class="form_field_cell">I'm not participating: I'm just proposing the idea
+				<div class="form_help_text">Check this if you're just proposing the idea and want someone else to administer the project (edit, accept members, etc.). You'll be admin temporarily, until someone else asks for it.</div>
+				{% if form.not_involved.errors %}
+				<div class="error">{{ form.not_involved.errors }}</div>
+				{% endif %}
+			</td>
+			<td class="form_field_cell" align="right">I'm not participating {{ form.not_involved }}</td>
+		</tr>
+	{% endif %}
 </table>
 
 <script><!--

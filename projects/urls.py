@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment, list_seeds, post_seed, vote_for_seed, seed_to_project
+from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment, list_seeds, post_seed, vote_for_seed, seed_to_project, set_project_admin_confirm, set_project_admin_doit
 
 from tests.data import populate_projects
 
@@ -21,6 +21,10 @@ urlpatterns = patterns('',
 			set_completed_doit),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/vote/(?P<vote_type>(completed|proposed))/$',
 			vote_for_project),
+		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/become_admin/$',
+			set_project_admin_confirm),
+		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/become_admin/ok/$',
+			set_project_admin_doit),
 	   
 		# Seeds
 		url(r'^seeds/list/(?P<list_type>(new|top))/$',

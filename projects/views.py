@@ -289,6 +289,8 @@ def list_comments(request):
 			'paginated_comments': paginated_comments},
 			context_instance=RequestContext(request))
 
+
+
 ##############################################################################
 # Seed related
 
@@ -387,7 +389,7 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 
 	if request.method == 'POST':
 		if is_add:
-			project = Project(author=user)
+			project = Project(proposed_by=user, author=user)
 		elif project.author != user:
 			return render_to_response('oops.html', {},
 				context_instance=RequestContext(request))
@@ -401,9 +403,23 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 			if project.p_completed:
 				project.showcase_markdown = form.cleaned_data['showcase']
 			
+			if not project.p_completed:
+				not_involved = form.cleaned_data['not_involved']
+				if not_involved:
+					project.looking_for_admin = True
+					if not is_add:
+						user.message_set.create(message="The project is now set as 'looking for admin'. You have admin rights until someone else clicks 'Become admin for this project'.")
+						project.joined_users.remove(user)
+				else:
+					project.looking_for_admin = False
+			
 			tags = form.cleaned_data['tags']
 			
 			project.save()
+			
+			# Need to save() before calling this, so we couldn't do it up there
+			if is_add and not not_involved:
+				project.joined_users.add(user)
 			
 			project.set_tags(tags)
 			
@@ -427,6 +443,39 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 
 ##############################################################################
 # Settings various simpler one-at-a-time properties of projects
+
+@login_required
+def set_project_admin_confirm(request, project_author, project_pk):
+	project = get_object_or_404(Project, pk=project_pk)
+	
+	if not project.looking_for_admin:
+		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
+			   
+	return generic_confirmation_view(request,
+			"Are you sure you want to become admin for this project?",
+			project.get_absolute_url() + "become_admin/ok/",
+			project.get_absolute_url())
+
+@login_required
+def set_project_admin_doit(request, project_author, project_pk):
+	user = request.user
+	project = get_object_or_404(Project, pk=project_pk)
+	
+	if not project.looking_for_admin:
+		return render_to_response('oops.html', {},
+		       context_instance=RequestContext(request))
+	
+	project.author = user
+	project.join_user(user)
+	project.looking_for_admin = False
+	project.save()
+	
+	# TODO: post notification of admin change
+	
+	user.message_set.create(message="You are now admin for this project.")
+	
+	return HttpResponseRedirect(project.get_absolute_url())
 
 @login_required
 def set_completed_confirm(request, project_author, project_pk):
