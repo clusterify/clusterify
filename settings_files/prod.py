@@ -23,7 +23,7 @@ MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'mysql'           # 'mediapostgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'fsavard_clfy'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'root'             # Not used with sqlite3.
+DATABASE_USER = 'fsavard_clfy'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'f8f5161c'         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
