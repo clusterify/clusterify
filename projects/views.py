@@ -25,6 +25,7 @@ PROJECTS_PER_PAGE = 10
 ITEMS_IN_FEED = 20
 SEEDS_PER_PAGE = 20
 
+
 ##############################################################################
 # Project listing & search
 

@@ -1,0 +1,30 @@
+This is just a **template**, fill with your project infos and feel free to change the structure.
+
+## Description ##
+
+The project is about...
+
+## Technologies ##
+
+I propose to do this with COBOL and Rails.
+
+## Tasks ##
+
+I think we can breakdown the project this way:
+
+* Part 1...
+* Part 2...
+
+## Tools ##
+
+These are just **suggestions**. Head over to the "Collaboration tools and tips" section for more ideas.
+
+* If you want to do the project **live** (vs each working at different times), say over chat:
+    * Here's a Doodle poll so we can fix a **time to meet** online this weekend:
+        * <http://www.doodle.com/> ...
+* For simple scripts:
+    * Here's an EtherPad with the general structure for the script:
+        * <http://www.etherpad.com/> ...
+* For slightly larger projects:
+    * Here's a Google **Code repository** for versioning. We can also use the **Wiki** to share ideas. Tell me which email to use to add you as a member.
+        * <http://code.google.com/hosting/> ...
