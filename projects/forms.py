@@ -34,7 +34,7 @@ class ProjectForm(forms.Form):
 
 class JoinForm(forms.Form):
 	role = forms.CharField(
-				initial="Not sure yet. I'll try to find something.",
+				initial='I could work on the XYZ part.',
 				required=False,
 				widget=forms.widgets.Textarea(
 					attrs={'style':'width: 90%;', 'rows':'4'}),

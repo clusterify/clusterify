@@ -201,7 +201,7 @@ def single_project(request, project_author, project_pk, comment_form=CommentForm
 	
 	join_status = project.join_status(user)
 	
-	if join_status != None:
+	if join_status != "None":
 		role = project.member_role(user)
 		join_form = JoinForm(initial={'role':role})
 	else:
