@@ -1,5 +1,7 @@
 User {{ joining_user.username }} wants to join Clusterify project "{{ project.title }}".
 
+Here's the Role s/he proposed to perform: {{ role }}
+
 As the project admin, you can approve this by going on the project's page and clicking "approve" besides the user's name in the right sidebar:
 
 http://www.clusterify.com{{ project.get_absolute_url }}

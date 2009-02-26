@@ -18,8 +18,8 @@ from clusterify.utils import get_paginator_page, generic_confirmation_view, get_
 
 from registration.models import Profile
 
-from forms import ProjectForm, CommentForm, SeedForm
-from models import Project, Comment
+from forms import ProjectForm, CommentForm, JoinForm
+from models import Project, Comment, Membership
 
 PROJECTS_PER_PAGE = 10
 ITEMS_IN_FEED = 20
@@ -176,7 +176,6 @@ def project_notification(project, notification_source_user, subject, content, ju
 		project_members = [project.author]
 	else:
 		project_members = [u for u in project.get_joined_users()]
-		project_members += [project.author]
 	
 	for m in project_members:
 		if m != notification_source_user:
@@ -193,17 +192,26 @@ def single_project(request, project_author, project_pk, comment_form=CommentForm
 	
 	# Data we can't get through template accessor mechanisms
 	similar_projects = TaggedItem.objects.get_related(project, Project, 3)
-
+	
 	voted_for_proposed = False
 	voted_for_completed = False
 	if user.is_authenticated():
 		voted_for_proposed = project.user_voted_proposed(user)
 		voted_for_completed = project.user_voted_completed(user)
 	
+	join_status = project.join_status(user)
+	
+	if join_status != None:
+		role = project.member_role(user)
+		join_form = JoinForm(initial={'role':role})
+	else:
+		join_form = JoinForm()
+
 	return render_to_response('projects/project.html', 
 					{'project':project,
 					'similar_projects':similar_projects,
-					'user_project_status':project.join_status(user),
+					'user_project_status':join_status,
+					'join_form':join_form,
 					'form':comment_form,
 					'voted_for_proposed':voted_for_proposed,
 					'voted_for_completed':voted_for_completed},
@@ -507,13 +515,41 @@ def join_project(request, project_author, project_pk):
 				{'error_message':"This project won't be completed: you can't join it."},
 				context_instance=RequestContext(request))
 	
-	project.add_interested_user(user)
-	
-	project_notification(project, user, "Clusterify -- user wants to join project",
-				render_to_string('projects/emails/author_approve_join.txt',
-								{ 'project': project,
-								'joining_user': user}), True)
+	if request.method == 'POST':
+		form = JoinForm(request.POST)
+		
+		if form.is_valid():
+			role = form.cleaned_data['role']
+			
+			project.add_interested_user(user, role)
+		
+			project_notification(project, user, "Clusterify -- user wants to join project",
+					render_to_string('projects/emails/author_approve_join.txt',
+									{ 'project': project,
+									'role': role,
+									'joining_user': user}), True)
+		else:
+			user.message_set.create(message="Something was wrong with your form. Please note that your role description may not be longer than 120 characters. Here's the text you entered: %s" % role)
 
+	return HttpResponseRedirect(project.get_absolute_url())
+
+@login_required
+def update_role(request, project_author, project_pk):
+	user = request.user
+	project = get_object_or_404(Project, pk=project_pk)
+	membership = get_object_or_404(Membership, project=project, user=user)
+	
+	if request.method == 'POST':
+		form = JoinForm(request.POST)
+		
+		if form.is_valid():
+			role = form.cleaned_data['role']
+			
+			membership.role = role
+			membership.save()
+		else:
+			user.message_set.create(message="Something was wrong with your form. Please note that your role description may not be longer than 120 characters. Here's the text you entered: %s" % role)
+	
 	return HttpResponseRedirect(project.get_absolute_url())
 
 @login_required
@@ -525,9 +561,12 @@ def approve_join(request, project_author, project_pk, joining_username):
 	if(user == project.author):
 		project.join_user(joining_user)
 		
+		role = project.member_role(joining_user)
+		
 		project_notification(project, None, "Clusterify -- new user joined project",
 			render_to_string('projects/emails/join_approved.txt',
 							{ 'project': project,
+							'role': role,
 							'joining_user': joining_user}))
 	
 	return HttpResponseRedirect(project.get_absolute_url())

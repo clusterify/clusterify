@@ -176,6 +176,12 @@ class Project(models.Model):
 			return "Interested"
 		else:
 			return "None"
+	
+	def member_role(self, user):
+		m = Membership.objects.filter(project=self, user=user)
+		
+		if m.count() > 0:
+			return m[0].role
 
 	##########################################################################
 	# Voting and score
@@ -256,5 +262,3 @@ class Membership(models.Model):
 	project = models.ForeignKey(Project)
 	role = models.CharField(max_length=120, blank=True)
 	approved = models.BooleanField(default=False)
-
-

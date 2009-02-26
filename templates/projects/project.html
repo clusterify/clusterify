@@ -1,5 +1,7 @@
 {% extends "base.html"  %}
+{% load projects_tags %}
 {% load util_filters %}
+
 
 {% block title %}Project details - {{ project.title }}{% endblock %}
 {% block titleInPage %}Project details
@@ -189,15 +191,34 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 			<a href="become_admin/" class="join_button">Become admin on this project</a>
 		{% else %}
 			{% ifequal user_project_status "None" %}
-				<a href="join/" class="join_button">Join this project</a>
+				<form method="POST" action="join/">
+					Your role (what will you do/are you doing in the project):<br/>
+					{{ join_form.role }}<br/>
+					<input type="submit" class="join_button" value="Join this project" style="width: 90%;">
+				</form>
 			{% else %}
 				{% ifequal user_project_status "Interested" %}
-					<div class="sidebar_info">Awaiting author's approval to join</div>		
+					<div class="sidebar_info">Awaiting author's approval to join</div>
+					<form method="POST" action="update_role/">
+						Update your role:
+						{{ join_form.role }}<br/>
+						<input type="submit" class="sidebar_button_a" value="Update role" style="width: 90%;">
+					</form>
 				{% else %}
 					{% ifequal project.author user %}
 						<div class="sidebar_info">You are admin for this project</div>
+						<form method="POST" action="update_role/">
+							Update your role:
+							{{ join_form.role }}<br/>
+							<input type="submit" class="sidebar_button_a" value="Update role" style="width: 90%;">
+						</form>
 					{% else %}
 						<div class="sidebar_info">You are part of this project</div>
+						<form method="POST" action="update_role/">
+							Update your role:
+							{{ join_form.role }}<br/>
+							<input type="submit" class="sidebar_button_a" value="Update role" style="width: 90%;">
+						</form>
 					{% endifequal %}
 				{% endifequal %}
 			{% endifequal %}
@@ -205,7 +226,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 	{% endif %}
 {% endif %}
 
-<div class="sidebar_title">Users joined</div>
+<div class="sidebar_title">Members and roles</div>
 <div class="sidebar_block">
 	<ul class="sidebar_ul">
 		{% for user in project.get_joined_users %}
@@ -217,6 +238,14 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 							 (admin)
 						{% endif %}
 					{% endifequal %}
+
+					{% role_for_project user for project as cur_user_role %}
+
+					{% if cur_user_role %}
+					<br/>&nbsp;&nbsp;{{ cur_user_role }}
+					{% else %}
+					<br/>&nbsp;&nbsp;(no role specified)
+					{% endif %}
 
 				</li>
 		{% endfor %}

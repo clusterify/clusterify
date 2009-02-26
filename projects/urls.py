@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment, set_project_admin_confirm, set_project_admin_doit, set_wont_be_completed_confirm, set_wont_be_completed_doit
+from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment, set_project_admin_confirm, set_project_admin_doit, set_wont_be_completed_confirm, set_wont_be_completed_doit, update_role
 
 from tests.data import populate_projects
 
@@ -11,6 +11,8 @@ urlpatterns = patterns('',
 			single_project),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/join/$',
 			join_project),
+		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/update_role/$',
+			update_role),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/(?P<joining_username>\w+)/approve/$',
 			approve_join),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/edit/$',

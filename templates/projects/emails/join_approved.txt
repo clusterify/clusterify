@@ -1,5 +1,7 @@
 A new person, {{ joining_user.username }}, joined Clusterify project "{{ project.title }}".
 
+Here's the Role s/he proposed to perform: {{ role }}
+
 Here's the project URL:
 
 http://www.clusterify.com{{ project.get_absolute_url }}
