@@ -68,8 +68,9 @@ class Project(models.Model):
 	#proposed_votes = models.PositiveIntegerField(default=1)
 	#completed_votes = models.PositiveIntegerField(default=1)
 	
-	interested_users = models.ManyToManyField(User, related_name='projects_interested', blank=True, null=True)
-	joined_users = models.ManyToManyField(User, related_name='projects_joined', blank=True, null=True)
+	#interested_users = models.ManyToManyField(User, related_name='projects_interested', blank=True, null=True)
+	#joined_users = models.ManyToManyField(User, related_name='projects_joined', blank=True, null=True)
+	members = models.ManyToManyField(User, through='Membership')
 	
 	score_proposed = models.FloatField(default=0.0)
 	score_completed = models.FloatField(default=0.0)
@@ -116,27 +117,7 @@ class Project(models.Model):
 	
 	# The set_tags functions must be called AFTER the object has been saved,
 	# as otherwise the pk is not set yet
-	
-	# To be called BEFORE setting required tags, for them to take precedence
-	
-	#def set_description_tags(self, tags_string):
-	#	Tag.objects.add_tags_with_weight(self, tags_string, 0)
-	
-	#def set_required_tags(self, tags_string):
-	#	Tag.objects.add_tags_with_weight(self, tags_string, 1)
-	
-	#def get_required_tags(self):
-	#	return Tag.objects.get_tags_with_weight(self, 1)
-	
-	#def get_description_tags(self):
-	#	return Tag.objects.get_tags_with_weight(self, 0)
-	
-	#def get_editable_desc_tags(self):
-	#	return taglist_to_string(self.get_description_tags())
-	
-	#def get_editable_reqd_tags(self):
-	#	return taglist_to_string(self.get_required_tags())
-	
+
 	def get_editable_tags(self):
 		return taglist_to_string(self.get_tags())
 	
@@ -150,33 +131,48 @@ class Project(models.Model):
 	##########################################################################
 	# Joining
 
+	def get_joined_users(self):
+		return [m.user for m in Membership.objects.filter(project=self, approved=True)]
+
+	def get_interested_users(self):
+		return [m.user for m in Membership.objects.filter(project=self, approved=False)]
+
 	# The add_user functions must be called AFTER the object has been saved
-	def add_interested_user(self, user):
+	def add_interested_user(self, user, role=''):
 		if not self.p_completed:
-			self.interested_users.add(user)
+			#self.interested_users.add(user)
+			if Membership.objects.filter(project=self, user=user).count() == 0:
+				Membership(project=self, user=user, role=role, approved=False).save()
 
 	# used when a user moves from "Interested" to "Member" on a project
-	def remove_interested_user(self, user):
-		self.interested_users.remove(user)
+	def remove_member(self, user):
+		m = Membership.objects.filter(project=self, user=user)
+		m.delete()
+		#self.interested_users.remove(user)
 
 	def get_interested_users_count(self):
-		self.interested_users.count()
+		return Membership.objects.filter(project=self, approved=False).count()
 
-	def join_user(self, user):
+	def join_user(self, user, role=''):
 		if not self.p_completed:
-			self.joined_users.add(user)
+			try:
+				m = Membership.objects.get(project=self, user=user)
+				m.approved = True
+				m.save()
+			except Membership.DoesNotExist:
+				Membership(project=self, user=user, role=role, approved=True).save()
 
 	def get_joined_users_count(self):
-		return self.joined_users.count()
+		return Membership.objects.filter(project=self, approved=True).count()
 
 	# Given a user, returns the user's position in the project 
 	# (Author, Member, Interested, None)
 	def join_status(self, user):
 		if user == self.author:
 			return "Author"
-		elif user in self.joined_users.all():
+		elif user in self.get_joined_users():
 			return "Member"
-		elif user in self.interested_users.all():
+		elif user in self.get_interested_users():
 			return "Interested"
 		else:
 			return "None"
@@ -202,7 +198,7 @@ class Project(models.Model):
 		
 		# TODO: block users from joining after project is complete
 		self.author.get_profile().add_to_completed_projects_karma(1)
-		for u in self.joined_users.all():
+		for u in self.get_joined_users():
 			u.get_profile().add_to_completed_projects_karma(1)
 		
 	def user_voted_proposed(self, user):
@@ -230,44 +226,6 @@ class Project(models.Model):
 		self.save()
 
 
-
-class Seed(models.Model):
-	title = models.CharField(max_length=200)
-	
-	anonymous = models.BooleanField(default=False)
-	author_string = models.CharField(max_length=120, blank=True)
-	author_user = models.ForeignKey(User, related_name='seeds_authored', null=True)
-	
-	pub_date = models.DateTimeField(auto_now_add=True)
-	
-	score = models.FloatField(default=0.0)
-	votes = models.ManyToManyField(User, related_name='seeds_votes', blank=True, null=True)
-	
-	###################################
-	# Votes
-	
-	def add_vote(self, user):
-		if self.user_voted(user):
-			raise Exception('User already voted.')
-		
-		self.votes.add(user)
-		self.update_score()
-	
-	def update_score(self):
-		self.score = self.get_score_given_count(self.votes.count())
-		self.save()
-	
-	def get_score_given_count(self, vote_count):
-		now = datetime.datetime.now()
-		delta = now - REFERENCE_DATE_FOR_SCORE
-		delta = delta.days * 3600 * 24 + delta.seconds
-		return math.log(vote_count) + delta / DAMP_FACTOR_FOR_TIMEDELTA
-	
-	def user_voted(self, user):
-		count = Seed.objects.filter(pk=self.pk, votes__id__exact=user.pk).count()
-		
-		return count > 0
-
 class Comment(models.Model):
 	text = models.CharField(max_length=5000, blank=False)
 	text_html = models.CharField(max_length=5000, blank=True) # only for admin reasons is blank=True
@@ -290,3 +248,13 @@ class Comment(models.Model):
 
 	def get_edit_url(self):
 		return self.project.get_absolute_url() + 'editcomment/' + str(self.pk) + '/'
+
+
+
+class Membership(models.Model):
+	user = models.ForeignKey(User)
+	project = models.ForeignKey(Project)
+	role = models.CharField(max_length=120, blank=True)
+	approved = models.BooleanField(default=False)
+
+

@@ -19,7 +19,7 @@ from clusterify.utils import get_paginator_page, generic_confirmation_view, get_
 from registration.models import Profile
 
 from forms import ProjectForm, CommentForm, SeedForm
-from models import Project, Comment, Seed
+from models import Project, Comment
 
 PROJECTS_PER_PAGE = 10
 ITEMS_IN_FEED = 20
@@ -175,7 +175,7 @@ def project_notification(project, notification_source_user, subject, content, ju
 	if just_to_author:
 		project_members = [project.author]
 	else:
-		project_members = [u for u in project.joined_users.all()]
+		project_members = [u for u in project.get_joined_users()]
 		project_members += [project.author]
 	
 	for m in project_members:
@@ -338,7 +338,7 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 					project.looking_for_admin = True
 					if not is_add:
 						user.message_set.create(message="The project is now set as 'looking for admin'. You have admin rights until someone else clicks 'Become admin for this project'.")
-						project.joined_users.remove(user)
+						project.remove_member(user)
 				else:
 					project.looking_for_admin = False
 			
@@ -348,7 +348,7 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 			
 			# Need to save() before calling this, so we couldn't do it up there
 			if is_add and not not_involved:
-				project.joined_users.add(user)
+				project.join_user(user)
 			
 			project.set_tags(tags)
 			
@@ -524,7 +524,6 @@ def approve_join(request, project_author, project_pk, joining_username):
 	
 	if(user == project.author):
 		project.join_user(joining_user)
-		project.remove_interested_user(joining_user)
 		
 		project_notification(project, None, "Clusterify -- new user joined project",
 			render_to_string('projects/emails/join_approved.txt',
