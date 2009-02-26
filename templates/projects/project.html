@@ -228,7 +228,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 
 <div class="sidebar_title">Members and roles</div>
 <div class="sidebar_block">
-	<ul class="sidebar_ul">
+	<ul class="sidebar_ul_spaced">
 		{% for user in project.get_joined_users %}
 			
 				<li><a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
@@ -241,11 +241,13 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 
 					{% role_for_project user for project as cur_user_role %}
 
+					<br/><span class="sidebar_ul_subinfo">
 					{% if cur_user_role %}
-					<br/>&nbsp;&nbsp;{{ cur_user_role }}
+						{{ cur_user_role }}
 					{% else %}
-					<br/>&nbsp;&nbsp;(no role specified)
+						(no role specified)
 					{% endif %}
+					</span>
 
 				</li>
 		{% endfor %}

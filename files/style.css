@@ -176,9 +176,14 @@ ul#sitemenu_ul li {
 	font-weight: bold;
 }
 
-ul.sidebar_ul {
+ul.sidebar_ul, ul.sidebar_ul_spaced  {
 	padding: 0;
-	margin: 0;	
+	margin: 0;
+}
+
+.sidebar_ul_subinfo {
+	font-size: small;
+	margin-left: 10px;
 }
 
 ul.sidebar_horiz_ul {
@@ -187,6 +192,11 @@ ul.sidebar_horiz_ul {
 }
 
 ul.sidebar_ul li {
+	list-style-type: none;
+}
+
+ul.sidebar_ul_spaced li {
+	margin: 10px 0;
 	list-style-type: none;
 }
 
