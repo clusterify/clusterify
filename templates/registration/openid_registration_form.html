@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+ 
+{% block title %}OpenID registration form{% endblock %}
+{% block titleInPage %}Register a new profile (OpenID version){% endblock %}
+
+{% block content %}
+By logging in using OpenID, you won't have to remember a new password just for this site. Yet, you <strong>need to choose a username</strong> to interact on the site. It is <strong>strongly suggested you supply a valid email address</strong> since that's how you'll be notified of activity on projects you joined.
+
+<form method="post" action="">
+
+{% if form.non_field_errors %}
+<div class="error">
+<ul>
+	{{ form.non_field_errors.as_ul }}
+</ul></div>
+{% endif %}
+
+<table cellpadding="5" cellspacing="0" class="form_subtable">
+	<tr class="form_color_1">
+		<td class="form_field_cell">Desired username
+			{% if form.username.errors %}
+			<div class="error">{{ form.username.errors }}</div>
+			{% endif %}
+		</td>
+		<td class="form_field_cell" align="right">{{ form.username }}</td>
+	</tr>
+	<tr class="form_color_2">
+		<td class="form_field_cell">Email address (strongly suggested)
+			<div class="form_help_text">Used to send notifications of project events (e.g.: new comment posted). Not shown publicly.</div>
+			{% if form.email.errors %}
+			<div class="error">{{ form.email.errors }}</div>
+			{% endif %}
+		</td>
+		<td class="form_field_cell" align="right">{{ form.email }}</td></td>
+	</tr>
+</table>
+
+<div class="form_field_div form_color_1"><input type="submit" value="Submit" class="button_link" /></div>
+
+</form>
+ 
+{% endblock %}

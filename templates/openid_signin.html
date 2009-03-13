@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+ 
+{% block title %}OpenID login{% endblock %}
+{% block titleInPage %}OpenID login{% endblock %}
+
+{% block content %}
+
+<script type="text/javascript" src="/js/open-selector.js"></script>
+<script type="text/javascript">
+   // ID for the OpenID form 
+    open_selector.openid_form_id= 'openid_form';
+    // ID for the OpenID URL box
+    open_selector.openid_box_id= 'openid_url';
+    open_selector.init();
+</script>
+
+<form action="{{ action }}" method="post" id="openid_form">
+<p><input class="openid" type="text" name="openid_url"> <input type="submit" value="Sign in"></p>
+</form>
+
+{% endblock %}

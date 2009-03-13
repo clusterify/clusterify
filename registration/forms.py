@@ -27,8 +27,33 @@ class ProfileForm(forms.Form):
 	tags = forms.RegexField(
 		required=False,
 		regex=r'^[A-Za-z0-9\- ]+$')
+
+
+class OpenIdRegistrationForm(forms.Form):
+    username = forms.RegexField(regex=r'^\w+$',
+                                max_length=30,
+                                min_length=3,
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                label=_(u'username'))
+    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
+                                                               maxlength=75)),
+                             label=_(u'email address'))
     
-    
+    def clean_username(self):
+        """
+        Validate that the username is alphanumeric and is not already
+        in use.
+        
+        """
+        try:
+            user = User.objects.get(username__iexact=self.cleaned_data['username'])
+        except User.DoesNotExist:
+            return self.cleaned_data['username']
+        raise forms.ValidationError(_(u'This username is already taken. Please choose another.'))
+
+
+
+
 class RegistrationForm(forms.Form):
     """
     Form for registering a new user account.

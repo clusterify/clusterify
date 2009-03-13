@@ -35,6 +35,10 @@ def get_gravatar_image_url(email):
 	
 	return gravatar_url
 
+class OpenIdAssociation(models.Model):
+	user = models.ForeignKey(User)
+	url = models.URLField(blank=False)
+
 # MODIF: added this class, should be set as AUTH_PROFILE_MODULE
 class Profile(models.Model):
 	user = models.ForeignKey(User, unique=True)
