@@ -303,7 +303,7 @@ def register_from_openid(request):
 			
 			login(request, new_user)
 			
-			user.message_set.create(message="Your profile has been successfully created and attached to your OpenID URL.")
+			new_user.message_set.create(message="Your profile has been successfully created and attached to your OpenID URL.")
             
 			return HttpResponseRedirect('/accounts/profile/')
 		
