@@ -291,7 +291,7 @@ def register_from_openid(request):
 			{'error_message': "It appears your OpenID session isn't valid. Make sure cookies are activated in your browser settings."},
 			context_instance=RequestContext(request))
 	
-	assocs = OpenIdAssociation.objects.filter(url=identity_url)
+	assocs = OpenIdAssociation.objects.filter(url=str(request.openid))
 	if assocs.count() > 0:
 		return render_to_response('oops.html',
 			{'error_message': "Your OpenID URL is already registered and associated with a username."},
