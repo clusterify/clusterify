@@ -308,7 +308,7 @@ def register_from_openid(request):
 			return HttpResponseRedirect('/accounts/profile/')
 		
 	else:
-		form = form_class()
+		form = OpenIdRegistrationForm()
     
 	return render_to_response('registration/openid_registration_form.html',
 								{ 'form': form },
