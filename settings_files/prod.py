@@ -80,6 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_openidconsumer.middleware.OpenIDMiddleware',
 )
 
 ROOT_URLCONF = 'clusterify.urls'
@@ -103,6 +104,7 @@ INSTALLED_APPS = (
     'projects',
     'tagging',
     'voting',
+    'django_openidconsumer',
 )
 
 # for registration
