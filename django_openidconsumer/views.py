@@ -110,7 +110,7 @@ def complete(request, on_success=None, on_failure=None):
     on_failure = on_failure or default_on_failure
     
     consumer = Consumer(request.session, DjangoOpenIDStore())
-    openid_response = consumer.complete(dict(request.GET.items()), get_request_url(request))
+    openid_response = consumer.complete(dict(request.GET.items()))
     
     if openid_response.status == SUCCESS:
         return on_success(request, openid_response.identity_url, openid_response)
