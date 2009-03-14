@@ -349,7 +349,7 @@ a.tag_link:hover {
 
 /* Table with more elaborate style, as a subsection in a form */
 .form_subtable {
-	width: 100%
+	width: 100%;
 	vertical-align: top;
 }
 

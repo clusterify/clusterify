@@ -141,6 +141,8 @@ var open_selector = {
     update_openid_url: true,
 
     init: function(){
+		alert("initing");
+
         var openid_form = $('#' + this.openid_form_id);
         var openid_box = $('#' + this.openid_box_id);
         var openid_box_label = $('label[for=' + this.openid_box_id + ']');
