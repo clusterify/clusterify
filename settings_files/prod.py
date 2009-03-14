@@ -119,3 +119,5 @@ SERVER_EMAIL='webmaster@cluterify.com'
 # to do user.get_profile
 AUTH_PROFILE_MODULE = 'registration.Profile'
 
+# added for openid support
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend','registration.models.OpenIdBackend',)

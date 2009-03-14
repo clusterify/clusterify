@@ -37,7 +37,28 @@ def get_gravatar_image_url(email):
 
 class OpenIdAssociation(models.Model):
 	user = models.ForeignKey(User)
+	# TODO: make this unique
 	url = models.URLField(blank=False)
+
+# Inspired by http://code.google.com/p/django-openid-auth/source/browse/trunk/openid_auth/models.py
+# add registration.models.OpenIdBackend to settings.AUTHENTICATION_BACKENDS
+# see http://docs.djangoproject.com/en/dev/topics/auth/#writing-an-authentication-backend
+class OpenIdBackend:
+    def authenticate(self, openid_url=None):
+        if openid_url:
+            try:
+                user_openid = OpenIdAssociation.objects.get(url=openid_url)
+                return user_openid.user
+            except OpenIdAssociation.DoesNotExist:
+                return None
+        else:
+            return None
+    
+    def get_user(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
 
 # MODIF: added this class, should be set as AUTH_PROFILE_MODULE
 class Profile(models.Model):

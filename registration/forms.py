@@ -35,7 +35,7 @@ class OpenIdRegistrationForm(forms.Form):
                                 min_length=3,
                                 widget=forms.TextInput(attrs=attrs_dict),
                                 label=_(u'username'))
-    email = forms.EmailField(widget=forms.TextInput(attrs=dict(attrs_dict,
+    email = forms.EmailField(required=False, widget=forms.TextInput(attrs=dict(attrs_dict,
                                                                maxlength=75)),
                              label=_(u'email address'))
     

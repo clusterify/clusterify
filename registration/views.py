@@ -282,6 +282,8 @@ def activate(request, activation_key,
                               context_instance=context)
 
 
+
+
 def register_from_openid(request):
 	if request.method == 'POST':
 		form = OpenIdRegistrationForm(request.POST)
@@ -300,7 +302,9 @@ def register_from_openid(request):
 			new_user.save()
 
 			assoc = OpenIdAssociation(user=new_user, url=str(request.openid))
+			assoc.save()
 			
+			auth_user = authenticate(openid_url=str(request.openid))
 			login(request, new_user)
 			
 			new_user.message_set.create(message="Your profile has been successfully created and attached to your OpenID URL.")
