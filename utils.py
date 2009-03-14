@@ -11,6 +11,12 @@ def generic_confirmation_view(request, question, url_yes, url_no):
 			{'question':question, 'url_yes':url_yes, 'url_no': url_no},
 			context_instance=RequestContext(request))
 
+http://www.djangosnippets.org/snippets/41/
+def get_request_url(request):
+    full_path = ('http', ('', 's')[request.is_secure()], '://', request.META['HTTP_HOST'], request.path)
+    return ''.join(full_path)
+
+
 # Utility function to get page for Paginator
 # see http://docs.djangoproject.com/en/dev/topics/pagination/
 def get_paginator_page(request, obj_list, num_per_page):

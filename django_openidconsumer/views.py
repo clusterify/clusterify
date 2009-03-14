@@ -13,6 +13,8 @@ from util import OpenID, DjangoOpenIDStore, from_openid_response
 
 from django.utils.html import escape
 
+from utils import get_request_url
+
 def get_url_host(request):
     if request.is_secure():
         protocol = 'https'
@@ -108,7 +110,7 @@ def complete(request, on_success=None, on_failure=None):
     on_failure = on_failure or default_on_failure
     
     consumer = Consumer(request.session, DjangoOpenIDStore())
-    openid_response = consumer.complete(dict(request.GET.items()))
+    openid_response = consumer.complete(dict(request.GET.items()), get_request_url(request))
     
     if openid_response.status == SUCCESS:
         return on_success(request, openid_response.identity_url, openid_response)
