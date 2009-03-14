@@ -41,6 +41,7 @@ var providers = {
         url: 'http://{username}.livejournal.com/'
     },
 
+/*
     yahoo: {
         name: 'Yahoo',
         info: 'Continue to Yahoo to login.',
@@ -56,7 +57,7 @@ var providers = {
         icon: 'http://mail.google.com/mail/images/favicon.ico',
         url: 'https://www.google.com/accounts/o8/id'
     },
-
+*/
     aol: {
         name: 'AOL',
         label: 'Enter your AOL screenname',
