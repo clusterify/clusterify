@@ -20,6 +20,8 @@ from registration.models import RegistrationProfile, Profile
 
 from tagging.models import Tag, TaggedItem
 
+from django_openidconsumer.util import from_openid_response
+
 from django.contrib.auth import views as auth_views
 
 from projects.models import Comment
