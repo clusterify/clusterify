@@ -45,7 +45,8 @@ def openid_login_on_success(request, identity_url, openid_response):
 	if assoc.count() == 0:
 		return HttpResponseRedirect('/openid/register/')
 	else:
-		login(request, assoc.user)
+		auth_user = authenticate(openid_url=identity_url)
+		login(request, auth_user)
 
 	next = request.GET.get('next', '').strip()
 	if not next or not is_valid_next_url(next):
