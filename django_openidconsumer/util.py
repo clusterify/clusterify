@@ -1,6 +1,6 @@
 from openid.store.interface import OpenIDStore
 from openid.association import Association as OIDAssociation
-from openid.yadis import xri
+from yadis import xri
 
 import time, base64, md5
 
