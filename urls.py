@@ -8,8 +8,6 @@ from views import tags_js, hide_announcement
 
 import os.path
 
-from registration.views import openid_login_on_success
-
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -37,7 +35,7 @@ urlpatterns = patterns('',
     ('^$', 'django.views.generic.simple.redirect_to', {'url': '/projects/'}),
 
     (r'^openid/$', 'django_openidconsumer.views.begin'),
-    (r'^openid/complete/$', 'django_openidconsumer.views.complete', {'on_success': openid_login_on_success}),
+    (r'^openid/complete/$', 'django_openidconsumer.views.complete', {'on_success': registration.views.openid_login_on_success}),
     (r'^openid/signout/$', 'django_openidconsumer.views.signout'),
-
+	(r'^openid/register/$', 'registration.views.register_from_openid'),
 )

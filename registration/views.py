@@ -43,7 +43,7 @@ def openid_login_on_success(request, identity_url, openid_response):
 	# TODO
 	assoc = OpenIdAssociation.objects.filter(url=identity_url)
 	if assoc.count() == 0:
-		return register_from_openid(request)
+		return HttpResponseRedirect('/openid/register/')
 	else:
 		login(request, assoc.user)
 
