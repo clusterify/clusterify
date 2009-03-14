@@ -6,6 +6,8 @@ from django.views.generic.simple import direct_to_template
 
 from views import tags_js, hide_announcement
 
+import registration.views
+
 import os.path
 
 admin.autodiscover()
