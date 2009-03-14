@@ -16,7 +16,7 @@ from django.template import RequestContext
 from django.contrib.auth import authenticate, login
 
 from registration.forms import RegistrationForm, ProfileForm, OpenIdRegistrationForm
-from registration.models import RegistrationProfile, Profile
+from registration.models import RegistrationProfile, Profile, OpenIdAssociation
 
 from tagging.models import Tag, TaggedItem
 
