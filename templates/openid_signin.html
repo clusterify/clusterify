@@ -3,9 +3,13 @@
 {% block title %}OpenID login{% endblock %}
 {% block titleInPage %}OpenID login{% endblock %}
 
+{% block moreHead %}
+<script type="text/javascript" src="/files/open-selector.js"></script>
+{% endblock %}	
+
 {% block content %}
 
-<script type="text/javascript" src="/files/open-selector.js"></script>
+
 <script type="text/javascript">
    // ID for the OpenID form 
     open_selector.openid_form_id= 'openid_form';
