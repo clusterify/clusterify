@@ -305,9 +305,9 @@ def register_from_openid(request):
 			assoc.save()
 			
 			auth_user = authenticate(openid_url=str(request.openid))
-			login(request, new_user)
+			login(request, auth_user)
 			
-			new_user.message_set.create(message="Your profile has been successfully created and attached to your OpenID URL.")
+			auth_user.message_set.create(message="Your profile has been successfully created and attached to your OpenID URL.")
             
 			return HttpResponseRedirect('/accounts/profile/')
 		
