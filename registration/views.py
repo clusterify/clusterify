@@ -286,14 +286,21 @@ def activate(request, activation_key,
 
 
 def register_from_openid(request):
+	if not request.openid:
+		return render_to_response('oops.html',
+			{'error_message': "It appears your OpenID session isn't valid. Make sure cookies are activated in your browser settings."},
+			context_instance=RequestContext(request))
+	
+	assocs = OpenIdAssociation.objects.filter(url=identity_url)
+	if assocs.count() > 0:
+		return render_to_response('oops.html',
+			{'error_message': "Your OpenID URL is already registered and associated with a username."},
+			context_instance=RequestContext(request))
+	
 	if request.method == 'POST':
 		form = OpenIdRegistrationForm(request.POST)
 		if form.is_valid():
-			if not request.openid:
-				return render_to_response('oops.html',
-					{'error_message': "It appears your OpenID session isn't valid. Make sure cookies are activated in your browser settings."},
-					context_instance=RequestContext(request))
-				
+			
 			# not supplying a password, therefore the account
 			# cannot be logged in from normal login form
 			# (creates an unusable password)
