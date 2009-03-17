@@ -1,76 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<script src="/tags/js/"></script>
-	<script src="/files/jquery.js"></script>
-	<script src="/files/jquery.dimensions.min.js"></script>
-	<script src="/files/jquery.ui.autocomplete.js"></script>
-	<script src="/files/custom_autocomplete.js"></script>
-	
-	<link rel="stylesheet" href="/files/style.css"/>
-	<link rel="stylesheet" href="/files/jquery.ui.autocomplete.css"/>
-	{% block moreHead %}{% endblock %}	
+{% extends "basebase.html" %}
 
-
-	<style type="text/css">
-
-{% block moreStyle %}
-{% endblock %}
-
-#announcements {
-	width: 960px;
-	text-align: center;
-	margin: 10px auto;
-	background-color: #449944;
-	color: white;
-	padding:  10px 0;
-}
-
-#announcements a {
-	font-weight: bold;
-	color: white;
-}
-
-	</style>
-    <title>Clusterify - {% block title %}{% endblock %}</title>
-</head>
-
-<body>
-
-
-{% if not hide_announcement %}
-	<div id="announcements">Features will be moving fast in the next few days/weeks. <a href="http://blog.clusterify.com/?feed=rss2">Grab the announcement feed</a> <a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss14.png" style="vertical-align: middle;"/></a>. &nbsp;&nbsp;&nbsp;<a href="#" onclick="$.getScript('/hide_announcement/'); $('#announcements').fadeOut('slow'); ">(hide)</a></div>
-{% endif %}
-
-	<!--
-	<div style="float: left;"><img src="/files/images/tagline_w.gif"></div><br style="clear: both;"/>-->
-    <div id="topbar">
-		
-        <div id="logo"><a href="/"><img src="/files/images/logo_slant.gif"></a></div>
-		<div id="loginmenu_div">
-			{% if user.is_authenticated %}
-				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
-				<a href="/accounts/logout/">logout</a> |
-				<a href="/accounts/profile/edit/">edit profile</a>
-			{% else %}
-				<a href="/accounts/login/">login</a> | 
-				<a href="/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 
-				<a href="/accounts/register/">register</a>
-			{% endif %}
-		</div>
-		<div id="sitemenu_div"><ul id="sitemenu_ul">
-			{% if user.is_authenticated %}
-			<li><a href="/projects/add/">new</a></li>
-			{% endif %}
-			<li><a href="/projects/proposed/">proposed</a></li>
-			<li><a href="/projects/completed/">completed</a></li>
-			<li><a href="/accounts/people/">people</a></li>
-			<li><a href="/concepts/">help</a></li>
-		</ul></div>
-	</div>
-	<div class="clear"></div>
-	<div id="maincontainer">
+{% block maincontainer %}
 		<div id="content">
 			<div style="float: right;">{% block subtabs %}{% endblock %}</div>
 			<div class="titleInPage">{% block titleInPage %}{% endblock %}</div>
@@ -114,59 +44,14 @@
 					</select>
 				</form>
 			</div>
+			<div class="sidebar_title">Share this page</div>
+			<div class="sidebar_block" style="text-align: center;">
+				<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cpost%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Cmixx%2Cgoogle_bmarks%2Cfriendfeed%2Clinkedin%2Cnewsvine&amp;style=rotate&amp;publisher=f5830d5a-25c2-4ede-b065-e4137a019092;offsetLeft=-200"></script>
+			</div>
 			<div class="sidebar_title">Site news <a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss14.png" style="vertical-align: middle;"/></a></div>
 			<div class="sidebar_block" style="text-align: center;">
 				<a href="http://blog.clusterify.com">The blog</a> | <a href="http://blog.clusterify.com/?feed=rss2">The feed</a>
 			</div>
 
+{% endblock %}
 
-		</div>
-	</div>
-	<div id="footer">
-		<a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangomade124x25.gif" border="0" alt="Made with Django." title="Made with Django."/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<a href="/concepts/">Help</a> | <a href="http://blog.clusterify.com">Blog</a> |
-		<a href="/about/">About and contact</a> |
-		<a href="/terms/">Terms of Service</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<a href="http://www.webfaction.com/"><img src="/files/images/105x22-hosted.png" border="0" alt="Hosted by Webfaction" title="Hosted by Webfaction"/></a>
-	</div>
-
-
-<!-- Start of StatCounter Code -->
-
-<script type="text/javascript">
-var sc_project=4489344; 
-var sc_invisible=1; 
-var sc_partition=55; 
-var sc_click_stat=1; 
-var sc_security="2faa4a00"; 
-</script>
-
-<script type="text/javascript"
-src="http://www.statcounter.com/counter/counter_xhtml.js"></script><noscript><div
-class="statcounter"><a title="blogger counter"
-class="statcounter"
-href="http://www.statcounter.com/blogger/"><img
-class="statcounter"
-src="http://c.statcounter.com/4489344/0/2faa4a00/1/"
-alt="blogger counter" /></a></div></noscript>
-<!-- End of StatCounter Code -->
-
-<!-- Start of UserVoice code -->
-<script type="text/javascript">
-var uservoiceJsHost = ("https:" == document.location.protocol) ? "https://uservoice.com" : "http://cdn.uservoice.com"
-document.write(unescape("%3Cscript src='" + uservoiceJsHost + "/javascripts/widgets/tab.js' type='text/javascript'%3E%3C/script%3E"))
-</script>
-<script type="text/javascript">
-UserVoice.Tab.show({ 
-  host: 'clusterify.uservoice.com', 
-  forum: 'general', 
-  alignment: 'left',
-  background_color:'#494', 
-  text_color: 'white',
-  hover_color: '#06C'
-})
-</script>
-<!-- End of UserVoice code -->
-
-</body>
-</html>

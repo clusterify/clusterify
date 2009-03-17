@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+    ('^$', direct_to_template, {'template': 'home.html'}),
+			
     (r'^admin/(.*)', admin.site.root),
     (r'^accounts/', include('registration.urls')),
     (r'^projects/', include('projects.urls')),
@@ -34,7 +36,6 @@ urlpatterns = patterns('',
     # TODO: remove this in prod
     (r'^files/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(os.path.dirname(__file__), 'files')}),
-    ('^$', 'django.views.generic.simple.redirect_to', {'url': '/projects/'}),
 
     (r'^openid/$', 'django_openidconsumer.views.begin'),
     (r'^openid/complete/$', 'django_openidconsumer.views.complete', {'on_success': registration.views.openid_login_on_success}),
