@@ -149,6 +149,25 @@ def list_projects_as_feed(request, completeness, list_type='top'):
 	
 	return HttpResponse(f.writeString('UTF-8'), mimetype="application/rss+xml")
 
+def list_comments_as_feed(request):
+	page_title, comments = list_comments(request, return_raw_comments=True)
+
+	f = feedgenerator.Rss201rev2Feed(
+			title=page_title,
+			link="http://www.clusterify.com",
+			description=u"Recent Project Comments",
+			language=u"en")
+
+	to_print = comments[0:min(ITEMS_IN_FEED, comments.count())]
+	for p in to_print:
+		f.add_item(title="Comment on "+p.project.title, 
+				link="http://www.clusterify.com"+p.project.get_absolute_url(), 
+				description=p.text,
+				pubdate=p.pub_date)
+
+	return HttpResponse(f.writeString('UTF-8'), mimetype="application/rss+xml")
+
+
 @login_required
 def recommended_projects(request, completeness):
 	return list_projects(request, 'recommend', completeness=='completed')
@@ -264,7 +283,7 @@ def edit_project_comment(request, project_author, project_pk, comment_pk):
 							'form':comment_form},
 							context_instance=RequestContext(request))
 
-def list_comments(request):
+def list_comments(request, return_raw_comments=False):
 	terms = request.GET.get('terms', '')
 	for_user = request.GET.get('foruser', '')
 	
@@ -273,7 +292,11 @@ def list_comments(request):
 	use_filter_description = False
 	
 	comments = Comment.objects.all()
-	
+
+	# For RSS feeds
+	if return_raw_comments:
+		return page_title, comments
+
 	if for_user:
 		for_user_obj = get_object_or_404(User, username=for_user)
 		

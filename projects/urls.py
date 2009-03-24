@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, approve_join, edit_project_comment, set_project_admin_confirm, set_project_admin_doit, set_wont_be_completed_confirm, set_wont_be_completed_doit, update_role
+from views import list_proposed_projects, list_completed_projects, single_project, add_or_edit_project, add_project, join_project, vote_for_project, search_portal, set_completed_confirm, set_completed_doit, post_project_comment, list_comments, recommended_projects, list_projects_as_feed, list_comments_as_feed, approve_join, edit_project_comment, set_project_admin_confirm, set_project_admin_doit, set_wont_be_completed_confirm, set_wont_be_completed_doit, update_role
 
 from tests.data import populate_projects
 
@@ -31,19 +31,21 @@ urlpatterns = patterns('',
 			set_wont_be_completed_confirm),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/set_wont_complete/ok/$',
 			set_wont_be_completed_doit),
-	   
+
 		# Comments
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/postcomment/$',
 			post_project_comment),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/editcomment/(?P<comment_pk>\d+)/$',
 			edit_project_comment),
-	  
-		# rss -- only available for top/new
+
+		# rss -- only available for top/new projects and comments
 		url(r'^rss/(?P<completeness>(completed|proposed))/(?P<list_type>(top|new))/$',
 			list_projects_as_feed),
 		url(r'^rss/(?P<completeness>(completed|proposed))/$',
 			list_projects_as_feed),
-	   
+		url(r'^rss/comments/$',
+			list_comments_as_feed),
+
 		# listing projects
 		url(r'^completed/(?P<list_type>(top|new))/$',
 			list_completed_projects),
