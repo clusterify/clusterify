@@ -7,11 +7,10 @@ p, ol, ul, li {
 
 body {
 	margin: 0; padding: 0;
-	background-color: #ffffff;
+	background-color: #EDEBDF;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	color: #000;
 	text-align:center;
-	background-image: url('/files/images/bg3.gif');
 }
 
 .clear { clear: both; }
