@@ -2,6 +2,20 @@ from django import forms
 from django.template import loader, Context
 
 PROJECT_DESCRIPTION_TEMPLATE_FILE = 'projects/project_description_template.txt'
+ESTIMATE_CHOICES = (
+	('1', '1'),
+	('2', '2'),
+	('3', '3'),
+	('4', '4'),
+	('5', '5'),
+	('10', '10'),
+	('15', '15'),
+	('24', '24'),
+	('40', '40'),
+	('50', '50'),
+	('75', '75'),
+	('100', '100'),
+)
 
 def get_description_template():
 	return loader.get_template(PROJECT_DESCRIPTION_TEMPLATE_FILE).render(Context({}))
@@ -14,7 +28,7 @@ class ProjectForm(forms.Form):
 	time_estimate = forms.IntegerField(
 				min_value=1,
 				required=False,
-				widget=forms.widgets.TextInput(attrs={'style':'width: 50px;'}))
+				widget=forms.widgets.Select(choices=ESTIMATE_CHOICES))
 	not_involved = forms.BooleanField(required=False)
 	description = forms.CharField(
 				initial=get_description_template, # idea taken at http://andrewwilkinson.wordpress.com/2009/01/28/dynamic-initial-values-in-django-forms/
