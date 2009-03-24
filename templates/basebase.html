@@ -43,11 +43,9 @@
 	<div id="announcements">Features will be moving fast in the next few days/weeks. <a href="http://blog.clusterify.com/?feed=rss2">Grab the announcement feed</a> <a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss14.png" style="vertical-align: middle;"/></a>. &nbsp;&nbsp;&nbsp;<a href="#" onclick="$.getScript('/hide_announcement/'); $('#announcements').fadeOut('slow'); ">(hide)</a></div>
 {% endif %}
 
-	<!--
-	<div style="float: left;"><img src="/files/images/tagline_w.gif"></div><br style="clear: both;"/>-->
-    <div id="topbar">
+	<div id="topbar">
 		
-        <div id="logo"><a href="/"><img src="/files/images/logo_slant.gif"></a></div>
+		<div id="logo"><a href="/"><img src="/files/images/logo_slant.gif"></a></div>
 		<div id="loginmenu_div">
 			{% if user.is_authenticated %}
 				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
@@ -101,6 +99,18 @@ class="statcounter"
 src="http://c.statcounter.com/4489344/0/2faa4a00/1/"
 alt="blogger counter" /></a></div></noscript>
 <!-- End of StatCounter Code -->
+
+<!-- Start of Google Analytics code -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-174866-9");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+<!-- End of Google Analytics code -->
 
 <!-- Start of UserVoice code -->
 <script type="text/javascript">
