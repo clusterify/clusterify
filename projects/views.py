@@ -291,7 +291,7 @@ def list_comments(request, return_raw_comments=False):
 	filter_description = ""
 	use_filter_description = False
 	
-	comments = Comment.objects.all()
+	comments = Comment.objects.all().order_by("-pub_date")
 
 	# For RSS feeds
 	if return_raw_comments:
