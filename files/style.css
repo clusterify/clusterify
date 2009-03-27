@@ -87,11 +87,8 @@ textarea, input {
 
 #sitemenu_div {
 	margin: 0 0 0 0;
-
-	width: 550px;
-
+	width: 600px;
 	float: right;
-	
 	padding: 0;
 
 }
@@ -103,27 +100,18 @@ ul#sitemenu_ul {
 
 ul#sitemenu_ul li {
 	list-style-type: none;
-
 	margin: 5px 0 0 5px;
-	
 	border: 0;
-	
 	float: left;
 }
 
 #sitemenu_ul li a {
 	margin: 0;
-
-	border-top: 1px solid #0088dd;
-	border-left: 1px solid #0088dd;
-
+	border: 1px solid #ddd;
 	background-color: #003399;
-	padding: 5px 11px 5px 11px;
-	
+	padding: 5px 7px 5px 7px;
 	float: left;
-	
 	color: #ffffff;
-	
 	text-decoration: none;
 }
 
@@ -132,10 +120,21 @@ ul#sitemenu_ul li {
 	color: #fff;
 }
 
+#sitemenu_ul li a.highlight {
+	margin: 0;
+    margin-right: 30px;
+	border: 1px solid #ffffff;
+	background-color: #449944;
+	padding: 5px 7px 5px 7px;
+	float: left;
+	color: #ffffff;
+	text-decoration: none;
+}
+
 .subtab {
 	float: right;
 	display: block;
-	background-color: #ddd;
+	background-color: #eee;
 	border: 1px solid #555;
 	font-weight: bold;
 	padding: 10px;
@@ -145,6 +144,11 @@ ul#sitemenu_ul li {
 
 .subtab:hover {
 	background-color: #bbb;
+}
+
+.active {
+	background-color: #ccc;
+	font-weight: bold;
 }
 
 /******************** Sidebar ************************/
@@ -660,3 +664,19 @@ a.tag_link:hover {
 	color: #ddd;
 	background-color: #cc8888;
 }
+
+#announcements {
+	width: 960px;
+	text-align: center;
+	margin: 10px auto;
+	background-color: #449944;
+	color: white;
+	padding:  10px 0;
+}
+
+#announcements a {
+	font-weight: bold;
+	color: white;
+}
+
+
