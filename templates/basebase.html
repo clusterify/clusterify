@@ -1,3 +1,4 @@
+{% load projects_filters %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -14,23 +15,7 @@
 
 
 	<style type="text/css">
-
-{% block moreStyle %}
-{% endblock %}
-
-#announcements {
-	width: 960px;
-	text-align: center;
-	margin: 10px auto;
-	background-color: #449944;
-	color: white;
-	padding:  10px 0;
-}
-
-#announcements a {
-	font-weight: bold;
-	color: white;
-}
+        {% block moreStyle %}{% endblock %}
 
 	</style>
     <title>Clusterify - {% block title %}{% endblock %}</title>
@@ -56,16 +41,30 @@
 				<a href="/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 
 				<a href="/accounts/register/">register</a>
 			{% endif %}
+               | <a href="/concepts/">help</a>
 		</div>
-		<div id="sitemenu_div"><ul id="sitemenu_ul">
-			{% if user.is_authenticated %}
-			<li><a href="/projects/add/">new</a></li>
-			{% endif %}
-			<li><a href="/projects/proposed/">proposed</a></li>
-			<li><a href="/projects/completed/">completed</a></li>
-			<li><a href="/accounts/people/">people</a></li>
-			<li><a href="/concepts/">help</a></li>
-		</ul></div>
+		<div id="sitemenu_div">
+            <ul id="sitemenu_ul">
+                {% if user.is_authenticated %}
+                    <li><a class="highlight" href="/projects/add/">Add a Project</a></li>
+                {% endif %}
+                <li>
+                    <a href="/projects/proposed/" {% ifequal page_title "Proposed projects" %}class='active'{% endifequal %}>
+                        proposed ({% proposed_project_count %})
+                    </a>
+                </li>
+                <li>
+                    <a href="/projects/completed/" {% ifequal page_title "Completed projects" %}class='active'{% endifequal %}>
+                        completed ({% completed_project_count %})
+                    </a>
+                </li>
+                <li>
+                    <a href="/accounts/people/" {% ifequal page_title "People" %}class='active'{% endifequal %}>
+                        people ({% people_count %})
+                    </a>
+                </li>
+            </ul>
+        </div>
 	</div>
 	<div class="clear"></div>
 	<div id="maincontainer">
@@ -109,6 +108,7 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 try {
 var pageTracker = _gat._getTracker("UA-174866-9");
 pageTracker._trackPageview();
+pageTracker._setVar("{{ user.username }}");
 } catch(err) {}</script>
 <!-- End of Google Analytics code -->
 
