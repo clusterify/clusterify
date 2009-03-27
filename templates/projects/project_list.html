@@ -10,9 +10,9 @@
 {% endblock %}
 
 {% block subtabs %}
-<a class="subtab" href="{{ list_mytags_url }}">My tags</a>
-<a class="subtab" href="{{ list_new_url }}">New</a>
-<a class="subtab" href="{{ list_top_url }}">Top</a>
+<a class="subtab {% ifequal list_type 'recommend' %}active{% endifequal %}" href="{{ list_mytags_url }}">My tags</a>
+<a class="subtab {% ifequal list_type 'new' %}active{% endifequal %}" href="{{ list_new_url }}">New</a>
+<a class="subtab {% ifequal list_type 'top' %}active{% endifequal %}" href="{{ list_top_url }}">Top</a>
 {% endblock %}
 
 {% block content %}
