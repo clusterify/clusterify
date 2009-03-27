@@ -5,7 +5,6 @@ Views which allow users to create and activate accounts.
 import urllib
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -18,7 +17,7 @@ from django.contrib.auth import authenticate, login
 from registration.forms import RegistrationForm, ProfileForm, OpenIdRegistrationForm
 from registration.models import RegistrationProfile, Profile, OpenIdAssociation
 
-from tagging.models import Tag, TaggedItem
+from tagging.models import TaggedItem
 
 from django_openidconsumer.util import from_openid_response
 
@@ -88,12 +87,8 @@ def list_users(request, list_type='new'):
 	
 	# Order results
 	if list_type == 'top':
-		page_title += " (top)"
 		profiles = profiles.order_by('-completed_projects_karma')
-	elif list_type == 'recommend':
-		page_title += " (my tags)"
 	else:
-		page_title += " (new)"
 		profiles = profiles.order_by('-user__date_joined')
 	
 	# Prepare query string given filters, for link URLs
@@ -112,8 +107,8 @@ def list_users(request, list_type='new'):
 	return render_to_response('registration/user_list.html',
 			{'profile_list_page':list_paginator_page,
 			'page_title': page_title,
+            'list_type': list_type,
 			'filter_description': filter_description,
-			# TODO: also include tags in those urls
 			'list_top_url': '/accounts/people/top/' + qs,
 			'list_new_url': '/accounts/people/new/' + qs,
 			'list_mytags_url': '/accounts/people/recommend/' + qs},
@@ -123,13 +118,6 @@ def list_users(request, list_type='new'):
 def list_users_mytags(request):
 	return list_users(request, "recommend")
 
-#def list_users(request):
-#	users = User.objects.all()
-#		
-#	list_paginator_page = get_paginator_page(request, users, USERS_PER_PAGE)
-#	return render_to_response('registration/user_list.html',
-#			{'user_list_page':list_paginator_page},
-#			context_instance=RequestContext(request))
 
 # MODIF: added these two profile-related functions
 @login_required
