@@ -58,10 +58,10 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 	# Filter by completeness
 	if not is_completed is None:
 		if is_completed:
-			page_title = "Completed project list"
+			page_title = "Completed projects"
 			projects = projects.filter(p_completed=True, wont_be_completed=False)
 		else:
-			page_title = "Proposed project list"
+			page_title = "Proposed projects"
 			projects = projects.filter(p_completed=False, wont_be_completed=False)
 	
 	# Filter by search terms
@@ -97,15 +97,12 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 	page_url = ""
 	rss_url = ""
 	if list_type == 'new':
-		page_title += " (new)"
 		this_page_url = new_url
 		rss_url = '/projects/rss/' + (is_completed and 'completed' or 'proposed') + '/new/' + qs
 		projects = projects.order_by('-pub_date')
 	elif list_type == 'recommend':
-		page_title += " (my tags)"
 		this_page_url = mytags_url
 	else:
-		page_title += " (top)"
 		rss_url = '/projects/rss/' + (is_completed and 'completed' or 'proposed') + '/top/' + qs
 		this_page_url = top_url
 		if is_completed:
@@ -115,14 +112,14 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 	
 	# For RSS feeds
 	if return_raw_projects:
-		return page_title, this_page_url, projects
+		return page_title, this_page_url, projects, list_type
 	
-	# ...
 	list_paginator_page = get_paginator_page(request, projects, PROJECTS_PER_PAGE)
 	
 	return render_to_response('projects/project_list.html',
 			{'project_list_page':list_paginator_page,
 			'page_title': page_title,
+            'list_type': list_type,
 			'filter_description': filter_description,
 			# TODO: also include tags in those urls
 			'list_top_url': top_url,
@@ -132,10 +129,10 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 			context_instance=RequestContext(request))
 
 def list_projects_as_feed(request, completeness, list_type='top'):
-	page_title, url, projects = list_projects(request, list_type, completeness=='completed', return_raw_projects=True)
+	page_title, url, projects, list_type = list_projects(request, list_type, completeness=='completed', return_raw_projects=True)
 	
 	f = feedgenerator.Rss201rev2Feed(
-			title=page_title,
+			title=page_title + " ("+list_type+")",
 			link="http://www.clusterify.com"+url,
 			description=u"",
 			language=u"en")
@@ -160,7 +157,7 @@ def list_comments_as_feed(request):
 
 	to_print = comments[0:min(ITEMS_IN_FEED, comments.count())]
 	for p in to_print:
-		f.add_item(title="Comment on "+p.project.title, 
+		f.add_item(title="Comment on "+p.project.title+" by "+p.project.author.username,
 				link="http://www.clusterify.com"+p.project.get_absolute_url(), 
 				description=p.text,
 				pubdate=p.pub_date)
