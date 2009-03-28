@@ -157,7 +157,7 @@ def list_comments_as_feed(request):
 
 	to_print = comments[0:min(ITEMS_IN_FEED, comments.count())]
 	for p in to_print:
-		f.add_item(title="Comment on "+p.project.title+" by "+p.project.author.username,
+		f.add_item(title="Comment on "+p.project.title+" by "+p.author.username,
 				link="http://www.clusterify.com"+p.project.get_absolute_url(), 
 				description=p.text,
 				pubdate=p.pub_date)
