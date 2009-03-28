@@ -26,7 +26,7 @@
 {% endif %}
 <br style="clear: both;"/>
 
-<div class="content_subtitle">Extended information</div>
+<div class="content_subtitle">{{profile.user.username}}'s extended information</div>
 
 {% if profile.description_html %}
 	{% autoescape off %}{{ profile.description_html }}{% endautoescape %}
@@ -34,7 +34,7 @@
 	({{ profile.user.username }} has not entered a description yet)
 {% endif %}
 
-<div class="content_subtitle">Randomly chosen {{profile.user.username}}'s comments
+<div class="content_subtitle">{{profile.user.username}}'s comments
   <a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all) </a>
 </div>
 
@@ -42,7 +42,7 @@
 	{% include "projects/comment_snippet.html" %}
 {% endfor %}
 
-<div class="content_subtitle">Randomly chosen {{profile.user.username}}'s projects
+<div class="content_subtitle">{{profile.user.username}}'s projects
   <a href="/projects/?foruser={{ profile.user.username }}"> (view all) </a>
 </div>
 

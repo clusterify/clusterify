@@ -156,9 +156,9 @@ def view_profile(request, username):
         profile, created = Profile.objects.get_or_create(user=user)
         user_tags = profile.get_tags()
         
-        # randomly choose 3 of the user's comments & projects
-        user_comments = Comment.objects.filter(author=user).order_by('?')[0:3]
-        user_projects = user.projects_authored.order_by('?')[0:3]
+        # show the last 5 comments and projects in the user's profile
+        user_comments = Comment.objects.filter(author=user).order_by('pub_date')[0:5]
+        user_projects = user.projects_authored.order_by('-pub_date')[0:5]
 
         return render_to_response('registration/profile.html',
             {'profile':profile,

@@ -35,7 +35,7 @@
 			{% if user.is_authenticated %}
 				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
 				<a href="/accounts/logout/">logout</a> |
-				<a href="/accounts/profile/edit/">edit profile</a>
+				profile (<a href="/accounts/profile/edit/">edit</a>|<a href="/accounts/profile/view/{{ user.username }}">view</a>)
 			{% else %}
 				<a href="/accounts/login/">login</a> | 
 				<a href="/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 
