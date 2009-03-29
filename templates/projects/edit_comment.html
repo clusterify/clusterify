@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<div class="content_subsubtitle"><a href="{{ site_url }}{{ comment.project.get_absolute_url }}">&lt;&lt; Back to project page</a></div>
+<div class="content_subsubtitle"><a href="{{ comment.project.get_absolute_url }}">&lt;&lt; Back to project page</a></div>
 
 <div class="content_subtitle">Original comment</div>
 
@@ -20,7 +20,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 </div>
 
 <div class="form_div">
-	<form action="{{ site_url }}{{ comment.get_edit_url }}" method="POST">
+	<form action="{{ comment.get_edit_url }}" method="POST">
 		{{ form.text }}
 		<br/><br/>
 		<input type="submit" value="Submit" />

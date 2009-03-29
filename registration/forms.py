@@ -3,6 +3,7 @@ Forms and validation code for user registration.
 
 """
 
+
 from django.contrib.auth.models import User
 from django import forms
 from django.utils.translation import ugettext_lazy as _
@@ -15,9 +16,7 @@ from registration.models import RegistrationProfile
 # lands in trunk, this will no longer be necessary.
 attrs_dict = { 'class': 'required' }
 
-##############################################################################
-# Profile related
-
+# MODIF: added this class
 class ProfileForm(forms.Form):
 	description = forms.CharField(
 					required=False,
@@ -29,8 +28,6 @@ class ProfileForm(forms.Form):
 		required=False,
 		regex=r'^[A-Za-z0-9\- ]+$')
 
-##############################################################################
-# OpenID related
 
 class OpenIdRegistrationForm(forms.Form):
     username = forms.RegexField(regex=r'^\w+$',
@@ -46,6 +43,7 @@ class OpenIdRegistrationForm(forms.Form):
         """
         Validate that the username is alphanumeric and is not already
         in use.
+        
         """
         try:
             user = User.objects.get(username__iexact=self.cleaned_data['username'])
@@ -53,8 +51,8 @@ class OpenIdRegistrationForm(forms.Form):
             return self.cleaned_data['username']
         raise forms.ValidationError(_(u'This username is already taken. Please choose another.'))
 
-##############################################################################
-# Original code from django-registration, with slight tweaks
+
+
 
 class RegistrationForm(forms.Form):
     """

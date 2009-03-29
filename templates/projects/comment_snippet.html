@@ -8,11 +8,11 @@
 		</div>
 
 		<div class="user_info_div" style="float: right;">
-				by <a href="{{ site_url }}/accounts/profile/view/{{ comment.author }}">{{ comment.author }}</a> ({{ comment.author.get_profile.completed_projects_karma }})<br/>
+				by <a href="/accounts/profile/view/{{ comment.author }}">{{ comment.author }}</a> ({{ comment.author.get_profile.completed_projects_karma }})<br/>
 				{{ comment.pub_date|ago }}
 				{% ifequal comment.author user %}
 				<br/>
-				<a href="{{ site_url }}{{ comment.get_edit_url }}">edit comment</a>
+				<a href="{{ comment.get_edit_url }}">edit comment</a>
 				{% endifequal %}
 		</div>
 	</div>

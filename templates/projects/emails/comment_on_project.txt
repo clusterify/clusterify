@@ -8,4 +8,4 @@ Here's the text of the comment:
 
 And here's the project URL:
 
-{{ site_url }}{{ project.get_absolute_url }}
+http://www.clusterify.com{{ project.get_absolute_url }}

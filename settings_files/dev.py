@@ -12,9 +12,6 @@ PROJECT_DIR = os.path.join(os.path.dirname(__file__),"..")
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# This is used on error pages
-DEFAULT_CONTACT_EMAIL = 'webmaster@clusterify.com'
-
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -74,7 +71,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	# to make User available to the Templates
 	'django.core.context_processors.auth',
 	'clusterify.views.should_hide_announcement',
-	'clusterify.views.site_url_preprocessor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,7 +99,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 	'registration',
 	'projects',
-	'generictemplatetags',
 	'tagging',
 	'voting',
 	'django_openidconsumer',

@@ -4,4 +4,4 @@ Here's the Role s/he proposed to perform: {{ role }}
 
 Here's the project URL:
 
-{{ site_url }}{{ project.get_absolute_url }}
+http://www.clusterify.com{{ project.get_absolute_url }}
