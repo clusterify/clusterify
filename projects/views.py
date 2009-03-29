@@ -14,7 +14,7 @@ from django.conf import settings
 
 from tagging.models import Tag, TaggedItem
 
-from clusterify.utils import get_paginator_page, generic_confirmation_view, get_query
+from clusterify.utils import get_paginator_page, generic_confirmation_view, get_query, get_full_url
 
 from registration.models import Profile
 
@@ -254,7 +254,8 @@ def post_project_comment(request, project_author, project_pk):
 			project_notification(project, user, "Clusterify -- new comment on project",
 						render_to_string('projects/emails/comment_on_project.txt',
 										{ 'project': project,
-										'comment': comment}))
+										'comment': comment,
+										'site_url': get_full_url()}))
 			
 			return HttpResponseRedirect(project.get_absolute_url())
 	else:
@@ -524,7 +525,8 @@ def set_wont_be_completed_doit(request, project_author, project_pk):
 	
 	project_notification(project, user, "Clusterify -- project has been set as 'won't be completed'",
 				render_to_string('projects/emails/project_wont_be_completed.txt',
-								{ 'project': project}))
+								{ 'project': project,
+								'site_url': get_full_url()}))
 	
 	return HttpResponseRedirect(project.get_absolute_url())
 
@@ -550,7 +552,8 @@ def join_project(request, project_author, project_pk):
 					render_to_string('projects/emails/author_approve_join.txt',
 									{ 'project': project,
 									'role': role,
-									'joining_user': user}), True)
+									'joining_user': user,
+									'site_url': get_full_url()}), True)
 		else:
 			user.message_set.create(message="Something was wrong with your form. Please note that your role description may not be longer than 120 characters. Here's the text you entered: %s" % role)
 
@@ -590,7 +593,8 @@ def approve_join(request, project_author, project_pk, joining_username):
 			render_to_string('projects/emails/join_approved.txt',
 							{ 'project': project,
 							'role': role,
-							'joining_user': joining_user}))
+							'joining_user': joining_user,
+							'site_url': get_full_url()}))
 	
 	return HttpResponseRedirect(project.get_absolute_url())
 

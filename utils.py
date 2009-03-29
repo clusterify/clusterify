@@ -6,6 +6,11 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
+from django.contrib.sites.models import Site
+
+def get_full_url(path_relative_to_site_root=""):
+	return 'http://%s%s' % (Site.objects.get_current().domain, path_relative_to_site_root)
+
 def generic_confirmation_view(request, question, url_yes, url_no):
 	return render_to_response("confirm.html",
 			{'question':question, 'url_yes':url_yes, 'url_no': url_no},

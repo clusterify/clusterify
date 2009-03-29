@@ -12,6 +12,9 @@ PROJECT_DIR = os.path.join(os.path.dirname(__file__),"..")
 DEBUG = False 
 TEMPLATE_DEBUG = DEBUG
 
+# This is used on error pages
+DEFAULT_CONTACT_EMAIL = 'webmaster@clusterify.com'
+
 ADMINS = (
     ('ClusterifyAdmins', 'francois@fsavard.com'),
 )
@@ -102,6 +105,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'registration',
     'projects',
+    'generictemplatetags',
     'tagging',
     'voting',
     'django_openidconsumer',

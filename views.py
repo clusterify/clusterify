@@ -10,10 +10,9 @@ def tags_js(request):
 
 def hide_announcement(request):
 	request.session['hide_announcement'] = True
-	request.session['hmmhmm'] = 'yeah'
 	
 	return HttpResponse("")
 
 def should_hide_announcement(request):
-	return {'hide_announcement': request.session.get('hide_announcement', False), 'wtf': request.session.get('hmmhmm')}
+	return {'hide_announcement': request.session.get('hide_announcement', False)}
 
