@@ -2,10 +2,7 @@
 
 import os.path
 
-# CONFIGURE:
-# - the admin user, specified when using syncdb
-# - the URL to use (in the settings bellow for "media", and in the admin, for the Site module)
-# - the SMTP parameters for registration module, at then end of the file
+import settings_not_in_svn
 
 PROJECT_DIR = os.path.join(os.path.dirname(__file__),"..")
 
@@ -16,7 +13,7 @@ TEMPLATE_DEBUG = DEBUG
 DEFAULT_CONTACT_EMAIL = 'webmaster@clusterify.com'
 
 ADMINS = (
-    ('ClusterifyAdmins', 'francois@fsavard.com'),
+    ('ClusterifyAdmins', 'webmaster@clusterify.com'),
 )
 
 # This is to allow sessions to work both on www.clutsterify.com and just clusterify.com
@@ -25,9 +22,9 @@ SESSION_COOKIE_DOMAIN = 'clusterify.com'
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'mysql'           # 'mediapostgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'fsavard_clfy'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'fsavard_clfy'             # Not used with sqlite3.
-DATABASE_PASSWORD = 'f8f5161c'         # Not used with sqlite3.
+DATABASE_NAME = settings_not_in_svn.DATABASE_NAME             # Or path to database file if using sqlite3.
+DATABASE_USER = settings_not_in_svn.DATABASE_USER             # Not used with sqlite3.
+DATABASE_PASSWORD = settings_not_in_svn.DATABASE_PASSWORD         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
@@ -63,7 +60,7 @@ MEDIA_URL = 'http://www.clusterify.com/media/'
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '#+)4c@yqj+edjti00ywcr4q#s!tezjw*nql(wj_%3_bnx_mq&6'
+SECRET_KEY = settings_not_in_svn.SECRET_KEY
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -112,13 +109,13 @@ INSTALLED_APPS = (
 )
 
 # for registration
-DEFAULT_FROM_EMAIL='do_not_reply@clusterify.com'
+DEFAULT_FROM_EMAIL=settings_not_in_svn.DEFAULT_FROM_EMAIL
 ACCOUNT_ACTIVATION_DAYS=7
-EMAIL_HOST='smtp.webfaction.com'
-EMAIL_PORT=25
-EMAIL_HOST_USER='sender'
-EMAIL_HOST_PASSWORD='74e34b4d'
-SERVER_EMAIL='webmaster@cluterify.com'
+EMAIL_HOST=settings_not_in_svn.EMAIL_HOST
+EMAIL_PORT=settings_not_in_svn.EMAIL_PORT
+EMAIL_HOST_USER=settings_not_in_svn.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD=settings_not_in_svn.EMAIL_HOST_PASSWORD
+SERVER_EMAIL=settings_not_in_svn.SERVER_EMAIL
 
 # to do user.get_profile
 AUTH_PROFILE_MODULE = 'registration.Profile'

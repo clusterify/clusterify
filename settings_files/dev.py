@@ -2,11 +2,6 @@
 
 import os.path
 
-# CONFIGURE:
-# - the admin user, specified when using syncdb
-# - the URL to use (in the settings bellow for "media", and in the admin, for the Site module)
-# - the SMTP parameters for registration module, at then end of the file
-
 PROJECT_DIR = os.path.join(os.path.dirname(__file__),"..")
 
 DEBUG = True
