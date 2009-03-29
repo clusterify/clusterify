@@ -1,16 +1,17 @@
 {% load projects_filters %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<script src="/tags/js/"></script>
-	<script src="/files/jquery.js"></script>
-	<script src="/files/jquery.dimensions.min.js"></script>
-	<script src="/files/jquery.ui.autocomplete.js"></script>
-	<script src="/files/custom_autocomplete.js"></script>
+	<script src="{{ site_url }}/tags/js/"></script>
+	<script src="{{ site_url }}/files/jquery.js"></script>
+	<script src="{{ site_url }}/files/jquery.dimensions.min.js"></script>
+	<script src="{{ site_url }}/files/jquery.ui.autocomplete.js"></script>
+	<script src="{{ site_url }}/files/custom_autocomplete.js"></script>
 	
-	<link rel="stylesheet" href="/files/style.css"/>
-	<link rel="stylesheet" href="/files/jquery.ui.autocomplete.css"/>
+	<link rel="stylesheet" href="{{ site_url }}/files/style.css"/>
+	<link rel="stylesheet" href="{{ site_url }}/files/jquery.ui.autocomplete.css"/>
 	{% block moreHead %}{% endblock %}	
 
 
@@ -25,41 +26,42 @@
 
 
 {% if not hide_announcement %}
-	<div id="announcements">Features will be moving fast in the next few days/weeks. <a href="http://blog.clusterify.com/?feed=rss2">Grab the announcement feed</a> <a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss14.png" style="vertical-align: middle;"/></a>. &nbsp;&nbsp;&nbsp;<a href="#" onclick="$.getScript('/hide_announcement/'); $('#announcements').fadeOut('slow'); ">(hide)</a></div>
+	<div id="announcements">Features will be moving fast in the next few days/weeks. <a href="http://blog.clusterify.com/?feed=rss2">Grab the announcement feed</a> <a href="http://blog.clusterify.com/?feed=rss2"><img src="{{ site_url }}/files/images/rss14.png" style="vertical-align: middle;"/></a>. &nbsp;&nbsp;&nbsp;<a href="#" onclick="$.getScript('{{ site_url }}/hide_announcement/'); $('#announcements').fadeOut('slow'); ">(hide)</a></div>
 {% endif %}
 
 	<div id="topbar">
 		
-		<div id="logo"><a href="/"><img src="/files/images/logo_slant.gif"></a></div>
+		<div id="logo"><a href="/"><img src="{{ site_url }}/files/images/logo_slant.gif"></a></div>
 		<div id="loginmenu_div">
 			{% if user.is_authenticated %}
-				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
-				<a href="/accounts/logout/">logout</a> |
-				profile (<a href="/accounts/profile/edit/">edit</a>|<a href="/accounts/profile/view/{{ user.username }}">view</a>)
+				logged in as <a href="{{ site_url }}/accounts/profile/">{{ user.username }}</a> |
+				<a href="{{ site_url }}/accounts/logout/">logout</a> |
+				profile (<a href="{{ site_url }}/accounts/profile/edit/">edit</a>|
+				<a href="{{ site_url }}/accounts/profile/view/{{ user.username }}">view</a>)
 			{% else %}
-				<a href="/accounts/login/">login</a> | 
-				<a href="/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 
-				<a href="/accounts/register/">register</a>
+				<a href="{{ site_url }}/accounts/login/">login</a> | 
+				<a href="{{ site_url }}/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 
+				<a href="{{ site_url }}/accounts/register/">register</a>
 			{% endif %}
-               | <a href="/concepts/">help</a>
+               | <a href="{{ site_url }}/concepts/">help</a>
 		</div>
 		<div id="sitemenu_div">
             <ul id="sitemenu_ul">
                 {% if user.is_authenticated %}
-                    <li><a class="highlight" href="/projects/add/">Add a Project</a></li>
+                    <li><a class="highlight" href="{{ site_url }}/projects/add/">Add a Project</a></li>
                 {% endif %}
                 <li>
-                    <a href="/projects/proposed/" {% ifequal page_title "Proposed projects" %}class='active'{% endifequal %}>
+                    <a href="{{ site_url }}/projects/proposed/" {% ifequal page_title "Proposed projects" %}class='active'{% endifequal %}>
                         proposed ({% proposed_project_count %})
                     </a>
                 </li>
                 <li>
-                    <a href="/projects/completed/" {% ifequal page_title "Completed projects" %}class='active'{% endifequal %}>
+                    <a href="{{ site_url }}/projects/completed/" {% ifequal page_title "Completed projects" %}class='active'{% endifequal %}>
                         completed ({% completed_project_count %})
                     </a>
                 </li>
                 <li>
-                    <a href="/accounts/people/" {% ifequal page_title "People" %}class='active'{% endifequal %}>
+                    <a href="{{ site_url }}/accounts/people/" {% ifequal page_title "People" %}class='active'{% endifequal %}>
                         people ({% people_count %})
                     </a>
                 </li>
@@ -72,9 +74,9 @@
 	</div>
 	<div id="footer">
 		<a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangomade124x25.gif" border="0" alt="Made with Django." title="Made with Django."/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<a href="/concepts/">Help</a> | <a href="http://blog.clusterify.com">Blog</a> |
-		<a href="/about/">About and contact</a> |
-		<a href="/terms/">Terms of Service</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="{{ site_url }}/concepts/">Help</a> | <a href="http://blog.clusterify.com">Blog</a> |
+		<a href="{{ site_url }}/about/">About and contact</a> |
+		<a href="{{ site_url }}/terms/">Terms of Service</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="http://www.webfaction.com/signup?affiliate=webiest"><img src="/files/images/105x22-hosted.png" border="0" alt="Hosted by Webfaction" title="Hosted by Webfaction"/></a>
 	</div>
 

@@ -40,7 +40,7 @@
 	<div class="project_row_text">
 		<div class="project_row_title">
 			
-			<a href="{{ project.get_absolute_url }}">{{ project.title }}</a> {% if not project.p_completed %} (est. {{ project.hour_estimate }} hr){% endif %}
+			<a href="{{ site_url }}{{ project.get_absolute_url }}">{{ project.title }}</a> {% if not project.p_completed %} (est. {{ project.hour_estimate }} hr){% endif %}
 			{% if project.looking_for_admin %}<br/><span style="color: #449944;">Just an idea (project needs admin)</span>{% endif %}
 			{% if project.wont_be_completed %}<br/><span style="color: #994444;">This project is closed: it is set as "won't be completed"</span>{% endif %}
 		</div>
@@ -48,7 +48,7 @@
 			{% autoescape off %}{{ project.description_html|striptags|truncatewords:30 }}{% endautoescape %}
 		</div>
 		<div class="project_row_tags">
-			{% for t in project.get_tags %}<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
+			{% for t in project.get_tags %}<a class="tag_link" href="{{ site_url }}/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
 		</div>
 
 		<div class="user_icon_div">
@@ -62,14 +62,14 @@
 			{% if project.looking_for_admin %}
 				<strong>Needs admin</strong>
 			{% else %}
-				{% ifnotequal project.author project.proposed_by %}Admin: {% endifnotequal %}<a href="/accounts/profile/view/{{ project.author.username }}">{{ project.author.username }}</a> ({{ project.author.get_profile.completed_projects_karma }})
+				{% ifnotequal project.author project.proposed_by %}Admin: {% endifnotequal %}<a href="{{ site_url }}/accounts/profile/view/{{ project.author.username }}">{{ project.author.username }}</a> ({{ project.author.get_profile.completed_projects_karma }})
 			{% endif %}<br/>
 			Proposed {{ project.pub_date|ago }}<br/>
 			{% ifequal project.proposed_by "None" %}
 				(anonymously)
 			{% else %}
 				{% if project.looking_for_admin %}
-					(by <a href="/accounts/profile/view/{{ project.proposed_by.username }}">{{ project.proposed_by.username }}</a>)
+					(by <a href="{{ site_url }}/accounts/profile/view/{{ project.proposed_by.username }}">{{ project.proposed_by.username }}</a>)
 				{% endif %}
 			{% endifequal %}
 		</div>

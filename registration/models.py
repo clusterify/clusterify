@@ -22,6 +22,13 @@ from clusterify.utils import get_query
 import urllib, hashlib 
 
 
+# NOTE: this file was heavily modified relative to its original django-registration version.
+# - Basic model for OpenID support
+# - Profile model
+# - For the moment the email activation functionality is entirely bypassed (so actually django-registration isn't truly used).
+#
+# 2009.03.28
+
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
 
 def get_gravatar_image_url(email):

@@ -83,14 +83,14 @@
 Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
 </div>
 	<div class="form_div">
-		<form action="{{ project.get_postcomment_url }}" method="POST">
+		<form action="{{ site_url }}{{ project.get_postcomment_url }}" method="POST">
 				{{ form.text }}
 			<br/><br/>
 			<input type="submit" value="Submit" />
 		</form>
 	</div>
 	{% else %}
-		{% if not project_comments %}You could add a comment if you were <a href="/accounts/login/">logged in</a>.{% endif %}
+		{% if not project_comments %}You could add a comment if you were <a href="{{ site_url }}/accounts/login/">logged in</a>.{% endif %}
 	{% endif %}
 </div>
 
@@ -107,9 +107,9 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 	<div class="badge_group_container">
 		<div class="count_widget_container">
 			{% if voted_for_proposed %}
-				<div class="idea_vote_widget_button" title="You already voted for this idea"><img src="/files/images/dash.gif"></div>
+				<div class="idea_vote_widget_button" title="You already voted for this idea"><img src="{{ site_url }}/files/images/dash.gif"></div>
 			{% else %}
-				<a href="vote/proposed/" class="idea_vote_widget_button" title="Vote for this idea"><img src="/files/images/up.gif"></a>
+				<a href="vote/proposed/" class="idea_vote_widget_button" title="Vote for this idea"><img src="{{ site_url }}/files/images/up.gif"></a>
 			{% endif %}
 			<div class="idea_votes_container">
 				great
@@ -121,7 +121,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 		</div>
 		
 		<div class="count_widget_container">
-			<div class="invisible_vote_widget_button"><img src="/files/images/empty_vote_button.gif"></div>
+			<div class="invisible_vote_widget_button"><img src="{{ site_url }}/files/images/empty_vote_button.gif"></div>
 			<div class="joins_count_container">
 				&nbsp;
 				<div class="joins_count">
@@ -133,9 +133,9 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 		{% if project.p_completed %}
 			<div class="count_widget_container" style="margin-right: 0;">
 				{% if voted_for_completed %}
-					<div class="job_vote_widget_button" title="You already voted for this implementation"><img src="/files/images/dash.gif"></div>
+					<div class="job_vote_widget_button" title="You already voted for this implementation"><img src="{{ site_url }}/files/images/dash.gif"></div>
 				{% else %}
-					<a href="vote/completed/" class="job_vote_widget_button" title="Vote for this implementation"><img src="/files/images/up.gif"></a>
+					<a href="vote/completed/" class="job_vote_widget_button" title="Vote for this implementation"><img src="{{ site_url }}/files/images/up.gif"></a>
 				{% endif %}
 				<div class="job_votes_container">
 					great
@@ -145,7 +145,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 			</div>
 		{% else %}
 			<div class="count_widget_container" style="margin-right: 0;">
-				<div class="invisible_vote_widget_button"><img src="/files/images/empty_vote_button.gif"></div>
+				<div class="invisible_vote_widget_button"><img src="{{ site_url }}/files/images/empty_vote_button.gif"></div>
 				<div class="disabled_badge_container" style="margin: 0;">
 					great<div class="votes_count">N/A</div>job
 				</div>
@@ -158,12 +158,12 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 
 {% if not project.wont_be_completed %}
 	{% ifequal user project.author %}
-		<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
+		<a href="{{ site_url }}{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
 		{% if project.p_completed %}
 			<div class="sidebar_info">This project is completed.</div>
 		{% else %}
-			<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
-			<a href="{{ project.get_absolute_url }}set_wont_complete/" class="sidebar_button_a">Set as "won't be completed"</a>
+			<a href="{{ site_url }}{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
+			<a href="{{ site_url }}{{ project.get_absolute_url }}set_wont_complete/" class="sidebar_button_a">Set as "won't be completed"</a>
 		{% endif %}
 	{% endifequal %}
 {% endif %}

@@ -83,11 +83,11 @@
 
 	<div class="user_row">
 		<div class="user_row_icon">
-			<a href="{{ profile.user.get_profile.get_absolute_url }}"><img src="{{ profile.user.get_profile.get_gravatar_url }}" width="50" height="50" /></a>
+			<a href="{{ site_url }}{{ profile.user.get_profile.get_absolute_url }}"><img src="{{ profile.user.get_profile.get_gravatar_url }}" width="50" height="50" /></a>
 		</div>
 		<div class="user_row_text">
 			<div class="user_row_username">
-				<a href="{{ profile.user.get_profile.get_absolute_url }}">{{ profile.user.username }}</a> ({{ profile.completed_projects_karma }})
+				<a href="{{ site_url }}{{ profile.user.get_profile.get_absolute_url }}">{{ profile.user.username }}</a> ({{ profile.completed_projects_karma }})
 			</div>
 			<div class="user_row_date">Joined {{ profile.user.date_joined|ago }}</div>
 			<div class="user_row_desc">
@@ -95,7 +95,7 @@
 			</div>
 			<div class="user_row_tags">
 			{% for t in profile.user.get_profile.get_tags %}
-				<a class="tag_link" href="/accounts/people/?tags={{ t }}">{{ t }}</a>
+				<a class="tag_link" href="{{ site_url }}/accounts/people/?tags={{ t }}">{{ t }}</a>
 			{% endfor %}
 			</div>
 		</div>

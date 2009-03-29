@@ -19,7 +19,7 @@
 
 {% if user_tags %}
 	{% for t in user_tags %}
-		<a class="tag_link" href="/projects/proposed/?tags={{ t }}">{{ t }}</a>
+		<a class="tag_link" href="{{ site_url }}/projects/proposed/?tags={{ t }}">{{ t }}</a>
 	{% endfor %}
 {% else %}
 	({{ profile.user.username }} has not entered tags yet)
@@ -35,7 +35,7 @@
 {% endif %}
 
 <div class="content_subtitle">{{profile.user.username}}'s comments
-  <a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all) </a>
+  <a href="{{ site_url }}/projects/comments/?foruser={{ profile.user.username }}"> (view all) </a>
 </div>
 
 {% for comment in comments %}
@@ -43,7 +43,7 @@
 {% endfor %}
 
 <div class="content_subtitle">{{profile.user.username}}'s projects
-  <a href="/projects/?foruser={{ profile.user.username }}"> (view all) </a>
+  <a href="{{ site_url }}/projects/?foruser={{ profile.user.username }}"> (view all) </a>
 </div>
 
 {% for project in projects %}

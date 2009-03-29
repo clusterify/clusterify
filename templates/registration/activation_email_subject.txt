@@ -1,4 +1,1 @@
-{% comment %}
 Account Activation - {{ site }}
-{% endcomment %}
-Account Activation - clusterify.com

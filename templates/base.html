@@ -23,19 +23,19 @@
 			{% if user.is_authenticated %}
 				<div class="sidebar_title">Reference</div>
 				<div class="sidebar_block">
-					- <a href="/concepts/">Basic concepts</a><br/>
-					- <a href="/collaboration/">Collaboration tools and tips</a><br/>
-					- <a href="/idea_guide/">Project idea guide</a><br/>
+					- <a href="{{ site_url }}/concepts/">Basic concepts</a><br/>
+					- <a href="{{ site_url }}/collaboration/">Collaboration tools and tips</a><br/>
+					- <a href="{{ site_url }}/idea_guide/">Project idea guide</a><br/>
 				</div>
 			{% else %}
 				<div class="sidebar_title">New here?</div>
-				<div class="sidebar_block">Take 2 minutes to learn <a href="/concepts/">basic concepts</a>.<br/><br/>
+				<div class="sidebar_block">Take 2 minutes to learn <a href="{{ site_url }}/concepts/">basic concepts</a>.<br/><br/>
 				Clusterify: work on fun, small (few hours) projects and meet other coders.
 				</div>
 			{% endif %}
 			<div class="sidebar_title">Search site</div>
 			<div class="sidebar_block">
-				<form action="/projects/search/" method="GET">
+				<form action="{{ site_url }}/projects/search/" method="GET">
 					<input type="text" name="terms" style="width: 95%" value="{{ search_terms }}"/><br/>
 					<select name="search_results_type">
 						<option value="projects" {% ifequal "projects" search_results_type %}selected{% endifequal %}>in projects</option>
@@ -52,12 +52,12 @@
 			<div class="sidebar_block" style="text-align: left;">
 				<a href="http://blog.clusterify.com/?feed=rss2">The Blog</a><br/>
                 <hr/>
-				<a href="/projects/rss/proposed/new">New Projects</a><br/>
-				<a href="/projects/rss/proposed/top">Top Projects</a><br/>
-				<a href="/projects/rss/completed">Completed Projects</a><br/>
+				<a href="{{ site_url }}/projects/rss/proposed/new/">New Projects</a><br/>
+				<a href="{{ site_url }}/projects/rss/proposed/top/">Top Projects</a><br/>
+				<a href="{{ site_url }}/projects/rss/completed/">Completed Projects</a><br/>
 
 				<hr/>
-				<a href="/projects/rss/comments">Latest Comments</a><br/>
+				<a href="{{ site_url }}/projects/rss/comments/">Latest Comments</a><br/>
 			</div>
 			<div class="sidebar_title">Feedback</div>
 			<div class="sidebar_block" style="text-align: left;">

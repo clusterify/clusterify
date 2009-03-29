@@ -14,12 +14,16 @@ from django.conf import settings
 
 from tagging.models import Tag, TaggedItem
 
-from clusterify.utils import get_paginator_page, generic_confirmation_view, get_query
+from clusterify.utils import get_paginator_page, generic_confirmation_view, get_query, get_full_url
 
 from registration.models import Profile
 
 from forms import ProjectForm, CommentForm, JoinForm
 from models import Project, Comment, Membership
+
+
+##############################################################################
+# Constants
 
 PROJECTS_PER_PAGE = 10
 ITEMS_IN_FEED = 20
@@ -112,7 +116,7 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 	
 	# For RSS feeds
 	if return_raw_projects:
-		return page_title, this_page_url, projects, list_type
+		return page_title, get_full_url(this_page_url), projects, list_type
 	
 	list_paginator_page = get_paginator_page(request, projects, PROJECTS_PER_PAGE)
 	
@@ -122,10 +126,10 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
             'list_type': list_type,
 			'filter_description': filter_description,
 			# TODO: also include tags in those urls
-			'list_top_url': top_url,
-			'list_new_url': new_url,
-			'rss_url': rss_url,
-			'list_mytags_url': mytags_url},
+			'list_top_url': get_full_url(top_url),
+			'list_new_url': get_full_url(new_url),
+			'rss_url': get_full_url(rss_url),
+			'list_mytags_url': get_full_url(mytags_url)},
 			context_instance=RequestContext(request))
 
 def list_projects_as_feed(request, completeness, list_type='top'):
@@ -133,14 +137,14 @@ def list_projects_as_feed(request, completeness, list_type='top'):
 	
 	f = feedgenerator.Rss201rev2Feed(
 			title=page_title + " ("+list_type+")",
-			link="http://www.clusterify.com"+url,
+			link=url,
 			description=u"",
 			language=u"en")
 
 	to_print = projects[0:min(ITEMS_IN_FEED, projects.count())]
 	for p in to_print:
 		f.add_item(title=p.title, 
-				link="http://www.clusterify.com"+p.get_absolute_url(), 
+				link=get_full_url(p.get_absolute_url()),
 				description=p.description_html,
 				pubdate=p.pub_date)
 	
@@ -151,14 +155,14 @@ def list_comments_as_feed(request):
 
 	f = feedgenerator.Rss201rev2Feed(
 			title=page_title,
-			link="http://www.clusterify.com",
+			link=get_full_url(""),
 			description=u"Recent Project Comments",
 			language=u"en")
 
 	to_print = comments[0:min(ITEMS_IN_FEED, comments.count())]
 	for p in to_print:
 		f.add_item(title="Comment on "+p.project.title+" by "+p.author.username,
-				link="http://www.clusterify.com"+p.project.get_absolute_url(), 
+				link=get_full_url(p.project.get_absolute_url()),
 				description=p.text,
 				pubdate=p.pub_date)
 
@@ -181,12 +185,13 @@ def search_portal(request):
 	terms = request.GET.get('terms', '')
 	
 	if res_type == 'profiles':
-		return HttpResponseRedirect('/accounts/people/?terms='+terms)
+		return HttpResponseRedirect(get_full_url('/accounts/people/?terms='+terms))
 	elif res_type == 'comments':
 		return list_comments(request)
 	else:
 		return list_projects(request)
 
+# Sends out email to project members
 def project_notification(project, notification_source_user, subject, content, just_to_author=False):
 	if just_to_author:
 		project_members = [project.author]
@@ -253,7 +258,7 @@ def post_project_comment(request, project_author, project_pk):
 										{ 'project': project,
 										'comment': comment}))
 			
-			return HttpResponseRedirect(project.get_absolute_url())
+			return HttpResponseRedirect(get_full_url(project.get_absolute_url()))
 	else:
 		comment_form = CommentForm()
 		
@@ -271,7 +276,7 @@ def edit_project_comment(request, project_author, project_pk, comment_pk):
 			comment.text = comment_form.cleaned_data['text']
 			comment.save()
 			
-			return HttpResponseRedirect(comment.get_edit_url())
+			return HttpResponseRedirect(get_full_url(comment.get_edit_url()))
 	else:
 		comment_form = CommentForm(initial={'text':comment.text})
 		
@@ -416,8 +421,8 @@ def set_project_admin_confirm(request, project_author, project_pk):
 			   
 	return generic_confirmation_view(request,
 			"Are you sure you want to become admin for this project?",
-			project.get_absolute_url() + "become_admin/ok/",
-			project.get_absolute_url())
+			"become_admin/ok/",
+			get_full_url(project.get_absolute_url()) )
 
 @login_required
 def set_project_admin_doit(request, project_author, project_pk):
@@ -462,7 +467,7 @@ def set_completed_confirm(request, project_author, project_pk):
 	return generic_confirmation_view(request,
 			"Are you sure you want to set the project as completed?",
 			"ok/",
-			project.get_absolute_url())
+			get_full_url(project.get_absolute_url()) )
 
 @login_required
 def set_completed_doit(request, project_author, project_pk):
@@ -498,7 +503,7 @@ def set_wont_be_completed_confirm(request, project_author, project_pk):
 	return generic_confirmation_view(request,
 			"Are you sure you want to set this project as 'won't be completed'. This will remove the project from the 'proposed' lists without putting it on the 'completed' list.",
 			"ok/",
-			project.get_absolute_url())
+			get_full_url(project.get_absolute_url()) )
 
 @login_required
 def set_wont_be_completed_doit(request, project_author, project_pk):
@@ -523,7 +528,7 @@ def set_wont_be_completed_doit(request, project_author, project_pk):
 				render_to_string('projects/emails/project_wont_be_completed.txt',
 								{ 'project': project}))
 	
-	return HttpResponseRedirect(project.get_absolute_url())
+	return HttpResponseRedirect(get_full_url(project.get_absolute_url()))
 
 @login_required
 def join_project(request, project_author, project_pk):
@@ -551,7 +556,7 @@ def join_project(request, project_author, project_pk):
 		else:
 			user.message_set.create(message="Something was wrong with your form. Please note that your role description may not be longer than 120 characters. Here's the text you entered: %s" % role)
 
-	return HttpResponseRedirect(project.get_absolute_url())
+	return HttpResponseRedirect(get_full_url(project.get_absolute_url()))
 
 @login_required
 def update_role(request, project_author, project_pk):
@@ -570,7 +575,7 @@ def update_role(request, project_author, project_pk):
 		else:
 			user.message_set.create(message="Something was wrong with your form. Please note that your role description may not be longer than 120 characters. Here's the text you entered: %s" % role)
 	
-	return HttpResponseRedirect(project.get_absolute_url())
+	return HttpResponseRedirect(get_full_url(project.get_absolute_url()))
 
 @login_required
 def approve_join(request, project_author, project_pk, joining_username):
@@ -589,7 +594,7 @@ def approve_join(request, project_author, project_pk, joining_username):
 							'role': role,
 							'joining_user': joining_user}))
 	
-	return HttpResponseRedirect(project.get_absolute_url())
+	return HttpResponseRedirect(get_full_url(project.get_absolute_url()))
 
 @login_required
 def vote_for_project(request, project_author, project_pk, vote_type):
@@ -604,6 +609,6 @@ def vote_for_project(request, project_author, project_pk, vote_type):
 	except:
 		user.message_set.create(message="You have already voted for this item.")
 	
-	return HttpResponseRedirect(project.get_absolute_url())
+	return HttpResponseRedirect(get_full_url(project.get_absolute_url()))
 
 	

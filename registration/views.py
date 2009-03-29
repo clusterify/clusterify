@@ -1,7 +1,3 @@
-"""
-Views which allow users to create and activate accounts.
-"""
-
 import urllib
 
 from django.conf import settings
@@ -26,8 +22,17 @@ from django.contrib.auth import views as auth_views
 from projects.models import Comment
 from clusterify.utils import get_paginator_page, get_query
 
+# NOTE: this file was heavily modified relative to its original django-registration version.
+# Notably, the whole email activation process is bypassed.
+
+##############################################################################
+# Constants
+
 USERS_PER_PAGE = 20
 SEARCH_RESULTS_PER_PAGE = 10
+
+##############################################################################
+# OpenID support
 
 def openid_login_on_success(request, identity_url, openid_response):
 	if 'openids' not in request.session.keys():
@@ -52,6 +57,50 @@ def openid_login_on_success(request, identity_url, openid_response):
 		next = getattr(settings, 'OPENID_REDIRECT_NEXT', '/')
 
 	return HttpResponseRedirect(next)
+	
+def register_from_openid(request):
+	if not request.openid:
+		return render_to_response('oops.html',
+			{'error_message': "It appears your OpenID session isn't valid. Make sure cookies are activated in your browser settings."},
+			context_instance=RequestContext(request))
+	
+	assocs = OpenIdAssociation.objects.filter(url=str(request.openid))
+	if assocs.count() > 0:
+		return render_to_response('oops.html',
+			{'error_message': "Your OpenID URL is already registered and associated with a username."},
+			context_instance=RequestContext(request))
+	
+	if request.method == 'POST':
+		form = OpenIdRegistrationForm(request.POST)
+		if form.is_valid():
+			
+			# not supplying a password, therefore the account
+			# cannot be logged in from normal login form
+			# (creates an unusable password)
+			new_user = User.objects.create_user(form.cleaned_data['username'],
+												form.cleaned_data['email'])
+			new_user.is_active = True
+			new_user.save()
+
+			assoc = OpenIdAssociation(user=new_user, url=str(request.openid))
+			assoc.save()
+			
+			auth_user = authenticate(openid_url=str(request.openid))
+			login(request, auth_user)
+			
+			auth_user.message_set.create(message="Your profile has been successfully created and attached to your OpenID URL.")
+            
+			return HttpResponseRedirect('/accounts/profile/')
+		
+	else:
+		form = OpenIdRegistrationForm()
+    
+	return render_to_response('registration/openid_registration_form.html',
+								{ 'form': form },
+								context_instance=RequestContext(request))
+
+##############################################################################
+# User list
 
 def list_users(request, list_type='new'):
 	user = request.user
@@ -118,6 +167,8 @@ def list_users(request, list_type='new'):
 def list_users_mytags(request):
 	return list_users(request, "recommend")
 
+##############################################################################
+# Profile-related views
 
 # MODIF: added these two profile-related functions
 @login_required
@@ -171,6 +222,7 @@ def view_profile(request, username):
     except Profile.DoesNotExist:
         raise Http404
 
+# Comments by a given user
 def view_comments(request, username):
     try:
         user = User.objects.get(username=username)
@@ -182,6 +234,7 @@ def view_comments(request, username):
     except User.DoesNotExist:
         raise Http404
 
+# Projects by a given user
 def view_projects(request, username):
     try:
         user = User.objects.get(username=username)
@@ -196,7 +249,6 @@ def view_projects(request, username):
     except User.DoesNotExist:
         raise Http404
 
-
 @login_required
 def view_default_profile(request):
 	user = request.user
@@ -204,6 +256,9 @@ def view_default_profile(request):
         # WAS: return view_profile(request, user.username)
         # I think this makes the url more consistent
         return HttpResponseRedirect('/accounts/profile/view/%s/' % user.username)	
+
+##############################################################################
+# More or less original django-registration code
 
 @login_required
 def logout(request):
@@ -269,50 +324,6 @@ def activate(request, activation_key,
                               { 'account': account,
                                 'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS },
                               context_instance=context)
-
-
-
-
-def register_from_openid(request):
-	if not request.openid:
-		return render_to_response('oops.html',
-			{'error_message': "It appears your OpenID session isn't valid. Make sure cookies are activated in your browser settings."},
-			context_instance=RequestContext(request))
-	
-	assocs = OpenIdAssociation.objects.filter(url=str(request.openid))
-	if assocs.count() > 0:
-		return render_to_response('oops.html',
-			{'error_message': "Your OpenID URL is already registered and associated with a username."},
-			context_instance=RequestContext(request))
-	
-	if request.method == 'POST':
-		form = OpenIdRegistrationForm(request.POST)
-		if form.is_valid():
-			
-			# not supplying a password, therefore the account
-			# cannot be logged in from normal login form
-			# (creates an unusable password)
-			new_user = User.objects.create_user(form.cleaned_data['username'],
-												form.cleaned_data['email'])
-			new_user.is_active = True
-			new_user.save()
-
-			assoc = OpenIdAssociation(user=new_user, url=str(request.openid))
-			assoc.save()
-			
-			auth_user = authenticate(openid_url=str(request.openid))
-			login(request, auth_user)
-			
-			auth_user.message_set.create(message="Your profile has been successfully created and attached to your OpenID URL.")
-            
-			return HttpResponseRedirect('/accounts/profile/')
-		
-	else:
-		form = OpenIdRegistrationForm()
-    
-	return render_to_response('registration/openid_registration_form.html',
-								{ 'form': form },
-								context_instance=RequestContext(request))
 
 def register(request, success_url=None,
              form_class=RegistrationForm,

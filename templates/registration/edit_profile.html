@@ -1,4 +1,3 @@
-
 {% extends "base.html"  %}
 
 {% block title %}Edit your profile{% endblock %}
@@ -6,7 +5,7 @@
 
 {% block content %}
 
-<form action="/accounts/profile/edit/" method="POST">
+<form action="{{ site_url }}/accounts/profile/edit/" method="POST">
 
 {% for hidden in form.hidden_fields %}
 {{ field }}

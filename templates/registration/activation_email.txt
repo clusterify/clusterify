@@ -1,9 +1,1 @@
-{% comment %}
-I hardcoded the url temporarily, until we figure out how to change the setting.
-Original:
-====================
-Please click here to activate your account: http://{{ site }}/accounts/activate/{{ activation_key }}/
-
-{% endcomment %}
-
-Please click here to activate your account: http://clusterify.com/accounts/activate/{{ activation_key }}/
+Please click here to activate your account: {{ site_url }}/accounts/activate/{{ activation_key }}/
