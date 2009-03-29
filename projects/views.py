@@ -21,6 +21,9 @@ from registration.models import Profile
 from forms import ProjectForm, CommentForm, JoinForm
 from models import Project, Comment, Membership
 
+##############################################################################
+# Constants
+
 PROJECTS_PER_PAGE = 10
 ITEMS_IN_FEED = 20
 SEEDS_PER_PAGE = 20
