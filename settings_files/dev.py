@@ -99,7 +99,6 @@ INSTALLED_APPS = (
     'projects',
     'generictemplatetags',
     'tagging',
-    'voting',
     'django_openidconsumer',
 )
 
