@@ -21,8 +21,10 @@ from clusterify.utils import get_query
 
 import urllib, hashlib 
 
-
 SHA1_RE = re.compile('^[a-f0-9]{40}$')
+
+# NOTE: the code of django-registration was heavily modified...
+# it almost isn't used anymore, due to the bypass of the activation email process
 
 def get_gravatar_image_url(email):
 	# Set your variables here
@@ -130,6 +132,8 @@ class Profile(models.Model):
 			
 		self.save()
 
+##############################################################################
+# Mostly the original django-registration code
 
 class RegistrationManager(models.Manager):
     """
