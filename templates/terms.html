@@ -1,5 +1,6 @@
 
 {% extends "base.html"  %}
+{% load util_filters %}
 
 {% block title %}Terms of service{% endblock %}
 {% block titleInPage %}Terms of service{% endblock %}
@@ -7,5 +8,7 @@
 {% block content %}
 
 <p>This page is more or less intentionally left blank -- for the moment.</p>
+
+<a href="mailto:{{ "DEFAULT_CONTACT_EMAIL"|settingbyname }}">{{ "DEFAULT_CONTACT_EMAIL"|settingbyname }}</a>
 
 {% endblock %}
