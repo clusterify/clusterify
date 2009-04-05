@@ -1,5 +1,6 @@
 from django import template
 from django.utils.timesince import timesince
+from django.conf import settings
 
 register = template.Library()
 
