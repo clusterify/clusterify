@@ -6,11 +6,10 @@ register = template.Library()
 
 @register.filter(name='settingbyname')
 def settingbyname(setting_name):
-	return "test"
-	#if hasattr(settings, setting_name):
-	#	return str(getattr(settings, setting_name))
-	#else:
-	#	return ""
+	if hasattr(settings, setting_name):
+		return str(getattr(settings, setting_name))
+	else:
+		return ""
 
 @register.filter(name='ago')
 def ago(date):
