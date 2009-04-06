@@ -1,0 +1,65 @@
+LEGAL INFORMATION
+
+This LEGAL.txt file accompanies the "Clusterify" program. It includes 
+notices required by the licenses as well as general legal notices.
+
+=========================================
+ COPYRIGHT AND ATTRIBUTION NOTICES
+=========================================
+
+Portions Copyright (C) 2009 the Clusterify.com team
+All Rights Reserved.
+
+Attribution Phrase: Powered by Clusterify
+Attribution URL: http://www.clusterify.com/
+Attribution Graphic Image: http://www.clusterify.com/files/images/powered_by_clusterify.png
+
+=========================================
+ SOURCE CODE AVAILABILITY NOTICE
+=========================================
+
+The source code for this product is available from:
+http://www.clusterify.com/about
+
+=========================================
+ SOURCE CODE LICENSE
+=========================================
+
+Except as explicitly indicated in the file itself or in the "THIRD PARTY CLAIMS"
+section bellow, the contents of all files 
+that make up this product are subject to the Common Public Attribution License 
+Version 1.0 (the "License"; alternatively, the "CPAL"); you may not use the 
+files except in compliance with the License. You may obtain a copy of the 
+License at http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have been 
+added to cover use of software over a computer network and provide for limited 
+attribution for the Original Developer. In addition, Exhibit A has been 
+modified to be consistent with Exhibit B.
+
+Software distributed under the License is distributed on an "AS IS" basis, 
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for 
+the specific language governing rights and limitations under the License.
+
+=========================================
+ LEGAL NOTICES REQUIRED BY THE LICENSE
+=========================================
+
+CHANGES MADE TO THE COVERED CODE (see CPAL Section 3.3):
+
+----
+
+(Documentation of future changes as the result of Modifications, including the 
+date of change, will go here in this LEGAL.txt file. This documentation may be 
+summaries of changes with the more detailed descriptions included in the actual 
+modified files as appropriate.)
+
+=========================================
+ THIRD PARTY CLAIMS 
+=========================================
+
+(See CPAL Section 3.4(a)):
+
+A LICENSE (or similarly named) file has been added to subdirectories of code
+modules used in the project and distributed with it. Please refer to those
+files for license information concerning each of those modules.
+
