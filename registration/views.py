@@ -29,6 +29,213 @@ from clusterify.utils import get_paginator_page, get_query, oops
 # NOTE: the code of django-registration was heavily modified...
 # it almost isn't used anymore, due to the bypass of the activation email process
 
+
+
+##############################################################################
+# Mostly the original django-registration code (with bypass of activation)
+
+@login_required
+def logout(request):
+	# Necessary to wrap in case logged in using OpenId
+	request.session['openids'] = []
+	
+	return auth_views.logout(request, template_name='registration/logout.html')
+
+def activate(request, activation_key,
+             template_name='registration/activate.html',
+             extra_context=None):
+    """
+    Activate a ``User``'s account from an activation key, if their key
+    is valid and hasn't expired.
+    
+    By default, use the template ``registration/activate.html``; to
+    change this, pass the name of a template as the keyword argument
+    ``template_name``.
+    
+    **Required arguments**
+    
+    ``activation_key``
+       The activation key to validate and use for activating the
+       ``User``.
+    
+    **Optional arguments**
+       
+    ``extra_context``
+        A dictionary of variables to add to the template context. Any
+        callable object in this dictionary will be called to produce
+        the end result which appears in the context.
+    
+    ``template_name``
+        A custom template to use.
+    
+    **Context:**
+    
+    ``account``
+        The ``User`` object corresponding to the account, if the
+        activation was successful. ``False`` if the activation was not
+        successful.
+    
+    ``expiration_days``
+        The number of days for which activation keys stay valid after
+        registration.
+    
+    Any extra variables supplied in the ``extra_context`` argument
+    (see above).
+    
+    **Template:**
+    
+    registration/activate.html or ``template_name`` keyword argument.
+    
+    """
+    activation_key = activation_key.lower() # Normalize before trying anything with it.
+    account = RegistrationProfile.objects.activate_user(activation_key)
+    if extra_context is None:
+        extra_context = {}
+    context = RequestContext(request)
+    for key, value in extra_context.items():
+        context[key] = callable(value) and value() or value
+    return render_to_response(template_name,
+                              { 'account': account,
+                                'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS },
+                              context_instance=context)
+
+def register(request, success_url=None,
+             form_class=RegistrationForm,
+             template_name='registration/registration_form.html',
+             extra_context=None):
+    """
+    Allow a new user to register an account.
+    
+    Following successful registration, issue a redirect; by default,
+    this will be whatever URL corresponds to the named URL pattern
+    ``registration_complete``, which will be
+    ``/accounts/register/complete/`` if using the included URLConf. To
+    change this, point that named pattern at another URL, or pass your
+    preferred URL as the keyword argument ``success_url``.
+    
+    By default, ``registration.forms.RegistrationForm`` will be used
+    as the registration form; to change this, pass a different form
+    class as the ``form_class`` keyword argument. The form class you
+    specify must have a method ``save`` which will create and return
+    the new ``User``.
+    
+    By default, use the template
+    ``registration/registration_form.html``; to change this, pass the
+    name of a template as the keyword argument ``template_name``.
+    
+    **Required arguments**
+    
+    None.
+    
+    **Optional arguments**
+    
+    ``form_class``
+        The form class to use for registration.
+    
+    ``extra_context``
+        A dictionary of variables to add to the template context. Any
+        callable object in this dictionary will be called to produce
+        the end result which appears in the context.
+    
+    ``success_url``
+        The URL to redirect to on successful registration.
+    
+    ``template_name``
+        A custom template to use.
+    
+    **Context:**
+    
+    ``form``
+        The registration form.
+    
+    Any extra variables supplied in the ``extra_context`` argument
+    (see above).
+    
+    **Template:**
+    
+    registration/registration_form.html or ``template_name`` keyword
+    argument.
+    
+    """
+    if request.method == 'POST':
+        form = form_class(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            new_user = User.objects.create_user(form.cleaned_data['username'],
+                                                form.cleaned_data['email'],
+                                                form.cleaned_data['password1'])
+            new_user.is_active = True
+            new_user.save()
+            
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+            login(request, user)
+			
+            user.message_set.create(message="Your profile has been successfully created.")
+            
+            return HttpResponseRedirect('/accounts/profile/')
+            
+            #return render_to_response('registration/activate.html',
+            #                        {},
+            #                        context_instance=RequestContext(request))
+            
+            #new_user = form.save()
+            # success_url needs to be dynamically generated here; setting a
+            # a default value using reverse() will cause circular-import
+            # problems with the default URLConf for this application, which
+            # imports this file.
+            #return HttpResponseRedirect(success_url or reverse('registration_complete'))
+    else:
+        form = form_class()
+    
+    if extra_context is None:
+        extra_context = {}
+    context = RequestContext(request)
+    for key, value in extra_context.items():
+        context[key] = callable(value) and value() or value
+    return render_to_response(template_name,
+                              { 'form': form },
+                              context_instance=context)
+
+
+
+
+
+
+
+
+
+
+
+##############################################################################
+# THE FOLLOWING LICENSE APPLIES TO THE REST OF THIS FILE
+# (the rest of this file contains additions made to the original
+# django-registration module for Clusterify)
+
+"""
+"The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except 
+in compliance with the License. You may obtain a copy of the License at 
+http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
+been added to cover use of software over a computer network and provide 
+for limited attribution for the Original Developer. In addition, Exhibit 
+A has been modified to be consistent with Exhibit B.
+
+Software distributed under the License is distributed on an "AS IS" basis, 
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
+for the specific language governing rights and limitations under the 
+License.
+
+The Original Code is Clusterify.
+
+The Initial Developer of the Original Code is "the Clusterify.com team", 
+which is described at http://www.clusterify.com/about/. All portions of 
+the code written by the Initial Developer are Copyright (c) the Initial 
+Developer. All Rights Reserved.
+"""
+
+
+
+
 ##############################################################################
 # Constants
 
@@ -257,166 +464,3 @@ def view_default_profile(request):
         # I think this makes the url more consistent
         return HttpResponseRedirect('/accounts/profile/view/%s/' % user.username)	
 
-##############################################################################
-# Mostly the original django-registration code (with bypass of activation)
-
-@login_required
-def logout(request):
-	# Necessary to wrap in case logged in using OpenId
-	request.session['openids'] = []
-	
-	return auth_views.logout(request, template_name='registration/logout.html')
-
-def activate(request, activation_key,
-             template_name='registration/activate.html',
-             extra_context=None):
-    """
-    Activate a ``User``'s account from an activation key, if their key
-    is valid and hasn't expired.
-    
-    By default, use the template ``registration/activate.html``; to
-    change this, pass the name of a template as the keyword argument
-    ``template_name``.
-    
-    **Required arguments**
-    
-    ``activation_key``
-       The activation key to validate and use for activating the
-       ``User``.
-    
-    **Optional arguments**
-       
-    ``extra_context``
-        A dictionary of variables to add to the template context. Any
-        callable object in this dictionary will be called to produce
-        the end result which appears in the context.
-    
-    ``template_name``
-        A custom template to use.
-    
-    **Context:**
-    
-    ``account``
-        The ``User`` object corresponding to the account, if the
-        activation was successful. ``False`` if the activation was not
-        successful.
-    
-    ``expiration_days``
-        The number of days for which activation keys stay valid after
-        registration.
-    
-    Any extra variables supplied in the ``extra_context`` argument
-    (see above).
-    
-    **Template:**
-    
-    registration/activate.html or ``template_name`` keyword argument.
-    
-    """
-    activation_key = activation_key.lower() # Normalize before trying anything with it.
-    account = RegistrationProfile.objects.activate_user(activation_key)
-    if extra_context is None:
-        extra_context = {}
-    context = RequestContext(request)
-    for key, value in extra_context.items():
-        context[key] = callable(value) and value() or value
-    return render_to_response(template_name,
-                              { 'account': account,
-                                'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS },
-                              context_instance=context)
-
-def register(request, success_url=None,
-             form_class=RegistrationForm,
-             template_name='registration/registration_form.html',
-             extra_context=None):
-    """
-    Allow a new user to register an account.
-    
-    Following successful registration, issue a redirect; by default,
-    this will be whatever URL corresponds to the named URL pattern
-    ``registration_complete``, which will be
-    ``/accounts/register/complete/`` if using the included URLConf. To
-    change this, point that named pattern at another URL, or pass your
-    preferred URL as the keyword argument ``success_url``.
-    
-    By default, ``registration.forms.RegistrationForm`` will be used
-    as the registration form; to change this, pass a different form
-    class as the ``form_class`` keyword argument. The form class you
-    specify must have a method ``save`` which will create and return
-    the new ``User``.
-    
-    By default, use the template
-    ``registration/registration_form.html``; to change this, pass the
-    name of a template as the keyword argument ``template_name``.
-    
-    **Required arguments**
-    
-    None.
-    
-    **Optional arguments**
-    
-    ``form_class``
-        The form class to use for registration.
-    
-    ``extra_context``
-        A dictionary of variables to add to the template context. Any
-        callable object in this dictionary will be called to produce
-        the end result which appears in the context.
-    
-    ``success_url``
-        The URL to redirect to on successful registration.
-    
-    ``template_name``
-        A custom template to use.
-    
-    **Context:**
-    
-    ``form``
-        The registration form.
-    
-    Any extra variables supplied in the ``extra_context`` argument
-    (see above).
-    
-    **Template:**
-    
-    registration/registration_form.html or ``template_name`` keyword
-    argument.
-    
-    """
-    if request.method == 'POST':
-        form = form_class(data=request.POST, files=request.FILES)
-        if form.is_valid():
-            new_user = User.objects.create_user(form.cleaned_data['username'],
-                                                form.cleaned_data['email'],
-                                                form.cleaned_data['password1'])
-            new_user.is_active = True
-            new_user.save()
-            
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
-            login(request, user)
-			
-            user.message_set.create(message="Your profile has been successfully created.")
-            
-            return HttpResponseRedirect('/accounts/profile/')
-            
-            #return render_to_response('registration/activate.html',
-            #                        {},
-            #                        context_instance=RequestContext(request))
-            
-            #new_user = form.save()
-            # success_url needs to be dynamically generated here; setting a
-            # a default value using reverse() will cause circular-import
-            # problems with the default URLConf for this application, which
-            # imports this file.
-            #return HttpResponseRedirect(success_url or reverse('registration_complete'))
-    else:
-        form = form_class()
-    
-    if extra_context is None:
-        extra_context = {}
-    context = RequestContext(request)
-    for key, value in extra_context.items():
-        context[key] = callable(value) and value() or value
-    return render_to_response(template_name,
-                              { 'form': form },
-                              context_instance=context)

@@ -1,3 +1,10 @@
+The following license applies to the original django-registration code.
+Some files in this directory have been modified, and specific license
+information is contained in those files before the sections containing
+the changes.
+
+---
+
 Copyright (c) 2007-2008, James Bennett
 All rights reserved.
 

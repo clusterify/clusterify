@@ -16,40 +16,6 @@ from registration.models import RegistrationProfile
 # lands in trunk, this will no longer be necessary.
 attrs_dict = { 'class': 'required' }
 
-# MODIF: added this class
-class ProfileForm(forms.Form):
-	description = forms.CharField(
-					required=False,
-					widget=forms.widgets.Textarea(
-						attrs={'class':'markdown_textarea','rows':'20'}),
-					max_length=5000)
-	email = forms.EmailField(required=False)
-	tags = forms.RegexField(
-		required=False,
-		regex=r'^[A-Za-z0-9\- ]+$')
-
-
-class OpenIdRegistrationForm(forms.Form):
-    username = forms.RegexField(regex=r'^\w+$',
-                                max_length=30,
-                                min_length=3,
-                                widget=forms.TextInput(attrs=attrs_dict),
-                                label=_(u'username'))
-    email = forms.EmailField(required=False, widget=forms.TextInput(attrs=dict(attrs_dict,
-                                                               maxlength=75)),
-                             label=_(u'email address'))
-    
-    def clean_username(self):
-        """
-        Validate that the username is alphanumeric and is not already
-        in use.
-        
-        """
-        try:
-            user = User.objects.get(username__iexact=self.cleaned_data['username'])
-        except User.DoesNotExist:
-            return self.cleaned_data['username']
-        raise forms.ValidationError(_(u'This username is already taken. Please choose another.'))
 
 
 
@@ -169,3 +135,71 @@ class RegistrationFormNoFreeEmail(RegistrationForm):
         if email_domain in self.bad_domains:
             raise forms.ValidationError(_(u'Registration using free email addresses is prohibited. Please supply a different email address.'))
         return self.cleaned_data['email']
+
+
+
+
+
+##############################################################################
+# THE FOLLOWING LICENSE APPLIES TO THE REST OF THIS FILE
+# (the rest of this file contains additions made to the original
+# django-registration module for Clusterify)
+
+"""
+"The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except 
+in compliance with the License. You may obtain a copy of the License at 
+http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
+been added to cover use of software over a computer network and provide 
+for limited attribution for the Original Developer. In addition, Exhibit 
+A has been modified to be consistent with Exhibit B.
+
+Software distributed under the License is distributed on an "AS IS" basis, 
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
+for the specific language governing rights and limitations under the 
+License.
+
+The Original Code is Clusterify.
+
+The Initial Developer of the Original Code is "the Clusterify.com team", 
+which is described at http://www.clusterify.com/about/. All portions of 
+the code written by the Initial Developer are Copyright (c) the Initial 
+Developer. All Rights Reserved.
+"""
+
+# MODIF: added this class
+class ProfileForm(forms.Form):
+	description = forms.CharField(
+					required=False,
+					widget=forms.widgets.Textarea(
+						attrs={'class':'markdown_textarea','rows':'20'}),
+					max_length=5000)
+	email = forms.EmailField(required=False)
+	tags = forms.RegexField(
+		required=False,
+		regex=r'^[A-Za-z0-9\- ]+$')
+
+
+class OpenIdRegistrationForm(forms.Form):
+    username = forms.RegexField(regex=r'^\w+$',
+                                max_length=30,
+                                min_length=3,
+                                widget=forms.TextInput(attrs=attrs_dict),
+                                label=_(u'username'))
+    email = forms.EmailField(required=False, widget=forms.TextInput(attrs=dict(attrs_dict,
+                                                               maxlength=75)),
+                             label=_(u'email address'))
+    
+    def clean_username(self):
+        """
+        Validate that the username is alphanumeric and is not already
+        in use.
+        
+        """
+        try:
+            user = User.objects.get(username__iexact=self.cleaned_data['username'])
+        except User.DoesNotExist:
+            return self.cleaned_data['username']
+        raise forms.ValidationError(_(u'This username is already taken. Please choose another.'))
+

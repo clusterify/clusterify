@@ -26,111 +26,7 @@ SHA1_RE = re.compile('^[a-f0-9]{40}$')
 # NOTE: the code of django-registration was heavily modified...
 # it almost isn't used anymore, due to the bypass of the activation email process
 
-def get_gravatar_image_url(email):
-	# Set your variables here
-	default = ""
-	size = 50
-	
-	# construct the url  
-	gravatar_url = "http://www.gravatar.com/avatar.php?"  
-	gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email.lower()).hexdigest(), 'default':'identicon', 'size':str(size)})
-	
-	return gravatar_url
 
-class OpenIdAssociation(models.Model):
-	user = models.ForeignKey(User)
-	# TODO: make this unique
-	url = models.URLField(blank=False)
-
-# Inspired by http://code.google.com/p/django-openid-auth/source/browse/trunk/openid_auth/models.py
-# add registration.models.OpenIdBackend to settings.AUTHENTICATION_BACKENDS
-# see http://docs.djangoproject.com/en/dev/topics/auth/#writing-an-authentication-backend
-class OpenIdBackend:
-    def authenticate(self, openid_url=None):
-        if openid_url:
-            try:
-                user_openid = OpenIdAssociation.objects.get(url=openid_url)
-                return user_openid.user
-            except OpenIdAssociation.DoesNotExist:
-                return None
-        else:
-            return None
-    
-    def get_user(self, user_id):
-        try:
-            return User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            return None
-
-# MODIF: added this class, should be set as AUTH_PROFILE_MODULE
-class Profile(models.Model):
-	user = models.ForeignKey(User, unique=True)
-	
-	description_markdown = models.TextField(blank=True)
-	description_html = models.TextField(blank=True)
-	
-	proposed_projects_karma = models.PositiveIntegerField(default=1)
-	completed_projects_karma = models.PositiveIntegerField(default=1)
-	comment_karma = models.PositiveIntegerField(default=1)
-	
-	# Using Tag.objects directly, instead of the field, now (otherwise
-	# the field overwrites with empty tag list when we do .save())
-	#tags = TagField()
-	
-	def get_absolute_url(self):
-		return "/accounts/profile/view/%s/" % (self.user.username,)
-	
-	def save(self, *args, **kwargs):
-		md = Markdown(safe_mode = True)
-		self.description_html = md.convert(self.description_markdown)
-		super(Profile, self).save()
-		
-	@staticmethod
-	def search(terms):
-		query = get_query(terms, ['description_markdown',])
-		return Profile.objects.filter(query)
-	
-	def get_gravatar_url(self):
-		return get_gravatar_image_url(self.user.email)
-	
-	##########################################################################
-	# Tags
-	
-	def get_tags(self):
-		return Tag.objects.get_for_object(self)
-	
-	def get_editable_tags(self):
-		return taglist_to_string(self.get_tags())
-	
-	def set_tags(self, tags_string):
-		Tag.objects.update_tags(self, tags_string)
-	
-	##########################################################################
-	# Karma
-	
-	def add_to_proposed_projects_karma(self, num):
-		self.proposed_projects_karma += num
-		
-		if self.proposed_projects_karma < 0:
-			self.proposed_projects_karma = 0
-			
-		self.save()
-		
-	def add_to_completed_projects_karma(self, num):
-		self.completed_projects_karma += num
-		
-		if self.completed_projects_karma < 0:
-			self.completed_projects_karma = 0
-			
-		self.save()
-		
-	def add_to_commens_karma(self, num):
-		self.comment_karma += num
-		
-		if self.comment_karma < 0:
-			self.comment_karma = 0
-			
-		self.save()
 
 ##############################################################################
 # Mostly the original django-registration code
@@ -378,3 +274,149 @@ class RegistrationProfile(models.Model):
         return self.activation_key == self.ACTIVATED or \
                (self.user.date_joined + expiration_date <= datetime.datetime.now())
     activation_key_expired.boolean = True
+
+
+
+
+
+
+
+
+
+##############################################################################
+# THE FOLLOWING LICENSE APPLIES TO THE REST OF THIS FILE
+# (the rest of this file contains additions made to the original
+# django-registration module for Clusterify)
+
+"""
+"The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except 
+in compliance with the License. You may obtain a copy of the License at 
+http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
+been added to cover use of software over a computer network and provide 
+for limited attribution for the Original Developer. In addition, Exhibit 
+A has been modified to be consistent with Exhibit B.
+
+Software distributed under the License is distributed on an "AS IS" basis, 
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
+for the specific language governing rights and limitations under the 
+License.
+
+The Original Code is Clusterify.
+
+The Initial Developer of the Original Code is "the Clusterify.com team", 
+which is described at http://www.clusterify.com/about/. All portions of 
+the code written by the Initial Developer are Copyright (c) the Initial 
+Developer. All Rights Reserved.
+"""
+
+def get_gravatar_image_url(email):
+	# Set your variables here
+	default = ""
+	size = 50
+	
+	# construct the url  
+	gravatar_url = "http://www.gravatar.com/avatar.php?"  
+	gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email.lower()).hexdigest(), 'default':'identicon', 'size':str(size)})
+	
+	return gravatar_url
+
+class OpenIdAssociation(models.Model):
+	user = models.ForeignKey(User)
+	# TODO: make this unique
+	url = models.URLField(blank=False)
+
+# Inspired by http://code.google.com/p/django-openid-auth/source/browse/trunk/openid_auth/models.py
+# add registration.models.OpenIdBackend to settings.AUTHENTICATION_BACKENDS
+# see http://docs.djangoproject.com/en/dev/topics/auth/#writing-an-authentication-backend
+class OpenIdBackend:
+    def authenticate(self, openid_url=None):
+        if openid_url:
+            try:
+                user_openid = OpenIdAssociation.objects.get(url=openid_url)
+                return user_openid.user
+            except OpenIdAssociation.DoesNotExist:
+                return None
+        else:
+            return None
+    
+    def get_user(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
+
+# MODIF: added this class, should be set as AUTH_PROFILE_MODULE
+class Profile(models.Model):
+	user = models.ForeignKey(User, unique=True)
+	
+	description_markdown = models.TextField(blank=True)
+	description_html = models.TextField(blank=True)
+	
+	proposed_projects_karma = models.PositiveIntegerField(default=1)
+	completed_projects_karma = models.PositiveIntegerField(default=1)
+	comment_karma = models.PositiveIntegerField(default=1)
+	
+	# Using Tag.objects directly, instead of the field, now (otherwise
+	# the field overwrites with empty tag list when we do .save())
+	#tags = TagField()
+	
+	def get_absolute_url(self):
+		return "/accounts/profile/view/%s/" % (self.user.username,)
+	
+	def save(self, *args, **kwargs):
+		md = Markdown(safe_mode = True)
+		self.description_html = md.convert(self.description_markdown)
+		super(Profile, self).save()
+		
+	@staticmethod
+	def search(terms):
+		query = get_query(terms, ['description_markdown',])
+		return Profile.objects.filter(query)
+	
+	def get_gravatar_url(self):
+		return get_gravatar_image_url(self.user.email)
+	
+	##########################################################################
+	# Tags
+	
+	def get_tags(self):
+		return Tag.objects.get_for_object(self)
+	
+	def get_editable_tags(self):
+		return taglist_to_string(self.get_tags())
+	
+	def set_tags(self, tags_string):
+		Tag.objects.update_tags(self, tags_string)
+	
+	##########################################################################
+	# Karma
+	
+	def add_to_proposed_projects_karma(self, num):
+		self.proposed_projects_karma += num
+		
+		if self.proposed_projects_karma < 0:
+			self.proposed_projects_karma = 0
+			
+		self.save()
+		
+	def add_to_completed_projects_karma(self, num):
+		self.completed_projects_karma += num
+		
+		if self.completed_projects_karma < 0:
+			self.completed_projects_karma = 0
+			
+		self.save()
+		
+	def add_to_commens_karma(self, num):
+		self.comment_karma += num
+		
+		if self.comment_karma < 0:
+			self.comment_karma = 0
+			
+		self.save()
+		
+		
+
+

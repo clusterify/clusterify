@@ -63,3 +63,8 @@ A LICENSE (or similarly named) file has been added to subdirectories of code
 modules used in the project and distributed with it. Please refer to those
 files for license information concerning each of those modules.
 
+In the "registration" subdirectory, heavy additions were made to the
+original django-registration module, but are isolated at ends of certain files.
+Those ends are clearly indicated with a different license block prepended
+to the sections which are concerned.
+
