@@ -40,7 +40,7 @@ urlpatterns = patterns('',
     (r'^projects/', include('projects.urls')),
 
     # Specific views
-    ('^$', direct_to_template, {'template': 'home.html'}),
+    ('^$', 'django.views.generic.simple.redirect_to', {'url': '/projects/'}),
     (r'^tags/js/$', tags_js),
     (r'^concepts/$', direct_to_template, {'template': 'concepts.html'}),
     (r'^about/$', direct_to_template, {'template': 'about.html'}),
