@@ -23,7 +23,7 @@ from django_openidconsumer.util import from_openid_response
 
 from django.contrib.auth import views as auth_views
 
-from projects.models import Comment
+from projects.models import Comment, Project
 from clusterify.utils import get_paginator_page, get_query, oops
 
 # NOTE: the code of django-registration was heavily modified...
@@ -392,9 +392,10 @@ def edit_profile(request):
         if form.is_valid():
             user.email = form.cleaned_data['email']
             user.save()
-			
+
             profile.description_markdown = form.cleaned_data['description']
             profile.set_tags(form.cleaned_data['tags'])
+            profile.location = form.cleaned_data['location']
             
             profile.save()
             
@@ -403,6 +404,7 @@ def edit_profile(request):
         form = ProfileForm(
                   initial={
                         'email': user.email,
+                        'location': profile.location,
                         'description': profile.description_markdown,
                         'tags': profile.get_editable_tags()})
 
@@ -415,16 +417,20 @@ def view_profile(request, username):
         user = User.objects.get(username=username)
         profile, created = Profile.objects.get_or_create(user=user)
         user_tags = profile.get_tags()
-        
+        projects_completed = Project.objects.filter(p_completed=True, wont_be_completed=False, author=user)
+
         # show the last 5 comments and projects in the user's profile
-        user_comments = Comment.objects.filter(author=user).order_by('pub_date')[0:5]
-        user_projects = user.projects_authored.order_by('-pub_date')[0:5]
+        user_comments = Comment.objects.filter(author=user).order_by('pub_date')
+        user_projects = user.projects_authored.order_by('-pub_date')
 
         return render_to_response('registration/profile.html',
             {'profile':profile,
              'user_tags':user_tags,
-             'comments':user_comments,
-             'projects':user_projects},
+             'projects_count':user_projects.count(),
+             'projects_completed':projects_completed.count(),
+             'comments_count':user_comments.count(),
+             'comments':user_comments[0:5],
+             'projects':user_projects[0:5]},
             context_instance=RequestContext(request))
     except User.DoesNotExist:
         raise Http404

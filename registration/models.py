@@ -358,6 +358,8 @@ class Profile(models.Model):
 	completed_projects_karma = models.PositiveIntegerField(default=1)
 	comment_karma = models.PositiveIntegerField(default=1)
 	
+	location = models.TextField(blank=True)
+	
 	# Using Tag.objects directly, instead of the field, now (otherwise
 	# the field overwrites with empty tag list when we do .save())
 	#tags = TagField()

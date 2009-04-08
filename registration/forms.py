@@ -170,16 +170,16 @@ Developer. All Rights Reserved.
 
 # MODIF: added this class
 class ProfileForm(forms.Form):
-	description = forms.CharField(
-					required=False,
-					widget=forms.widgets.Textarea(
-						attrs={'class':'markdown_textarea','rows':'20'}),
-					max_length=5000)
-	email = forms.EmailField(required=False)
-	tags = forms.RegexField(
-		required=False,
-		regex=r'^[A-Za-z0-9\- ]+$')
-
+    description = forms.CharField(
+                    required=False,
+                    widget=forms.widgets.Textarea(
+                        attrs={'class':'markdown_textarea','rows':'20'}),
+                    max_length=5000)
+    email = forms.EmailField(required=False)
+    tags = forms.RegexField(
+        required=False,
+        regex=r'^[A-Za-z0-9\- ]+$')
+    location = forms.CharField(required=False)
 
 class OpenIdRegistrationForm(forms.Form):
     username = forms.RegexField(regex=r'^\w+$',

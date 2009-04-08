@@ -70,6 +70,15 @@ Note that for the <strong>profile picture (icon)</strong>, we use <a href="http:
 		</td>
 		<td class="form_field_cell" align="right">{{ form.tags }}</td>
 	</tr>
+	<tr class="form_color_2">
+		<td class="form_field_cell">Location
+			<div class="form_help_text">Your location, as you would enter it in google maps format.</div>
+			{% if form.location.errors %}
+			<div class="error">{{ form.location.errors }}</div>
+			{% endif %}
+		</td>
+		<td class="form_field_cell" align="right">{{ form.location }}</td>
+	</tr>
 </table>
 
 <div class="content_subtitle">Extended description</div>
