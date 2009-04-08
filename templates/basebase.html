@@ -50,7 +50,7 @@ Developer. All Rights Reserved.
 <body>
 
 
-{% if not hide_announcement %}
+{% if not hide_announcement and has_announcement %}
 	<div id="announcements">Features will be moving fast in the next few days/weeks. <a href="http://blog.clusterify.com/?feed=rss2">Grab the announcement feed</a> <a href="http://blog.clusterify.com/?feed=rss2"><img src="/files/images/rss14.png" style="vertical-align: middle;"/></a>. &nbsp;&nbsp;&nbsp;<a href="#" onclick="$.getScript('/hide_announcement/'); $('#announcements').fadeOut('slow'); ">(hide)</a></div>
 {% endif %}
 
