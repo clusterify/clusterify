@@ -120,9 +120,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'registration',
     'projects',
-    'generictemplatetags',
     'tagging',
+    'voting',
     'django_openidconsumer',
+    'django_evolution',
 )
 
 # for registration
