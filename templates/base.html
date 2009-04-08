@@ -48,9 +48,9 @@ Developer. All Rights Reserved.
 			{% if user.is_authenticated %}
 				<div class="sidebar_title">Reference</div>
 				<div class="sidebar_block">
-					- <a href="/concepts/">Basic concepts</a><br/>
-					- <a href="/collaboration/">Collaboration tools and tips</a><br/>
-					- <a href="/idea_guide/">Project idea guide</a><br/>
+					- <a href="/concepts/">Concepts</a><br/>
+					- <a href="/collaboration/">Tools and tips</a><br/>
+					- <a href="/idea_guide/">Idea guide</a><br/>
 				</div>
 			{% else %}
 				<div class="sidebar_title">New here?</div>
@@ -58,17 +58,18 @@ Developer. All Rights Reserved.
 				Clusterify: work on fun, small (few hours) projects and meet other coders.
 				</div>
 			{% endif %}
-			<div class="sidebar_title">Search site</div>
-			<div class="sidebar_block">
-				<form action="/projects/search/" method="GET">
-					<input type="text" name="terms" style="width: 95%" value="{{ search_terms }}"/><br/>
+			<form action="/projects/search/" method="GET">
+				<div class="sidebar_title">Search &nbsp;
 					<select name="search_results_type">
-						<option value="projects" {% ifequal "projects" search_results_type %}selected{% endifequal %}>in projects</option>
-						<option value="profiles" {% ifequal "profiles" search_results_type %}selected{% endifequal %}>in profiles</option>
-						<option value="comments" {% ifequal "comments" search_results_type %}selected{% endifequal %}>in comments</option>
+						<option value="projects" {% ifequal "projects" search_results_type %}selected{% endifequal %}>Projects</option>
+						<option value="profiles" {% ifequal "profiles" search_results_type %}selected{% endifequal %}>Profiles</option>
+						<option value="comments" {% ifequal "comments" search_results_type %}selected{% endifequal %}>Comments</option>
 					</select>
-				</form>
-			</div>
+				</div>
+				<div class="sidebar_block">
+					<input type="text" name="terms" style="width: 110px; " value="{{ search_terms }}"/><input type="submit" value="Search"/><br/>
+				</div>
+			</form>
 			<div class="sidebar_title">Share this page</div>
 			<div class="sidebar_block" style="text-align: center;">
 				<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cpost%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Cmixx%2Cgoogle_bmarks%2Cfriendfeed%2Clinkedin%2Cnewsvine&amp;style=rotate&amp;publisher=f5830d5a-25c2-4ede-b065-e4137a019092;offsetLeft=-200"></script>

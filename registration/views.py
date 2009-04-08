@@ -366,6 +366,8 @@ def list_users(request, list_type='new'):
 			{'profile_list_page':list_paginator_page,
 			'page_title': page_title,
             'list_type': list_type,
+			'search_results_type':terms and 'profiles' or '',
+			'search_terms':terms and terms or '',
 			'filter_description': filter_description,
 			'list_top_url': '/accounts/people/top/' + qs,
 			'list_new_url': '/accounts/people/new/' + qs,

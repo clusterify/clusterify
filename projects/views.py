@@ -150,6 +150,8 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 			# TODO: also include tags in those urls
 			'list_top_url': top_url,
 			'list_new_url': new_url,
+			'search_results_type':terms and 'projects' or '',
+			'search_terms':terms and terms or '',
 			'rss_url': rss_url,
 			'list_mytags_url': mytags_url},
 			context_instance=RequestContext(request))
@@ -333,7 +335,7 @@ def list_comments(request, return_raw_comments=False):
 		page_title = "Searching latest comments for '%s'" % terms
 		use_filter_description = True
 		query = get_query(terms, ['text',])
-		projects = comments.filter(query)
+		comments = comments.filter(query)
 	
 	comments = comments.order_by('-pub_date')
 	
@@ -342,6 +344,8 @@ def list_comments(request, return_raw_comments=False):
 	return render_to_response('projects/comment_list.html',
 			{'page_title': page_title,
 			'filter_description': use_filter_description and filter_description or None,
+			'search_results_type':terms and 'comments' or '',
+			'search_terms':terms and terms or '',
 			'paginated_comments': paginated_comments},
 			context_instance=RequestContext(request))
 
