@@ -34,7 +34,7 @@ from django.contrib.sites.models import Site
 def get_full_url(path_relative_to_site_root=""):
 	return 'http://%s%s' % (Site.objects.get_current().domain, path_relative_to_site_root)
 
-def oops(error_message=""):
+def oops(request, error_message=""):
 	return render_to_response('oops.html',
 		{'error_message': error_message},
 		context_instance=RequestContext(request))
