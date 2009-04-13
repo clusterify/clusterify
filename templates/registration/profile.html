@@ -28,7 +28,14 @@ Developer. All Rights Reserved.
 {% load util_filters %}
 
 {% block title %}Profile for {{ profile.user.username }}{% endblock %}
-{% block titleInPage %}Profile for {{ profile.user.username }}{% endblock %}
+{% block titleInPage %}
+	Profile for {{ profile.user.username }} 
+	{% ifequal profile.user request.user %} 
+		<a style="font-size:19px; padding: 5px;" href="/accounts/profile/edit/">(edit)</a>
+	{% else %}
+		<a style="font-size:19px; padding: 5px;" href="/messages/compose/{{profile.user}}/">(send {{profile.user}} a message)</a>
+	{% endifequal %}
+{% endblock %}
 
 {% block content %}
 
@@ -37,13 +44,13 @@ Developer. All Rights Reserved.
 		<img src="{{ profile.get_gravatar_url }}" width="50" height="50"/>
 	</div>
 	<div style="float: left; width: 500px;">
-		Joined {{ profile.user.date_joined|ago}} on</b> {{ profile.user.date_joined|date:"M d, Y" }}<br/>
+		Joined {{ profile.user.date_joined|ago}} on {{ profile.user.date_joined|date:"M d, Y" }}<br/>
 		Started {{ projects_count }} project{{ projects_count|pluralize }}, {{ projects_completed }} are complete.<br/>
 		Commented {{ comments_count }} time{{ comments_count|pluralize }}<br/>
 	</div>
-	<div style="float: right; width: 120px; text-align:center;">
+	<div style="float: right; width: 140px; text-align:center;">
     <div style="font-size:40px; margin-top:-10px;">{{ profile.completed_projects_karma }}</div>
-		Karma point{{ profile.completed_projects_karma|pluralize }} <small><a href="/concepts/#karma">?</a></small></br>
+		Karma point{{ profile.completed_projects_karma|pluralize }} <small><a href="/concepts/#karma">?</a></small><br/>
     </div>
 		
 </div>

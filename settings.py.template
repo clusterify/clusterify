@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'django_evolution',
 	'generictemplatetags',
 	'flag',
+	'messages',
 )
 
 # for registration

@@ -61,7 +61,8 @@ Developer. All Rights Reserved.
 			{% if user.is_authenticated %}
 				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
 				<a href="/accounts/logout/">logout</a> |
-				profile (<a href="/accounts/profile/edit/">edit</a>|<a href="/accounts/profile/view/{{ user.username }}">view</a>)
+				<a href="/messages/">messages</a> |
+				<a href="/accounts/profile/edit/">profile</a>
 			{% else %}
 				<a href="/accounts/login/?next={{ request.path }}">login</a> | 
 				<a href="/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 

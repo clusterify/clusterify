@@ -39,7 +39,7 @@ urlpatterns = patterns('',
     (r'^accounts/', include('registration.urls')),
     (r'^projects/', include('projects.urls')),
 	(r'^flag/', include('flag.urls')),
-	#(r'^messages/', include('messages.urls')),
+	(r'^messages/', include('messages.urls')),
 	
 
     # Specific views
