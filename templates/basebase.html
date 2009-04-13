@@ -63,7 +63,7 @@ Developer. All Rights Reserved.
 				<a href="/accounts/logout/">logout</a> |
 				profile (<a href="/accounts/profile/edit/">edit</a>|<a href="/accounts/profile/view/{{ user.username }}">view</a>)
 			{% else %}
-				<a href="/accounts/login/">login</a> | 
+				<a href="/accounts/login/?next={{ request.path }}">login</a> | 
 				<a href="/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 
 				<a href="/accounts/register/">register</a>
 			{% endif %}
@@ -71,9 +71,9 @@ Developer. All Rights Reserved.
 		</div>
 		<div id="sitemenu_div">
             <ul id="sitemenu_ul">
-                {% if user.is_authenticated %}
-                    <li><a class="highlight" href="/projects/add/">Add a Project</a></li>
-                {% endif %}
+                <li>
+					<a class="highlight" href="/projects/add/">Add a Project</a>
+				</li>
                 <li>
                     <a href="/projects/proposed/" {% ifequal page_title "Proposed projects" %}class='active'{% endifequal %}>
                         proposed ({% proposed_project_count %})
