@@ -339,8 +339,7 @@ def list_users(request, list_type='new'):
 	# Filter by search terms
 	if terms != "":
 		page_title = "Search results for '%s'" % terms
-		# TODO: find a way to make a join to also search usernames
-		query = get_query(terms, ['description_markdown',])
+		query = get_query(terms, ['description_markdown','user__username'])
 		profiles = profiles.filter(query)
 	
 	# Order results
