@@ -129,7 +129,7 @@ INSTALLED_APPS = (
     'django_openidconsumer',
     'django_evolution',
 	'generictemplatetags',
-	#'flag',
+	'flag',
 )
 
 # for registration

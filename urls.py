@@ -38,6 +38,9 @@ urlpatterns = patterns('',
     (r'^admin/(.*)', admin.site.root),
     (r'^accounts/', include('registration.urls')),
     (r'^projects/', include('projects.urls')),
+	(r'^flag/', include('flag.urls')),
+	#(r'^messages/', include('messages.urls')),
+	
 
     # Specific views
     ('^$', 'django.views.generic.simple.redirect_to', {'url': '/projects/'}),

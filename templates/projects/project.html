@@ -27,6 +27,7 @@ Developer. All Rights Reserved.
 
 {% load projects_tags %}
 {% load util_filters %}
+{% load flagtags %}
 
 
 {% block title %}Project details - {{ project.title }}{% endblock %}
@@ -115,6 +116,17 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 			<input type="submit" value="Submit" />
 		</form>
 	</div>
+	<a href="#" id="flag_link" onclick="return false;">Flag</a>
+
+	<div style="display: none;" id="flag">
+		{% flag project user %}
+	</div>
+	<script>
+		$("#flag_link").click(function () {
+			$("#flag").toggle();
+		});
+	</script>
+	
 	{% else %}
 		{% if not project_comments %}You could add a comment if you were <a href="/accounts/login/">logged in</a>.{% endif %}
 	{% endif %}
