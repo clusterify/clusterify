@@ -45,19 +45,23 @@ Developer. All Rights Reserved.
 		
 		<div id="sidebar">
 			{% block sidebar %}{% endblock %}
-			{% if user.is_authenticated %}
-				<div class="sidebar_title">Reference</div>
-				<div class="sidebar_block">
-					- <a href="/concepts/">Concepts</a><br/>
-					- <a href="/collaboration/">Tools and tips</a><br/>
-					- <a href="/idea_guide/">Idea guide</a><br/>
-				</div>
-			{% else %}
-				<div class="sidebar_title">New here?</div>
-				<div class="sidebar_block">Take 2 minutes to learn <a href="/concepts/">basic concepts</a>.<br/><br/>
-				Clusterify: work on fun, small (few hours) projects and meet other coders.
-				</div>
-			{% endif %}
+			<div class="sidebar_title">Reference / Links</div>
+			<div class="sidebar_block">
+				<a href="/concepts/">Concepts</a><br/>
+				<a href="/collaboration/">Tools and tips</a><br/>
+				<a href="/idea_guide/">Idea guide</a><br/>
+				<hr>
+				<a href="http://github.com/clusterify/clusterify/tree/master" target="_new">Github</a> / <a href="http://twitter.com/clusterify" target="_new">Twitter</a><br/>
+				<hr>
+				<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cpost%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Cmixx%2Cgoogle_bmarks%2Cfriendfeed%2Clinkedin%2Cnewsvine&amp;style=none&amp;buttonText=Share This Page&amp;offsetLeft=-163&amp;offsetTop=2&amp;publisher=f5830d5a-25c2-4ede-b065-e4137a019092"></script></br>
+								<style>
+				a.stbutton {
+				padding: 0;
+				}
+				</style>
+				<hr>
+				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4855969" target="_new">Donate</a><br/>
+			</div>
 			<form action="/projects/search/" method="GET">
 				<div class="sidebar_title">Search &nbsp;
 					<select name="search_results_type">
@@ -70,10 +74,6 @@ Developer. All Rights Reserved.
 					<input type="text" name="terms" style="width: 110px; " value="{{ search_terms }}"/><input type="submit" value="Search"/><br/>
 				</div>
 			</form>
-			<div class="sidebar_title">Share this page</div>
-			<div class="sidebar_block" style="text-align: center;">
-				<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cpost%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Cmixx%2Cgoogle_bmarks%2Cfriendfeed%2Clinkedin%2Cnewsvine&amp;style=rotate&amp;publisher=f5830d5a-25c2-4ede-b065-e4137a019092;offsetLeft=-200"></script>
-			</div>
 			<div class="sidebar_title">RSS Feeds <img src="/files/images/rss14.png" style="margin-bottom: -1px;"/></div>
 			<div class="sidebar_block" style="text-align: left;">
 				<a href="http://blog.clusterify.com/?feed=rss2">The Blog</a><br/>
@@ -85,10 +85,7 @@ Developer. All Rights Reserved.
 				<hr/>
 				<a href="/projects/rss/comments">Latest Comments</a><br/>
 			</div>
-			<div class="sidebar_title">Feedback</div>
-			<div class="sidebar_block" style="text-align: left;">
-				<a href="http://clusterify.uservoice.com" target="_new">Uservoice</a><br/>
-				<a href="http://twitter.com/clusterify" target="_new">Follow us on twitter!</a><br/>
-			</div>
+			
+
 {% endblock %}
 
