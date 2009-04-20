@@ -64,7 +64,7 @@ Developer. All Rights Reserved.
 				<a href="/messages/">messages</a> |
 				<a href="/accounts/profile/edit/">profile</a>
 			{% else %}
-				<a href="/accounts/login/?next={{ request.path }}">login</a> | 
+				<a href="/accounts/login/?next={% ifnotequal request.path '/accounts/logout/' %}{{ request.path }}{% endifnotequal %}">login</a> | 
 				<a href="/openid/">login/register with OpenId <img src="/files/images/openid-16x16.gif"/></a> | 
 				<a href="/accounts/register/">register</a>
 			{% endif %}

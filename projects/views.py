@@ -566,6 +566,14 @@ def join_project(request, project_author, project_pk):
 	return HttpResponseRedirect(project.get_absolute_url())
 
 @login_required
+def unjoin_project(request, project_author, project_pk):
+	user = request.user
+	project = get_object_or_404(Project, pk=project_pk)
+	project.remove_member(user)
+	user.message_set.create(message="You have been removed from this project")
+	return HttpResponseRedirect(project.get_absolute_url())
+
+@login_required
 def update_role(request, project_author, project_pk):
 	user = request.user
 	project = get_object_or_404(Project, pk=project_pk)

@@ -141,7 +141,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 {% block sidebar %}
 
 <div class="sidebar_title">Project controls</div>
-
+<div class="sidebar_block">
 	<div class="badge_group_container">
 		<div class="count_widget_container">
 			{% if voted_for_proposed %}
@@ -205,9 +205,9 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 		{% endif %}
 	{% endifequal %}
 {% endif %}
-
+</div>
 <div class="sidebar_title">Your membership</div>
-
+<div class="sidebar_block">
 {% if project.wont_be_completed %}
 	<div class="sidebar_info">This project is closed: it won't be completed</div>
 {% else %}
@@ -227,7 +227,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 				</form>
 			{% else %}
 				{% ifequal user_project_status "Interested" %}
-					<div class="sidebar_info">Awaiting author's approval to join</div>
+					<div class="sidebar_info">Awaiting approval to join</div>
 					<form method="POST" action="update_role/">
 						Update your role:
 						{{ join_form.role }}<br/>
@@ -236,25 +236,20 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 				{% else %}
 					{% ifequal project.author user %}
 						<div class="sidebar_info">You are admin for this project</div>
-						<form method="POST" action="update_role/">
-							Update your role:
-							{{ join_form.role }}<br/>
-							<input type="submit" class="sidebar_button_a" value="Update role" style="width: 90%;">
-						</form>
 					{% else %}
-						<div class="sidebar_info">You are part of this project</div>
+						<div class="sidebar_info">You are part of this project </div> 
+					{% endifequal %}
 						<form method="POST" action="update_role/">
 							Update your role:
 							{{ join_form.role }}<br/>
 							<input type="submit" class="sidebar_button_a" value="Update role" style="width: 90%;">
 						</form>
 					{% endifequal %}
-				{% endifequal %}
 			{% endifequal %}
 		{% endif %}
 	{% endif %}
 {% endif %}
-
+</div>
 <div class="sidebar_title">Members and roles</div>
 <div class="sidebar_block">
 	<ul class="sidebar_ul_spaced">
@@ -281,6 +276,13 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 				</li>
 		{% endfor %}
 	</ul>
+	{% ifnotequal user_project_status "None" %}
+	    {% ifnotequal user_project_status "Interested" %}
+	    {% ifnotequal project.author user %}
+			<a href="unjoin/">Unjoin</a>
+		{% endifnotequal %}
+		{% endifnotequal %}
+	{% endifnotequal %}
 </div>
 
 {% ifequal user project.author %}

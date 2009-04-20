@@ -416,7 +416,7 @@ a.tag_link:hover {
 .badge_group_container {
 	float: left;
 	clear: both;
-	padding: 10px 0 10px 10px;
+	padding: 3px;
 }
 
 .count_widget_container {
@@ -619,8 +619,7 @@ a.tag_link:hover {
 	padding: 5px;
 	display: block;
 	color: #fff;
-	border-top: 1px solid #ddd;
-	border-left: 1px solid #ddd;
+
 	margin-bottom: 3px;
 	float: left;
 	overflow: hidden;
