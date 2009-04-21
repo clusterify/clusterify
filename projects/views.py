@@ -161,14 +161,14 @@ def list_projects_as_feed(request, completeness, list_type='top'):
 	
 	f = feedgenerator.Rss201rev2Feed(
 			title=page_title + " ("+list_type+")",
-			link="http://www.clusterify.com"+url,
+			link=get_full_url()+url,
 			description=u"",
 			language=u"en")
 
 	to_print = projects[0:min(ITEMS_IN_FEED, projects.count())]
 	for p in to_print:
 		f.add_item(title=p.title, 
-				link="http://www.clusterify.com"+p.get_absolute_url(), 
+				link=get_full_url()+p.get_absolute_url(),
 				description=p.description_html,
 				pubdate=p.pub_date)
 	
@@ -179,14 +179,14 @@ def list_comments_as_feed(request):
 
 	f = feedgenerator.Rss201rev2Feed(
 			title=page_title,
-			link="http://www.clusterify.com",
+			link=get_full_url(),
 			description=u"Recent Project Comments",
 			language=u"en")
 
 	to_print = comments[0:min(ITEMS_IN_FEED, comments.count())]
 	for p in to_print:
 		f.add_item(title="Comment on "+p.project.title+" by "+p.author.username,
-				link="http://www.clusterify.com"+p.project.get_absolute_url(), 
+				link=get_full_url()+p.project.get_absolute_url(),
 				description=p.text,
 				pubdate=p.pub_date)
 
