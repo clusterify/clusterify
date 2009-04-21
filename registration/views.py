@@ -8,11 +8,12 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login
+from django.utils import feedgenerator
 
 from registration.forms import RegistrationForm, ProfileForm, OpenIdRegistrationForm
 from registration.models import RegistrationProfile, Profile, OpenIdAssociation
@@ -24,12 +25,12 @@ from django_openidconsumer.util import from_openid_response
 from django.contrib.auth import views as auth_views
 
 from projects.models import Comment, Project
-from clusterify.utils import get_paginator_page, get_query, oops
+from clusterify.utils import get_paginator_page, get_query, oops, get_full_url
 
 # NOTE: the code of django-registration was heavily modified...
 # it almost isn't used anymore, due to the bypass of the activation email process
 
-
+ITEMS_IN_FEED = 20
 
 ##############################################################################
 # Mostly the original django-registration code (with bypass of activation)
@@ -311,7 +312,7 @@ def register_from_openid(request):
 ##############################################################################
 # User listing
 
-def list_users(request, list_type='new'):
+def list_users(request, list_type='new', return_raw_users=False):
 	user = request.user
 	tags = request.GET.get('tags', "")
 	terms = request.GET.get('terms', "")
@@ -358,7 +359,11 @@ def list_users(request, list_type='new'):
 	if qs_dict:
 		qs = "?" + urllib.urlencode(qs_dict)
 	
-	# ...
+	# For RSS feeds
+	if return_raw_users:
+		this_page_url = "/accounts/people/" + list_type
+		return page_title, this_page_url, profiles, list_type
+	
 	list_paginator_page = get_paginator_page(request, profiles, USERS_PER_PAGE)
 	
 	return render_to_response('registration/user_list.html',
@@ -372,6 +377,25 @@ def list_users(request, list_type='new'):
 			'list_new_url': '/accounts/people/new/' + qs,
 			'list_mytags_url': '/accounts/people/recommend/' + qs},
 			context_instance=RequestContext(request))
+
+def list_users_as_feed(request, list_type='new'):
+	page_title, url, profiles, list_type = list_users(request, list_type, return_raw_users=True)
+	
+	f = feedgenerator.Rss201rev2Feed(
+			title=page_title + " ("+list_type+")",
+			link=get_full_url()+url,
+			description=page_title + " ("+list_type+")",
+			language=u"en")
+
+	to_print = profiles[0:min(ITEMS_IN_FEED, profiles.count())]
+	for p in to_print:
+		join_text = p.user.username+" joined on "+str(p.user.date_joined.strftime('%b %d, %Y @ %I:%M%p'))+(p.location and " from "+p.location or "")
+		f.add_item(title=join_text,
+				link=get_full_url()+p.get_absolute_url(), 
+				description="<img src='"+p.get_gravatar_url()+"'>"+join_text,
+				pubdate=p.user.date_joined)
+	
+	return HttpResponse(f.writeString('UTF-8'), mimetype="application/rss+xml")
 
 @login_required
 def list_users_mytags(request):

@@ -25,7 +25,7 @@ from django.views.generic.simple import direct_to_template
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import password_reset, password_reset_done, password_change, password_change_done
 
-from registration.views import activate, register, edit_profile, view_profile, view_default_profile, view_comments, view_projects, list_users, list_users_mytags, logout
+from registration.views import activate, register, edit_profile, view_profile, view_default_profile, view_comments, view_projects, list_users, list_users_as_feed, list_users_mytags, logout
 
 
 urlpatterns = patterns('',
@@ -80,6 +80,9 @@ urlpatterns = patterns('',
                           list_users),
                        url(r'^profile/view/(?P<username>\w+)/$',
                           view_profile),
+                       # rss
+                       url(r'^rss/(?P<list_type>(top|new))/$',
+                          list_users_as_feed),
                        #url(r'^profile/view/(?P<username>\w+)/comments/$',
                        #   view_comments),
                        #url(r'^profile/view/(?P<username>\w+)/projects/$',
