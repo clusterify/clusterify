@@ -125,12 +125,11 @@ INSTALLED_APPS = (
     'registration',
     'projects',
     'tagging',
-    'voting',
     'django_openidconsumer',
     'django_evolution',
-	'generictemplatetags',
-	'flag',
-	'messages',
+    'generictemplatetags',
+    'flag',
+    'messages',
 )
 
 # for registration
