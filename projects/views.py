@@ -548,10 +548,8 @@ def join_project(request, project_author, project_pk):
 	
 	if request.method == 'POST':
 		form = JoinForm(request.POST)
-		
+		role = form.cleaned_data['role']
 		if form.is_valid():
-			role = form.cleaned_data['role']
-			
 			project.add_interested_user(user, role)
 		
 			project_notification(project, user, "Clusterify -- user wants to join project",
@@ -561,7 +559,7 @@ def join_project(request, project_author, project_pk):
 									'joining_user': user,
 									'site_url': get_full_url()}), True)
 		else:
-			user.message_set.create(message="Something was wrong with your form. Please note that your role description may not be longer than 120 characters. Here's the text you entered: %s" % role)
+			user.message_set.create(message="Something was wrong with your form. Please note that your role description may not be longer than 120 characters. " % role)
 
 	return HttpResponseRedirect(project.get_absolute_url())
 
