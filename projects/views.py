@@ -134,7 +134,7 @@ def list_projects(request, list_type='top', is_completed=None, return_raw_projec
 		if is_completed:
 			projects = projects.order_by('-score_completed')
 		else:
-			projects = projects.order_by('-proposed_votes')
+			projects = projects.order_by('-score_proposed')
 	
 	# For RSS feeds
 	if return_raw_projects:
