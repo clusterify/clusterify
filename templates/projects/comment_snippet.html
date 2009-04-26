@@ -31,7 +31,7 @@ Developer. All Rights Reserved.
 		<div class="project_comment_text">{% autoescape off %}{{ comment.text_html }}{% endautoescape %}</div>
 
 		<div class="user_icon_div" style="float: right;">
-			<a href="/accounts/profile/view/{{ user }}"><img src="{{ comment.author.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
+			<a href="/accounts/profile/view/{{ comment.author.username }}"><img src="{{ comment.author.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
 		</div>
 
 		<div class="user_info_div" style="float: right;">
