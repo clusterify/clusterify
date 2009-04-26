@@ -40,10 +40,12 @@ urlpatterns = patterns('',
     (r'^projects/', include('projects.urls')),
 	(r'^flag/', include('flag.urls')),
 	(r'^messages/', include('messages.urls')),
+	(r'^events/', include('eventapp.urls')),
 	
 
     # Specific views
     ('^$', 'django.views.generic.simple.redirect_to', {'url': '/projects/'}),
+    #('^$',  direct_to_template, {'template': 'home.html'}),
     (r'^tags/js/$', tags_js),
     (r'^concepts/$', direct_to_template, {'template': 'concepts.html'}),
     (r'^about/$', direct_to_template, {'template': 'about.html'}),

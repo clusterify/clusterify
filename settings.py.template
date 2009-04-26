@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'generictemplatetags',
     'flag',
     'messages',
+    'eventapp',
 )
 
 # for registration
