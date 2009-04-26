@@ -82,16 +82,16 @@ Developer. All Rights Reserved.
 	({{ profile.user.username }} has not entered a description yet)
 {% endif %}
 
-<div class="content_subtitle">{{profile.user.username}}'s comments
-  <a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all) </a>
+<div class="content_subtitle">{{profile.user.username}}'s Last {{comments|length}} comment{{comments|pluralize}} 
+  <a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all {{comments_count}}) </a>
 </div>
 
 {% for comment in comments %}
 	{% include "projects/comment_snippet.html" %}
 {% endfor %}
 
-<div class="content_subtitle">{{profile.user.username}}'s projects
-  <a href="/projects/?foruser={{ profile.user.username }}"> (view all) </a>
+<div class="content_subtitle">{{profile.user.username}}'s Last {{projects|length}} project{{projects|pluralize}} 
+  <a href="/projects/?foruser={{ profile.user.username }}"> (view all {{projects_count}}) </a>
 </div>
 
 {% for project in projects %}
