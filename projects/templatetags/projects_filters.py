@@ -27,6 +27,11 @@ from django.contrib.auth.models import User
 
 register = template.Library()
 
+def project_count():
+    return Project.objects.all().count()
+
+register.simple_tag(project_count)
+
 def proposed_project_count():
     return Project.objects.filter(p_completed=False, wont_be_completed=False).count()
 
