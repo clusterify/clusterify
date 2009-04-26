@@ -21,21 +21,19 @@ the code written by the Initial Developer are Copyright (c) the Initial
 Developer. All Rights Reserved.
 """
 
-import datetime
 import urllib
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.loader import render_to_string
-from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from django.utils import feedgenerator
 from django.core.mail import send_mail
 from django.conf import settings
 
-from tagging.models import Tag, TaggedItem
+from tagging.models import TaggedItem
 
 from clusterify.utils import get_paginator_page, generic_confirmation_view, get_query, get_full_url, oops
 
@@ -43,7 +41,7 @@ from registration.models import Profile
 
 from forms import ProjectForm, CommentForm, JoinForm
 from models import Project, Comment, Membership
-
+from eventapp.models import Event
 ##############################################################################
 # Constants
 
@@ -381,6 +379,8 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 		form = ProjectForm(request.POST)
 		if form.is_valid():
 			project.title = form.cleaned_data['title']
+			if form.cleaned_data['event']:
+				project.event = get_object_or_404(Event, pk=form.cleaned_data['event'])
 			project.description_markdown = form.cleaned_data['description']
 			if form.cleaned_data['time_estimate']:
 				project.hour_estimate = form.cleaned_data['time_estimate']
@@ -398,7 +398,7 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 					project.looking_for_admin = False
 			
 			tags = form.cleaned_data['tags']
-			
+
 			project.save()
 			
 			# Need to save() before calling this, so we couldn't do it up there
@@ -406,6 +406,7 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 				project.join_user(user)
 			
 			project.set_tags(tags)
+
 			
 			return HttpResponseRedirect(project.get_absolute_url())
 	elif not is_add:

@@ -27,6 +27,7 @@ import string
 
 from django.db import models
 from django.contrib.auth.models import User
+from eventapp.models import Event
 
 from markdown.markdown import Markdown
 
@@ -78,6 +79,8 @@ class Project(models.Model):
 	showcase_markdown = models.TextField(blank=True)
 	
 	hour_estimate = models.PositiveIntegerField(default=2)
+	
+	event = models.ForeignKey(Event, related_name='projects_event', blank=True, default=False)
 	
 	# set manually
 	pub_date = models.DateTimeField(auto_now_add=False, auto_now=False)

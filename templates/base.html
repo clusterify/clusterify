@@ -2,91 +2,98 @@
 
 {% comment %}
 
-“The contents of this file are subject to the Common Public Attribution
-License Version 1.0 (the “License”); you may not use this file except 
-in compliance with the License. You may obtain a copy of the License at 
-http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
-on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
-been added to cover use of software over a computer network and provide 
-for limited attribution for the Original Developer. In addition, Exhibit 
+The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except
+in compliance with the License. You may obtain a copy of the License at
+http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have
+been added to cover use of software over a computer network and provide
+for limited attribution for the Original Developer. In addition, Exhibit
 A has been modified to be consistent with Exhibit B.
 
-Software distributed under the License is distributed on an “AS IS” basis, 
-WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
-for the specific language governing rights and limitations under the 
+Software distributed under the License is distributed on an "AS IS" basis,
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+for the specific language governing rights and limitations under the
 License.
 
 The Original Code is Clusterify.
 
-The Initial Developer of the Original Code is "the Clusterify.com team", 
-which is described at http://www.clusterify.com/about/. All portions of 
-the code written by the Initial Developer are Copyright (c) the Initial 
+The Initial Developer of the Original Code is "the Clusterify.com team",
+which is described at http://www.clusterify.com/about/. All portions of
+the code written by the Initial Developer are Copyright (c) the Initial
 Developer. All Rights Reserved.
 
 {% endcomment %}
 
 {% block maincontainer %}
-		<div id="content">
-			<div style="float: right;">{% block subtabs %}{% endblock %}</div>
-			<div class="titleInPage">{% block titleInPage %}{% endblock %}</div>
-			<br style="clear: both;">
-			{% if messages %}
-			<div class="user_messages">
-				<ul>
-					{% for message in messages %}
-					<li>{{ message }}</li>
-					{% endfor %}
-				</ul>
-			</div>
-			{% endif %}
-			{% block content %}{% endblock %}
-		</div>
-		
-		<div id="sidebar">
-			{% block sidebar %}{% endblock %}
-			<div class="sidebar_title">Reference / Links</div>
-			<div class="sidebar_block">
-				<a href="/concepts/">Concepts</a><br/>
-				<a href="/collaboration/">Tools and tips</a><br/>
-				<a href="/idea_guide/">Idea guide</a><br/>
-				<hr>
-				<a href="http://github.com/clusterify/clusterify/tree/master" target="_new">Github</a> / <a href="http://twitter.com/clusterify" target="_new">Twitter</a><br/>
-				<hr>
-				<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cpost%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Cmixx%2Cgoogle_bmarks%2Cfriendfeed%2Clinkedin%2Cnewsvine&amp;style=none&amp;buttonText=Share This Page&amp;offsetLeft=-163&amp;offsetTop=2&amp;publisher=f5830d5a-25c2-4ede-b065-e4137a019092"></script></br>
-								<style>
-				a.stbutton {
-				padding: 0;
-				}
-				</style>
-				<hr>
-				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4855969" target="_new">Donate</a><br/>
-			</div>
-			<form action="/projects/search/" method="GET">
-				<div class="sidebar_title">Search &nbsp;
-					<select name="search_results_type">
-						<option value="projects" {% ifequal "projects" search_results_type %}selected{% endifequal %}>Projects</option>
-						<option value="profiles" {% ifequal "profiles" search_results_type %}selected{% endifequal %}>Profiles</option>
-						<option value="comments" {% ifequal "comments" search_results_type %}selected{% endifequal %}>Comments</option>
-					</select>
-				</div>
-				<div class="sidebar_block">
-					<input type="text" name="terms" style="width: 110px; " value="{{ search_terms }}"/><input type="submit" value="Search"/><br/>
-				</div>
-			</form>
-			<div class="sidebar_title">RSS Feeds <img src="/files/images/rss14.png" style="margin-bottom: -1px;"/></div>
-			<div class="sidebar_block" style="text-align: left;">
-				<a href="http://blog.clusterify.com/?feed=rss2">The Blog</a><br/>
-                <hr/>
-				<a href="/projects/rss/proposed/new">New Projects</a><br/>
-				<a href="/projects/rss/proposed/top">Top Projects</a><br/>
-				<a href="/projects/rss/completed">Completed Projects</a><br/>
+{% block tabs %}{% endblock %}
 
-				<hr/>
-				<a href="/projects/rss/comments">New Comments</a><br/>
-				<hr/>
-				<a href="/accounts/rss/new">New Users</a><br/>
-			</div>
-			
+<div class="{% block content_style %}{% endblock %}" id="content">
+    <div style="float: right;">{% block subtabs %}{% endblock %}</div>
+    <div class="titleInPage">{% block titleInPage %}{% endblock %}</div>
+    <br style="clear: both;">
+    {% if messages %}
+    <div class="user_messages">
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <br style="clear: both;">
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
 
+<div id="sidebar">
+{% block sidebar %}{% endblock %}
+<div class="sidebar_title">Reference / Links</div>
+<div class="sidebar_block">
+    <a href="/concepts/">Concepts</a><br/>
+    <a href="/collaboration/">Tools and tips</a><br/>
+    <a href="/idea_guide/">Idea guide</a><br/>
+    <hr>
+    <a href="http://github.com/clusterify/clusterify/tree/master" target="_new">Github</a> / 
+    <a href="http://twitter.com/clusterify" target="_new">Twitter</a> / 
+	<a href="irc://irc.freenode.net:6667/clusterify">IRC</a><br/>
+    <hr>
+    <script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#tabs=web%2Cpost%2Cemail&amp;charset=utf-8&amp;services=reddit%2Cdigg%2Cfacebook%2Cdelicious%2Cstumbleupon%2Cmixx%2Cgoogle_bmarks%2Cfriendfeed%2Clinkedin%2Cnewsvine&amp;style=none&amp;buttonText=Share This Page&amp;offsetLeft=-163&amp;offsetTop=2&amp;publisher=f5830d5a-25c2-4ede-b065-e4137a019092"></script><br/>
+    <style>
+        a.stbutton {
+            padding: 0;
+        }
+    </style>
+    <hr>
+    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4855969" target="_new">Donate</a><br/>
+</div>
+
+<form action="/projects/search/" method="GET">
+    <div class="sidebar_title">Search &nbsp;
+        <select name="search_results_type">
+            <option value="projects" {% ifequal "projects" search_results_type %}selected{% endifequal %}>Projects</option>
+            <option value="profiles" {% ifequal "profiles" search_results_type %}selected{% endifequal %}>Profiles</option>
+            <option value="comments" {% ifequal "comments" search_results_type %}selected{% endifequal %}>Comments</option>
+        </select>
+    </div>
+    <div class="sidebar_block">
+        <input type="text" name="terms" style="width: 110px; " value="{{ search_terms }}"/><input type="submit" value="Search"/><br/>
+    </div>
+</form>
+
+<div class="sidebar_title">RSS Feeds <img src="/files/images/rss14.png" style="margin-bottom: -1px;"/></div>
+
+<div class="sidebar_block" style="text-align: left;">
+    <a href="http://blog.clusterify.com/?feed=rss2">The Blog</a><br/>
+    <hr/>
+    <a href="/projects/rss/proposed/new">New Projects</a><br/>
+    <a href="/projects/rss/proposed/top">Top Projects</a><br/>
+    <a href="/projects/rss/completed">Completed Projects</a><br/>
+    <hr/>
+    <a href="/projects/rss/comments">New Comments</a><br/>
+    <hr/>
+    <a href="/accounts/rss/new">New Users</a><br/>
+</div>
+
+</div>
 {% endblock %}
 

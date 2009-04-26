@@ -38,15 +38,6 @@ Developer. All Rights Reserved.
 			</div>
 		</div>
 		{% endif %}
-		<div class="count_widget_container">
-			<div class="joins_count_container">
-				&nbsp;
-				<div class="joins_count">
-				{{ project.get_joined_users_count }}
-				</div>
-				joined
-			</div>
-		</div>
 		{% if project.p_completed %}
 		<div class="count_widget_container">
 			<div class="job_votes_container">
@@ -58,19 +49,29 @@ Developer. All Rights Reserved.
 			</div>
 		</div>
 		{% endif %}
+		<div class="count_widget_container">
+			<div class="joins_count_container">
+				&nbsp;
+				<div class="joins_count">
+				{{ project.get_joined_users_count }}
+				</div>
+				joined
+			</div>
+		</div>
+
 		<div class="comment_count">
 			{{ project.get_comments.count }} <span class="comment_count_text">comment{{ project.get_comments.count|pluralize }}</span>
 		</div>
 	</div>
 	<div class="project_row_text">
 		<div class="project_row_title">
-			
-			<a href="{{ project.get_absolute_url }}">{{ project.title }}</a> {% if not project.p_completed %} (est. {{ project.hour_estimate }} hr){% endif %}
-			{% if project.looking_for_admin %}<br/><span style="color: #449944;">Just an idea (project needs admin)</span>{% endif %}
-			{% if project.wont_be_completed %}<br/><span style="color: #994444;">This project is closed: it is set as "won't be completed"</span>{% endif %}
+			<a href="{{ project.get_absolute_url }}">{{ project.title }}</a> <span class="estimate">{% if not project.p_completed %} 
+			<br/>Estimated time: {{ project.hour_estimate }} hour{{ project.hour_estimate|pluralize }}{% endif %}</span>
+			{% if project.looking_for_admin %}<br/><span class="green_text">Just an idea (project needs admin)</span>{% endif %}
+			{% if project.wont_be_completed %}<br/><span class="red_text">This project is closed: it is set as "won't be completed"</span>{% endif %}
 		</div>
 		<div class="project_row_desc">
-			{% autoescape off %}{{ project.description_html|striptags|truncatewords:30 }}{% endautoescape %}
+			{% autoescape off %}{{ project.description_html|striptags|truncatewords:40 }}{% endautoescape %}
 		</div>
 		<div class="project_row_tags">
 			{% for t in project.get_tags %}<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>{% endfor %}
@@ -80,7 +81,7 @@ Developer. All Rights Reserved.
 			{% if project.looking_for_admin %}
 				<img src="/files/images/unknown_user.gif" width="50" height="50"/>
 			{% else %}
-				<img src="{{ project.author.get_profile.get_gravatar_url }}" width="50" height="50"/>
+				<a href="/accounts/profile/view/{{ user }}"><img src="{{ project.author.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
 			{% endif %}
 		</div>
 		<div class="user_info_div">
