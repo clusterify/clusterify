@@ -1,3 +1,0 @@
-sean = webiest <webiest@something.com> 
-fsavard = fsavard <fsavard@something.com> 
-aneesh = aneeshk <aneeshk@something.com> 
