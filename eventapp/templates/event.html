@@ -46,7 +46,7 @@ Developer. All Rights Reserved.
 </div>
 
 <div class="user_icon_div project">
-    <a href="/accounts/profile/view/{{ user }}"><img src="{{ event.promoter.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
+    <a href="/accounts/profile/view/{{ event.promoter.username }}"><img src="{{ event.promoter.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
 </div>
 <div class="user_info_div">
     Added by <a href="/accounts/profile/view/{{ event.promoter.username }}">{{ event.promoter.username }}</a> ({{ event.promoter.get_profile.completed_projects_karma }})<br/>

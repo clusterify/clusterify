@@ -81,7 +81,7 @@ Developer. All Rights Reserved.
 			{% if project.looking_for_admin %}
 				<img src="/files/images/unknown_user.gif" width="50" height="50"/>
 			{% else %}
-				<a href="/accounts/profile/view/{{ user }}"><img src="{{ project.author.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
+				<a href="/accounts/profile/view/{{ project.proposed_by.username }}"><img src="{{ project.author.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
 			{% endif %}
 		</div>
 		<div class="user_info_div">
