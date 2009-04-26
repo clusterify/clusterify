@@ -1,53 +1,38 @@
+{% extends "base.html"  %}
 {% load util_filters %}
 
 {% comment %}
 
-“The contents of this file are subject to the Common Public Attribution
-License Version 1.0 (the “License”); you may not use this file except 
-in compliance with the License. You may obtain a copy of the License at 
-http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
-on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
-been added to cover use of software over a computer network and provide 
-for limited attribution for the Original Developer. In addition, Exhibit 
+"The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except
+in compliance with the License. You may obtain a copy of the License at
+http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have
+been added to cover use of software over a computer network and provide
+for limited attribution for the Original Developer. In addition, Exhibit
 A has been modified to be consistent with Exhibit B.
 
-Software distributed under the License is distributed on an “AS IS” basis, 
-WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
-for the specific language governing rights and limitations under the 
+Software distributed under the License is distributed on an "AS IS" basis,
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+for the specific language governing rights and limitations under the
 License.
 
 The Original Code is Clusterify.
 
-The Initial Developer of the Original Code is "the Clusterify.com team", 
-which is described at http://www.clusterify.com/about/. All portions of 
-the code written by the Initial Developer are Copyright (c) the Initial 
+The Initial Developer of the Original Code is "the Clusterify.com team",
+which is described at http://www.clusterify.com/about/. All portions of
+the code written by the Initial Developer are Copyright (c) the Initial
 Developer. All Rights Reserved.
+"""
 
 {% endcomment %}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<style type="text/css">
-	body, html {
-		background-color: #ddd;
-		font-family: Arial, Helvetica, sans-serif;
-	}
-	
-	content {
-		margin: 150px auto;
-	}
-	</style>
-	<title>Error</title>
-</head>
-
-<body bgcolor="#DDDDDD">
-	<div class="content">
-		<img src="/files/images/logo2.gif"/><br/><br/>
-		<h1>Error 404 - File not found</h1><br/><br/>
-		The file you requested could not be found.<br/>
-		<a href="mailto:{{ "DEFAULT_CONTACT_EMAIL"|settingbyname }}">{{ "DEFAULT_CONTACT_EMAIL"|settingbyname }}</a>
-	</div>
-</body>
-</html>
+{% block content %}
+    <h1>Error 404 - File not found</h1><br/><br/>
+    <script type="text/javascript">
+        var GOOG_FIXURL_LANG = 'en';
+        var GOOG_FIXURL_SITE = 'http://www.clusterify.com/';
+    </script>
+    <script type="text/javascript"
+            src="http://linkhelp.clients.google.com/tbproxy/lh/wm/fixurl.js"></script>
+{% endblock %}
