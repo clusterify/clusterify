@@ -1,0 +1,142 @@
+{% extends "base.html"  %}
+
+{% comment %}
+
+"The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except 
+in compliance with the License. You may obtain a copy of the License at 
+http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
+been added to cover use of software over a computer network and provide 
+for limited attribution for the Original Developer. In addition, Exhibit 
+A has been modified to be consistent with Exhibit B.
+
+Software distributed under the License is distributed on an "AS IS" basis, 
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
+for the specific language governing rights and limitations under the 
+License.
+
+The Original Code is Clusterify.
+
+The Initial Developer of the Original Code is "the Clusterify.com team", 
+which is described at http://www.clusterify.com/about/. All portions of 
+the code written by the Initial Developer are Copyright (c) the Initial 
+Developer. All Rights Reserved.
+
+{% endcomment %}
+
+{% load projects_tags %}
+{% load util_filters %}
+{% load flagtags %}
+
+
+{% block title %}Project details - {{ project.title }}{% endblock %}
+{% block titleInPage %}{{event.name}}
+{% endblock %}
+
+{% block moreStyle %}
+
+
+
+{% endblock %}
+
+{% block content %}
+<div class="project_row_title_on_project">
+    <span class="estimate">{{event.start_date|date:"F d"}}-{{event.end_date|date:"d"}}, {{event.end_date|date:"Y"}}</span>
+</div>
+
+<div class="user_icon_div project">
+    <a href="/accounts/profile/view/{{ user }}"><img src="{{ event.promoter.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
+</div>
+<div class="user_info_div">
+    Added by <a href="/accounts/profile/view/{{ event.promoter.username }}">{{ event.promoter.username }}</a> ({{ event.promoter.get_profile.completed_projects_karma }})<br/>
+    {{ event.date_created|ago }}<br/>
+</div>
+
+<hr style="border-style: none none dotted; margin-bottom:0px; clear: both;">
+
+<div class="project_description">
+    {% if not event.description_html %}(No description yet){% endif %}
+    {% autoescape off %}{{ event.description_html }}{% endautoescape %}
+</div>
+
+{% if projects %}
+    <div class="content_subtitle">Projects for the {{ event.name }} event</div>
+    {% for project in projects %}
+        {% include "projects/project_snippet.html" %}
+    {% endfor %}
+{% endif %}
+
+<div class="content_subtitle">Comments</div>
+
+<div>
+    {% with event.get_comments as event_comments %}
+        {% if not event_comments.count %}
+            <p>No comments for the moment.</p>
+        {% endif %}
+        {% for comment in event_comments %}
+            {% include "comment_snippet.html" %}
+        {% endfor %}
+    {% endwith %}
+
+    {% if user.is_authenticated %}
+    <div class="content_subsubtitle"><strong>New comment</strong><br/><br/>
+        Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+    </div>
+    <div class="form_div">
+        <form action="/events/comment/{{event.id}}/" method="POST">
+            {{ form.text }}
+            <br/><br/>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+    <a href="#" id="flag_link" onclick="return false;">Flag</a>
+
+    <div style="display: none;" id="flag">
+        {% flag event user %}
+    </div>
+    <script>
+        $("#flag_link").click(function () {
+            $("#flag").toggle();
+        });
+    </script>
+
+    {% else %}
+        {% if not project_comments %}You could add a comment if you were <a href="/accounts/login/">logged in</a>.{% endif %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="sidebar_block">
+        <div class="sidebar_block_image">
+            {% if event.image %}
+                <img src="/files/{{ event.image }}" width="110">
+            {% endif %}
+            <br/>
+            {% ifequal user event.promoter %}
+                {% if not event.is_expired %}
+                    <a href="/events/edit/{{ event.id }}" >Edit this event</a>
+                {% endif %}
+            {% endifequal %}
+        </div>
+    </div>
+    {% if event.get_tags %}
+        <div class="sidebar_title">Event tags</div>
+        <div class="sidebar_block">
+            {% for t in event.get_tags %}
+            <a class="tag_link" href="/events/?tags={{ t }}">{{ t }}</a>
+            {% endfor %}
+            <br style="clear: both;"/>
+        </div>
+    {% endif %}
+    {% if similar_events %}
+        <div class="sidebar_title">Similar Events</div>
+        <div class="sidebar_block">
+
+            {% for event in similar_events %}
+            <a href="{{ event.get_absolute_url }}">{{ event.name|truncatewords:4 }}</a><br/>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

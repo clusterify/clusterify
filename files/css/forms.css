@@ -1,0 +1,9 @@
+/* FORM DEFAULTS */
+input, textarea, select { margin:2px 0; padding:2px 3px; vertical-align:middle; font-family:"Lucida Grande", Verdana, Arial, sans-serif; font-weight:normal; font-size:11px; }
+textarea { vertical-align:top !important; }
+input[type=text], input[type=password], textarea, select, .vTextField { border:1px solid #ccc; }
+
+/* FILE UPLOADS */
+input[type=file] {  border:0;}
+input[type=file] a { font-weight:normal; }
+input[type=file] .deletelink { margin-left:5px; }

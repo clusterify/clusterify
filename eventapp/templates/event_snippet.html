@@ -1,0 +1,60 @@
+{% load util_filters %}
+
+{% comment %}
+
+"The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except 
+in compliance with the License. You may obtain a copy of the License at 
+http://www.clusterify.com/files/CODE_LICENSE.txt. The License is based 
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
+been added to cover use of software over a computer network and provide 
+for limited attribution for the Original Developer. In addition, Exhibit 
+A has been modified to be consistent with Exhibit B.
+
+Software distributed under the License is distributed on an "AS IS" basis, 
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
+for the specific language governing rights and limitations under the 
+License.
+
+The Original Code is Clusterify.
+
+The Initial Developer of the Original Code is "the Clusterify.com team", 
+which is described at http://www.clusterify.com/about/. All portions of 
+the code written by the Initial Developer are Copyright (c) the Initial 
+Developer. All Rights Reserved.
+
+{% endcomment %}
+
+<div class="project_row">
+	<div class="project_row_badges">
+	{% if event.image %}
+    <img style="border:1px solid #000" src="/files/{{ event.image }}" width="110px">
+	{% endif %}
+		<div class="comment_count">
+			{{ event.get_comments.count }} <span class="comment_count_text">comment{{ event.get_comments.count|pluralize }}</span>
+		</div>
+	</div>
+	<div class="project_row_text">
+		<div class="project_row_title">
+			
+			<a href="{{ event.get_absolute_url }}">{{ event.name }}</a> <br/>
+            <h5 style="color: #888;">{{event.start_date|date:"F d"}}-{{event.end_date|date:"d"}}, {{event.end_date|date:"Y"}}</h5>
+		</div>
+		<div class="project_row_desc">
+			{% autoescape off %}{{ event.description_html|striptags|truncatewords:30 }}{% endautoescape %}
+		</div>
+		{% if event.rsvp_link %}<h5>RSVP: <a href="{{ event.rsvp_link }}" target="_new">{{ event.rsvp_link }}</a> <br/></h5>{% endif %}
+		<div class="project_row_tags">
+			{% for t in event.get_tags %}<a class="tag_link" href="/events/?tags={{ t }}">{{ t }}</a>{% endfor %}
+		</div>
+		<div class="user_icon_div project">
+			<img src="{{ event.promoter.get_profile.get_gravatar_url }}" width="50" height="50"/>
+		</div>
+		<div class="user_info_div">
+				Added by <a href="/accounts/profile/view/{{ event.promoter.username }}">{{ event.promoter.username }}</a> ({{ event.promoter.get_profile.completed_projects_karma }})<br/>
+				{{ event.date_created|ago }}
+		</div>
+
+
+	</div>
+</div>
