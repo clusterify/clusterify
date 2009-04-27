@@ -41,13 +41,13 @@ Developer. All Rights Reserved.
             <h5 style="color: #888;">{{event.start_date|date:"F d"}}-{{event.end_date|date:"d"}}, {{event.end_date|date:"Y"}}</h5>
 		</div>
 		<div class="project_row_desc">
-			{% autoescape off %}{{ event.description_html|striptags|truncatewords:30 }}{% endautoescape %}
+			{% autoescape off %}{{ event.description_html|striptags|truncatewords:40 }}{% endautoescape %}
 		</div>
 		{% if event.rsvp_link %}<h5>RSVP: <a href="{{ event.rsvp_link }}" target="_new">{{ event.rsvp_link }}</a> <br/></h5>{% endif %}
 		<div class="project_row_tags">
 			{% for t in event.get_tags %}<a class="tag_link" href="/events/?tags={{ t }}">{{ t }}</a>{% endfor %}
 		</div>
-		<div class="user_icon_div project">
+		<div class="user_icon_div">
 			<img src="{{ event.promoter.get_profile.get_gravatar_url }}" width="50" height="50"/>
 		</div>
 		<div class="user_info_div">
