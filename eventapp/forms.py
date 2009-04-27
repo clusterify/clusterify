@@ -47,9 +47,9 @@ class EventForm(forms.Form):
 				help_text='Alphanumeric, word junction by dash, separation by space',
 				regex=r'^[A-Za-z0-9\- ]+$',
 				widget=forms.widgets.TextInput(attrs={'style':'width: 95%;'}))
-	rsvp_link = forms.CharField(
-				required=True,
-				max_length=200,
+	rsvp_link = forms.URLField(
+				label='RSVP / more info link', 
+				required=False,
 				widget=forms.widgets.TextInput(attrs={'style':'width: 95%;'}))
 	class Media:
 		css = {            

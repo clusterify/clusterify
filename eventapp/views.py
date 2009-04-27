@@ -105,6 +105,7 @@ def add_or_edit_event(request, event_pk=None, is_add=False):
 			'start_date':event.start_date,
 			'end_date':event.end_date,
 			'tags':event.get_editable_tags,
+			'rsvp_link':event.rsvp_link,
 		})
 	else:
 		form = EventForm()
