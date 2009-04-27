@@ -23,7 +23,6 @@ def list_events(request, list_type='upcoming', return_raw_events=False):
 	this_page_url = "/events/"
 	filter_description = ""
 
-	
 	if list_type == 'upcoming':
 		events = Event.objects.filter(end_date__gte=datetime.now())
 		page_title = "Upcoming events"
@@ -49,15 +48,15 @@ def list_events(request, list_type='upcoming', return_raw_events=False):
 		}, context_instance=RequestContext(request))
 
 def list_past_events(request, list_type="past"):
-    return list_events(request, list_type)
+	return list_events(request, list_type)
 
 def list_upcoming_events(request, list_type="upcoming"):
-    return list_events(request, list_type)
+	return list_events(request, list_type)
 
 
 @login_required
 def add_event(request):
-    return add_or_edit_event(request, is_add=True)
+	return add_or_edit_event(request, is_add=True)
 
 @login_required
 def add_or_edit_event(request, event_pk=None, is_add=False):
@@ -91,7 +90,7 @@ def add_or_edit_event(request, event_pk=None, is_add=False):
 			event.start_date = form.cleaned_data['start_date']
 			event.end_date = form.cleaned_data['end_date']
 			event.description_markdown = form.cleaned_data['description']
-			event.name = form.cleaned_data['name']
+			event.rsvp_link = form.cleaned_data['rsvp_link']
 			tags = form.cleaned_data['tags']
 			event.save()
 			event.set_tags(tags)

@@ -43,6 +43,7 @@ Developer. All Rights Reserved.
 {% block content %}
 <div class="project_row_title_on_project">
     <span class="estimate">{{event.start_date|date:"F d"}}-{{event.end_date|date:"d"}}, {{event.end_date|date:"Y"}}</span>
+    {% if event.rsvp_link %}<a href="{{ event.rsvp_link }}" target="_new">{{ event.rsvp_link }}</a><br/>{% endif %}
 </div>
 
 <div class="user_icon_div project">

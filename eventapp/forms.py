@@ -29,7 +29,7 @@ from widgets import DateTimeWidget
 class EventForm(forms.Form):
 	name = forms.CharField(
 				required=True, 
-                help_text='Max 200 characters',
+				help_text='Max 200 characters',
 				max_length=200, 
 				widget=forms.widgets.TextInput(attrs={'style':'width: 95%;'}))
 	image = forms.ImageField(label="Event image (width=110px)", widget=forms.FileInput, required=False)
@@ -38,14 +38,18 @@ class EventForm(forms.Form):
 	end_date = forms.DateTimeField(widget = DateTimeWidget()) 
 	description =forms.CharField(
 				required=False,
-                help_text='Max 5k characters. Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/" target="_new">here</a>.',
+				help_text='Max 5k characters. Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/" target="_new">here</a>.',
 				widget=forms.widgets.Textarea(
 					attrs={'class':'markdown_textarea','rows':'20'}),
 				max_length=5000)
 	tags = forms.RegexField(
 				required=False,
-                help_text='Alphanumeric, word junction by dash, separation by space',
+				help_text='Alphanumeric, word junction by dash, separation by space',
 				regex=r'^[A-Za-z0-9\- ]+$',
+				widget=forms.widgets.TextInput(attrs={'style':'width: 95%;'}))
+	rsvp_link = forms.CharField(
+				required=True, 
+				max_length=200, 
 				widget=forms.widgets.TextInput(attrs={'style':'width: 95%;'}))
 	class Media:
 		css = {            

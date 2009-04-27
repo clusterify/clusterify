@@ -285,7 +285,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 				<li>
 				<a href="/accounts/profile/view/{{ user }}"><img style="margin-bottom:-5px;" src="{{ user.get_profile.get_gravatar_url }}" width="20" height="20"/></a>
 
-			<a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
+				<a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
 
 					{% ifequal user project.author %}
 						{% if not project.looking_for_admin %}
@@ -307,8 +307,7 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 		{% endfor %}
 	</ul>
 	{% ifnotequal user_project_status "None" %}
-	    {% ifnotequal user_project_status "Interested" %}
-
+		{% ifnotequal user_project_status "Interested" %}
 			<a href="unjoin/">Unjoin</a>
 		{% endifnotequal %}
 	{% endifnotequal %}
@@ -329,24 +328,23 @@ Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/format
 	{% endif %}
 {% endifequal %}
 
-<div class="sidebar_title">Project tags</div>
-<div class="sidebar_block">
-{% for t in project.get_tags %}
-	<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>
-{% endfor %}
-<br style="clear: both;"/>
-</div>
+{% if project.get_tags %}
+	<div class="sidebar_title">Project tags</div>
+	<div class="sidebar_block">
+		{% for t in project.get_tags %}
+			<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>
+		{% endfor %}
+		<br style="clear: both;"/>
+	</div>
+{% endif %}
 
 {% if similar_projects %}
-<div class="sidebar_title">Similar Projects</div>
-
-<div class="sidebar_block">
-
-{% for project in similar_projects %}
-<a href="{{ project.get_absolute_url }}">{{ project.title|truncatewords:4 }}</a><br/>
-{% endfor %}
-
-</div>
+	<div class="sidebar_title">Similar Projects</div>
+	<div class="sidebar_block">
+		{% for project in similar_projects %}
+			<a href="{{ project.get_absolute_url }}">{{ project.title|truncatewords:4 }}</a><br/>
+		{% endfor %}
+	</div>
 {% endif %}
 
 {% endblock %}
