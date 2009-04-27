@@ -82,17 +82,21 @@ Developer. All Rights Reserved.
 	({{ profile.user.username }} has not entered a description yet)
 {% endif %}
 
-<div class="content_subtitle">{{profile.user.username}}'s Last {{comments|length}} comment{{comments|pluralize}} 
-  <a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all {{comments_count}}) </a>
+<div class="content_subtitle">{{profile.user.username}}'s Last comment{{comments|pluralize}} 
+ {% if comments_count %}({{comments|length}} of {{comments_count}}) {% endif %}
+  {% if more_than_five_comments %}<a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all)</a>{% endif %}
 </div>
+{% if not comments_count %} ({{ profile.user.username }} has not entered any comments yet) {% endif %}
 
 {% for comment in comments %}
 	{% include "projects/comment_snippet.html" %}
 {% endfor %}
 
-<div class="content_subtitle">{{profile.user.username}}'s Last {{projects|length}} project{{projects|pluralize}} 
-  <a href="/projects/?foruser={{ profile.user.username }}"> (view all {{projects_count}}) </a>
+<div class="content_subtitle">{{profile.user.username}}'s Last project{{projects|pluralize}} 
+{% if projects_count %}({{projects|length}} of {{projects_count}}) {% endif %}
+  {% if more_than_five_projects %}<a href="/projects/?foruser={{ profile.user.username }}"> (view all)</a>{% endif %}
 </div>
+{% if not projects_count %} ({{ profile.user.username }} has not entered any projects yet) {% endif %}
 
 {% for project in projects %}
 	{% include "projects/project_snippet.html" %}

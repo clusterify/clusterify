@@ -454,6 +454,8 @@ def view_profile(request, username):
              'projects_count':user_projects.count(),
              'projects_completed':projects_completed.count(),
              'comments_count':user_comments.count(),
+             'more_than_five_comments':user_comments.count()>5,
+             'more_than_five_projects':user_projects.count()>5,
              'comments':user_comments[0:5],
              'projects':user_projects[0:5]},
             context_instance=RequestContext(request))
