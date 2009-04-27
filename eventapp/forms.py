@@ -48,8 +48,8 @@ class EventForm(forms.Form):
 				regex=r'^[A-Za-z0-9\- ]+$',
 				widget=forms.widgets.TextInput(attrs={'style':'width: 95%;'}))
 	rsvp_link = forms.CharField(
-				required=True, 
-				max_length=200, 
+				required=True,
+				max_length=200,
 				widget=forms.widgets.TextInput(attrs={'style':'width: 95%;'}))
 	class Media:
 		css = {            

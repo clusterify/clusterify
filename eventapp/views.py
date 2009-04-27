@@ -94,7 +94,7 @@ def add_or_edit_event(request, event_pk=None, is_add=False):
 			tags = form.cleaned_data['tags']
 			event.save()
 			event.set_tags(tags)
-			
+
 			return HttpResponseRedirect(event.get_absolute_url())
 	elif not is_add:
 
