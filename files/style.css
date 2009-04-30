@@ -389,6 +389,7 @@ Developer. All Rights Reserved.
     padding:5px;
     text-align:center;
     width:40px;
+		cursor: pointer;
 }
 
 .invisible_vote_widget_button {

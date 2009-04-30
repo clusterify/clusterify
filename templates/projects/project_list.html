@@ -34,6 +34,26 @@ Developer. All Rights Reserved.
 	{% if rss_url %}
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ rss_url }}"/>
 	{% endif %}
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('.idea_votes_container').click(function(){
+            var old = $(this).css("background-color");
+            $(this).css("background-color", "#736F6E");
+            var elem = $(this);
+            //alert('yay');
+            //$(this).css("background-color", old);
+            $.ajax({
+                type: "POST",
+                url: "/projects/ajax/vote/",
+                data: ({project : this.getAttribute('id')}),
+                success: function(html){
+                    $('#' + elem.attr("id") + ' .votes_count').html(html);
+                    elem.css("background-color", old);
+                }
+            });
+        });
+    });
+    </script>
 {% endblock %}
 {% block content_style %}tabbed{% endblock %}
 {% block tabs %}

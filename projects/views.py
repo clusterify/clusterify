@@ -627,3 +627,7 @@ def vote_for_project(request, project_author, project_pk, vote_type):
 	return HttpResponseRedirect(project.get_absolute_url())
 
 	
+@login_required
+def ajax_vote(request):
+	project = Project.objects.get(pk=request.POST['project'][7:])#slicing for stripping the "project" prefix
+	return HttpResponse(project.add_proposed_vote(request.user))

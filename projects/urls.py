@@ -50,6 +50,8 @@ urlpatterns = patterns('projects.views',
 			'set_project_admin_doit'),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/set_wont_complete/$',
 			'set_wont_be_completed_confirm'),
+		url(r'^ajax/vote/$',
+			'ajax_vote'),
 		url(r'^list/(?P<project_author>\w+)/(?P<project_pk>\d+)/set_wont_complete/ok/$',
 			'set_wont_be_completed_doit'),
 

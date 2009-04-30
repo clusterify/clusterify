@@ -220,6 +220,7 @@ class Project(models.Model):
 		self.update_proposed_score()
 		
 		self.author.get_profile().add_to_proposed_projects_karma(1)
+		return self.proposed_votes.count()
 	
 	def add_completed_vote(self, user):
 		if self.user_voted_completed(user):

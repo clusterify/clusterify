@@ -29,7 +29,7 @@ Developer. All Rights Reserved.
 	<div class="project_row_badges">
 		{% if not project.p_completed %}
 		<div class="count_widget_container">
-			<div class="idea_votes_container">
+			<div class="idea_votes_container" id="project{{ project.id }}">
 				great
 				<div class="votes_count">
 				{{ project.proposed_votes.count }}
