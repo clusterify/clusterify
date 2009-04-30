@@ -27,7 +27,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.loader import render_to_string
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerError
 from django.template import RequestContext
 from django.utils import feedgenerator
 from django.core.mail import send_mail
@@ -630,4 +630,8 @@ def vote_for_project(request, project_author, project_pk, vote_type):
 @login_required
 def ajax_vote(request):
 	project = Project.objects.get(pk=request.POST['project'][7:])#slicing for stripping the "project" prefix
-	return HttpResponse(project.add_proposed_vote(request.user))
+	try: 
+		return HttpResponse(project.add_proposed_vote(request.user))
+	except Exception, e:
+		return HttpResponseServerError(e.message)
+        
