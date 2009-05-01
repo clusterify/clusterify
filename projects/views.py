@@ -629,7 +629,7 @@ def vote_for_project(request, project_author, project_pk, vote_type):
 	
 @login_required
 def ajax_vote(request):
-	project = Project.objects.get(pk=request.POST['project'][7:])#slicing for stripping the "project" prefix
+	project = Project.objects.get(pk=int(request.POST['project'][7:]))#slicing for stripping the "project" prefix
 	try: 
 		return HttpResponse(project.add_proposed_vote(request.user))
 	except Exception, e:

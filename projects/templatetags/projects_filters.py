@@ -53,3 +53,11 @@ def active(request, pattern):
     if re.search(pattern, request.path):
         return 'active'
     return ''
+
+@register.simple_tag
+def voted_on_project(request, project, user):
+    if user.is_authenticated():
+        if project.user_voted_proposed(user):
+            return "voted"
+        else:
+            return "votable"

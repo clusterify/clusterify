@@ -1,5 +1,5 @@
 {% load util_filters %}
-
+{% load projects_filters %}
 {% comment %}
 
 "The contents of this file are subject to the Common Public Attribution
@@ -29,7 +29,7 @@ Developer. All Rights Reserved.
 	<div class="project_row_badges">
 		{% if not project.p_completed %}
 		<div class="count_widget_container">
-			<div class="idea_votes_container" id="project{{ project.id }}">
+			<div class="idea_votes_container {% voted_on_project request project user %}" id="project{{ project.id }}">
 				great
 				<div class="votes_count">
 				{{ project.proposed_votes.count }}

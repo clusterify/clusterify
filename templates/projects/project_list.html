@@ -35,24 +35,24 @@ Developer. All Rights Reserved.
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ rss_url }}"/>
 	{% endif %}
     <script type="text/javascript">
-    $(document).ready(function(){
-        $('.idea_votes_container').click(function(){
-            var elem = $(this);
-            $.ajax({
-                type: "POST",
-                url: "/projects/ajax/vote/",
-                data: ({project : this.getAttribute('id')}),
-                success: function(data, textStatus) {
-                    $('#' + elem.attr("id") + ' .votes_count').html(data);
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    elem.css("background-color", "#736F6E");
-                    elem.html(XMLHttpRequest.responseText);
+        $(document).ready(function(){
+            $('.votable').click(function(){
+                var elem = $(this);
+                var vote_count_box = $('#' + elem.attr("id") + ' .votes_count')
+                if (!vote_count_box.parent().filter(".voted").length){
+                    vote_count_box.fadeTo(300, 0, function(){
+                        $.ajax({
+                            type: "POST",
+                            url: "/projects/ajax/vote/",
+                            data: ({project : elem.attr("id")}),
+                            success: function(data, textStatus) {
+                                vote_count_box.html(data).fadeTo(300, 1).parent().addClass("voted").removeClass("votable");
+                            }
+                        });
+                    });
                 }
-
             });
         });
-    });
     </script>
 {% endblock %}
 {% block content_style %}tabbed{% endblock %}

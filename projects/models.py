@@ -214,7 +214,7 @@ class Project(models.Model):
 	
 	def add_proposed_vote(self, user):
 		if self.user_voted_proposed(user):
-			raise Exception('User already voted.')
+			return self.proposed_votes.count()
 		
 		self.proposed_votes.add(user)
 		self.update_proposed_score()
@@ -258,6 +258,12 @@ class Project(models.Model):
 		self.score_completed = self.get_score_given_count(self.completed_votes.count())
 		self.save()
 
+class Project_Proposed_Votes(models.Model):
+	user = models.ForeignKey(User, unique=True)
+	project = models.ForeignKey(Project, unique=True)
+
+	def __unicode__(self):
+		return u'%s, %s, %s' %(self.user, self.project.id, self.project)
 
 class Comment(models.Model):
 	text = models.CharField(max_length=5000, blank=False)

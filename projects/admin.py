@@ -22,14 +22,25 @@ Developer. All Rights Reserved.
 """
 
 from django.contrib import admin
-from models import Project, Comment
+from models import Project, Comment, Project_Proposed_Votes
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+
+
 
 class ProjectAdmin(admin.ModelAdmin):
-	list_display = ['author','title']
-	
+    search_fields = ['title']
+
+
+
+
 class CommentAdmin(admin.ModelAdmin):
 	list_display = ['author','text']
 
+
+
+
+admin.site.register(Project_Proposed_Votes) 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Comment, CommentAdmin)
 
