@@ -34,9 +34,11 @@ Developer. All Rights Reserved.
         <script src="/files/jquery.dimensions.min.js"></script>
         <script src="/files/jquery.ui.autocomplete.js"></script>
         <script src="/files/custom_autocomplete.js"></script>
+        <script src="/files/js/jquery.github-voice.js"></script>
 
         <link rel="shortcut icon" href="/files/images/favicon.ico">
         <link rel="stylesheet" href="/files/style.css"/>
+        <link rel="stylesheet" href="/files/css/github-voice.css"/>
         <link rel="stylesheet" href="/files/jquery.ui.autocomplete.css"/>
         {% block moreHead %}{% endblock %}
 
@@ -108,7 +110,9 @@ Developer. All Rights Reserved.
         <a href="http://www.djangoproject.com/"><img src="http://media.djangoproject.com/img/badges/djangomade124x25.gif" border="0" alt="Made with Django." title="Made with Django."/></a>
     </div>
 
-
+<script type="text/javascript">
+$('a.defaults').githubVoice('clusterify', 'clusterify');
+</script>
 <!-- Start of Google Analytics code -->
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
