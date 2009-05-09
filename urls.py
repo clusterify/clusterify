@@ -41,6 +41,7 @@ urlpatterns = patterns('',
 	(r'^flag/', include('flag.urls')),
 	(r'^messages/', include('messages.urls')),
 	(r'^events/', include('eventapp.urls')),
+	(r'^tracking/', include('tracking.urls')),
 	
 
     # Specific views

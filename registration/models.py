@@ -311,10 +311,10 @@ the code written by the Initial Developer are Copyright (c) the Initial
 Developer. All Rights Reserved.
 """
 
-def get_gravatar_image_url(email):
+def get_gravatar_image_url(email, size = 50):
 	# Set your variables here
 	default = ""
-	size = 50
+	
 	
 	# construct the url  
 	gravatar_url = "http://www.gravatar.com/avatar.php?"  
@@ -379,7 +379,10 @@ class Profile(models.Model):
 	
 	def get_gravatar_url(self):
 		return get_gravatar_image_url(self.user.email)
-	
+
+	def get_large_gravatar_url(self):
+		return get_gravatar_image_url(self.user.email, 100)
+		
 	##########################################################################
 	# Tags
 	

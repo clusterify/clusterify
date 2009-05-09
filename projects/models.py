@@ -96,7 +96,7 @@ class Project(models.Model):
 	
 	#interested_users = models.ManyToManyField(User, related_name='projects_interested', blank=True, null=True)
 	#joined_users = models.ManyToManyField(User, related_name='projects_joined', blank=True, null=True)
-	members = models.ManyToManyField(User, through='Membership')
+	members = models.ManyToManyField(User, through='Membership', related_name='projects_joined')
 	
 	score_proposed = models.FloatField(default=0.0)
 	score_completed = models.FloatField(default=0.0)

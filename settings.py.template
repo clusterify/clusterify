@@ -54,7 +54,7 @@ DATABASE_PORT = ''             # Set to empty string for default. Not used with 
 # although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Montreal'
+TIME_ZONE = 'America/New_York'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -73,7 +73,8 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'files')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://www.clusterify.com/files/'
+MEDIA_PREFIX = '/files/'
+MEDIA_URL = 'http://www.clusterify.com' + MEDIA_PREFIX 
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -98,11 +99,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.request',
 )
 
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django_openidconsumer.middleware.OpenIDMiddleware',
+    'tracking.middleware.VisitorTrackingMiddleware',
 )
 
 ROOT_URLCONF = 'clusterify.urls'
@@ -131,6 +134,7 @@ INSTALLED_APPS = (
     'flag',
     'messages',
     'eventapp',
+    'tracking',
 )
 
 # for registration
@@ -144,6 +148,11 @@ SERVER_EMAIL='webmaster@cluterify.com'
 
 # to do user.get_profile
 AUTH_PROFILE_MODULE = 'registration.Profile'
+
+NO_TRACKING_PREFIXES = ['/tags/',]
+TRACKING_USE_GEOIP = True
+GEOIP_DATA_FILE = 'contrib/GeoIP.dat'
+GOOGLE_MAPS_KEY = 'ABQIAAAAiOHwufUKS4v5JYFKgLXDJxTpH3CbXHjuCVmaTc5MkkU4wO1RRhSwXb2vTGOxEZ3zGPscJ7KGxQp2fw'
 
 # added for openid support
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend','registration.models.OpenIdBackend',)

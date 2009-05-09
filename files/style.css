@@ -46,6 +46,10 @@ Developer. All Rights Reserved.
     width:720px;
 }
 
+#active-users-map {
+height: 400px;
+}
+
 #footer {
     background-color:#ccc;
     border:1px solid #888;

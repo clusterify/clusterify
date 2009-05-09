@@ -1,0 +1,29 @@
+<div class="sidebar_title">
+
+
+<div class="total">
+    {{ active.count }} active user{{ active.count|pluralize }}
+</div>
+</div>
+<div class="sidebar_block" style="text-align: left;">
+<div class="guests">
+    {{ guests.count }} guest{{ guests.count|pluralize }}
+    {% if user.is_superuser %}
+    {% for visitor in guests %}
+    {% if forloop.first %}<ul class="active-guests">{% endif %}
+        <li>{{ visitor.ip_address }}</li>
+    {% if forloop.last %}</ul>{% endif %}
+    {% endfor %}
+    {% endif %}
+</div>
+<div class="registered">
+    {{ registered.count }} registered user{{ registered.count|pluralize }}
+    {% for visitor in registered %}
+
+	{% if forloop.first %}<ul class="sidebar_ul_spaced">{% endif %}
+        <li><a href="/accounts/profile/view/{{ visitor.user }}"><img style="margin-bottom:-5px;" src="{{ visitor.user.get_profile.get_gravatar_url }}" width="20" height="20"/></a>
+		<a href="/accounts/profile/view/{{ visitor.user }}">{{ visitor.user }}</a>
+    {% if forloop.last %}</ul>{% endif %}
+    {% endfor %}
+</div>
+</div>
