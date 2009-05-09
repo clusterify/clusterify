@@ -460,6 +460,7 @@ def view_profile(request, username):
              'more_than_five_projects':user_projects.count()>5,
              'comments':user_comments[0:5],
              'projects':user_projects[0:5],
+             'GOOGLE_MAPS_KEY':settings.GOOGLE_MAPS_KEY,
              'projects_joined':user_projects_joined[0:5],
             },context_instance=RequestContext(request))
     except User.DoesNotExist:
