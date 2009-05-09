@@ -447,18 +447,21 @@ def view_profile(request, username):
         # show the last 5 comments and projects in the user's profile
         user_comments = Comment.objects.filter(author=user).order_by('pub_date')
         user_projects = user.projects_authored.order_by('-pub_date')
-
+        user_projects_joined = user.projects_joined.order_by('-pub_date')
+        user_projects_joined = user_projects_joined.exclude(author = user)
         return render_to_response('registration/profile.html',
             {'profile':profile,
              'user_tags':user_tags,
              'projects_count':user_projects.count(),
+             'projects_joined_count':user_projects_joined.count(),
              'projects_completed':projects_completed.count(),
              'comments_count':user_comments.count(),
              'more_than_five_comments':user_comments.count()>5,
              'more_than_five_projects':user_projects.count()>5,
              'comments':user_comments[0:5],
-             'projects':user_projects[0:5]},
-            context_instance=RequestContext(request))
+             'projects':user_projects[0:5],
+             'projects_joined':user_projects_joined[0:5],
+            },context_instance=RequestContext(request))
     except User.DoesNotExist:
         raise Http404
     except Profile.DoesNotExist:

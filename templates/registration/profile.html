@@ -27,6 +27,11 @@ Developer. All Rights Reserved.
 
 {% load util_filters %}
 
+{% block extra-head %}
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ GOOGLE_MAPS_KEY }}" type="text/javascript"></script>
+
+{% endblock %}
+
 {% block title %}Profile for {{ profile.user.username }}{% endblock %}
 {% block titleInPage %}
 	Profile for {{ profile.user.username }} 
@@ -39,29 +44,76 @@ Developer. All Rights Reserved.
 
 {% block content %}
 
-<div class="content_subsubtitle" style="height: 53px;">
-	<div style="float: left; width: 50px; margin-right: 10px;">
-		<img src="{{ profile.get_gravatar_url }}" width="50" height="50"/>
+<div class="content_subsubtitle" style="height: 108px;">
+	<div style="float: left; width: 100px; margin: 3px; margin-right: 10px; border: 1px solid black">
+		<img src="{{ profile.get_large_gravatar_url }}" width="100" height="100"/>
 	</div>
-	<div style="float: left; width: 500px;">
+	<div style="float: left; width: 300px;">
 		Joined {{ profile.user.date_joined|ago}} on {{ profile.user.date_joined|date:"M d, Y" }}<br/>
+		Logged in {{ profile.user.last_login|ago }}<br/>
+
 		Started {{ projects_count }} project{{ projects_count|pluralize }}, {{ projects_completed }} are complete.<br/>
 		Commented {{ comments_count }} time{{ comments_count|pluralize }}<br/>
-	</div>
-	<div style="float: right; width: 140px; text-align:center;">
-    <div style="font-size:40px; margin-top:-10px;">{{ profile.completed_projects_karma }}</div>
-		Karma point{{ profile.completed_projects_karma|pluralize }} <small><a href="/concepts/#karma">?</a></small><br/>
+		<div style="border: 1px solid #fff; width: auto; position: absolute; height: 38px; margin-top: 8px;">
+		 <span style="font-size:30px; float: left; margin-right: 5px; margin-left: 5px;">
+			{{ profile.completed_projects_karma }}
+		</span>
+		<span style=" display: block; float: left; padding-top: 5px; padding-right: 10px;">
+			Karma<br/> point{{ profile.completed_projects_karma|pluralize }} 
+			<small><a href="/concepts/#karma">?</a></small>
+		</span>
+		 </div>
+		 
     </div>
-		
-</div>
 
+	<div style="float: right; width: 250px; text-align:center; margin: 3px; border: 1px solid black;">
 {% if profile.location %}
-	<div>
-		<b>Location:</b> {{ profile.location }}<br>
-		<iframe width="720" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
-		src="http://maps.google.com/maps?q={{ profile.location }}&output=embed"></iframe><br /><small><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=new+york,+ny&amp;ie=UTF8&amp;z=10&amp;iwloc=addr&amp;ll=40.873026,-73.920135" style="color:#0000FF;text-align:left">View Larger Map</a></small>
+	<div id="map_canvas" style="width:250px; height: 100px;">
+		<b>Location:</b> <br>
+		
 	</div>
+	<script type="text/javascript">
+    var map = null;
+    var geocoder = null;
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById("map_canvas"),
+		 { size: new GSize(250,100) } );
+
+        map.setCenter(new GLatLng(37.4419, -122.1419), 13);
+
+        geocoder = new GClientGeocoder();
+		
+      }
+    }
+
+    function showAddress(address) {
+      if (geocoder) {
+        geocoder.getLatLng(
+          address,
+          function(point) {
+            if (!point) {
+              alert(address + " not found");
+            } else {
+              map.setCenter(point, 13);
+              var marker = new GMarker(point);
+              map.addOverlay(marker);
+			   GEvent.addListener(marker, "click", function() {
+				window.location="http://maps.google.com/maps?q={{ profile.location }}";
+  });
+            }
+          }
+        );
+      }
+    }
+    initialize();
+    showAddress('{{profile.location}}');
+</script>
 {% endif %}
+
+</div>
+	</div>
 
 <div class="content_subtitle">{{ profile.user.username }}'s tags</div>
 
@@ -92,15 +144,24 @@ Developer. All Rights Reserved.
 	{% include "projects/comment_snippet.html" %}
 {% endfor %}
 
-<div class="content_subtitle">{{profile.user.username}}'s project{{projects|pluralize}} 
+<div class="content_subtitle">{{profile.user.username}}'s proposed project{{projects|pluralize}} 
 {% if projects_count %}({{projects|length}} of {{projects_count}}) {% endif %}
   {% if more_than_five_projects %}<a href="/projects/?foruser={{ profile.user.username }}"> (view all)</a>{% endif %}
 </div>
-{% if not projects_count %} ({{ profile.user.username }} has not entered any projects yet) {% endif %}
+{% if not projects_count %} ({{ profile.user.username }} has not proposed any projects yet) {% endif %}
 
 {% for project in projects %}
 	{% include "projects/project_snippet.html" %}
 {% endfor %}
 
+<div class="content_subtitle">{{profile.user.username}}'s joined project{{projects_joined|pluralize}} 
+{% if projects_joined_count %}({{projects_joined|length}} of {{projects_joined_count}}) {% endif %}
+  {% if more_than_five_projects %}<a href="/projects/?foruser={{ profile.user.username }}"> (view all)</a>{% endif %}
+</div>
+{% if not projects_joined_count %} ({{ profile.user.username }} has not joined any projects yet) {% endif %}
+
+{% for project in projects_joined %}
+	{% include "projects/project_snippet.html" %}
+{% endfor %}
 
 {% endblock %}
