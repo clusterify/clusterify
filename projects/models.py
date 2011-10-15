@@ -37,20 +37,11 @@ from tagging.utils import taglist_to_string
 
 from clusterify.utils import get_query
 
-#### Constants
 
 REFERENCE_DATE_FOR_SCORE = datetime.datetime(2008, 1, 1, 0, 0, 0)
-
-# In Reddit formula, as per Aneesh's original comment(isn't the world small?)
-# http://news.ycombinator.com/item?id=231188
-# that was 45000, so ~12.5 hours. That means every 12.5 hours going by substracted as much as the
-# first 10 votes, the next 90, the next 900... on a story submitted.
-# In our case, we probably want good ideas to disappear much more slowly,
-# and give more weight to votes.
 DAMP_FACTOR_FOR_TIMEDELTA = 3600*24*3
 
 
-####
 
 class Project(models.Model):
 	title = models.CharField(max_length=200)
@@ -82,28 +73,18 @@ class Project(models.Model):
 	
 	event = models.ForeignKey(Event, related_name='projects_event', blank=True, default=False)
 	
-	# set manually
 	pub_date = models.DateTimeField(auto_now_add=False, auto_now=False)
 	p_completed = models.BooleanField(default=False)
 	wont_be_completed = models.BooleanField(default=False)
 	
-	proposed_votes = models.ManyToManyField(User, related_name='projects_proposed_votes', blank=True, null=True)
-	completed_votes = models.ManyToManyField(User, related_name='projects_completed_votes', blank=True, null=True)
+	proposed_votes = models.ManyToManyField(User, related_name='projects_proposed_votes_related', blank=True, null=True)
+	completed_votes = models.ManyToManyField(User, related_name='projects_completed_votes_related', blank=True, null=True)
 	
-	# Using ManyToMany fields to record votes so we know who voted for what, if only to check if a user already voted
-	#proposed_votes = models.PositiveIntegerField(default=1)
-	#completed_votes = models.PositiveIntegerField(default=1)
-	
-	#interested_users = models.ManyToManyField(User, related_name='projects_interested', blank=True, null=True)
-	#joined_users = models.ManyToManyField(User, related_name='projects_joined', blank=True, null=True)
 	members = models.ManyToManyField(User, through='Membership', related_name='projects_joined')
 	
 	score_proposed = models.FloatField(default=0.0)
 	score_completed = models.FloatField(default=0.0)
 	
-	# Using Tag.objects directly, instead of the field, now (otherwise
-	# the field overwrites with empty tag list when we do .save())
-	#tags = TagField()
 	
 	def __unicode__(self):
 		return u'%s' %(self.title)
@@ -124,9 +105,6 @@ class Project(models.Model):
 	def get_comments(self):
 		return Comment.objects.filter(project=self)
 
-	##########################################################################
-	# URLs
-
 	def get_absolute_url(self):
 		return "/projects/list/%s/%s/" %(self.author.username, str(self.pk))
 	
@@ -136,13 +114,6 @@ class Project(models.Model):
 	def get_editing_url(self):
 		return "/projects/list/%s/%s/edit/" %(self.author.username, str(self.pk))
 		
-
-	
-	##########################################################################
-	# Tag setting & getting
-	
-	# The set_tags functions must be called AFTER the object has been saved,
-	# as otherwise the pk is not set yet
 
 	def get_editable_tags(self):
 		return taglist_to_string(self.get_tags())
@@ -154,27 +125,23 @@ class Project(models.Model):
 		return Tag.objects.get_for_object(self)
 
 
-	##########################################################################
-	# Joining
-
 	def get_joined_users(self):
 		return [m.user for m in Membership.objects.filter(project=self, approved=True)]
 
 	def get_interested_users(self):
 		return [m.user for m in Membership.objects.filter(project=self, approved=False)]
 
-	# The add_user functions must be called AFTER the object has been saved
+
 	def add_interested_user(self, user, role=''):
 		if not self.p_completed:
-			#self.interested_users.add(user)
 			if Membership.objects.filter(project=self, user=user).count() == 0:
 				Membership(project=self, user=user, role=role, approved=False).save()
 
-	# used when a user moves from "Interested" to "Member" on a project
+
 	def remove_member(self, user):
 		m = Membership.objects.filter(project=self, user=user)
 		m.delete()
-		#self.interested_users.remove(user)
+
 
 	def get_interested_users_count(self):
 		return Membership.objects.filter(project=self, approved=False).count()
@@ -191,8 +158,7 @@ class Project(models.Model):
 	def get_joined_users_count(self):
 		return Membership.objects.filter(project=self, approved=True).count()
 
-	# Given a user, returns the user's position in the project 
-	# (Author, Member, Interested, None)
+
 	def join_status(self, user):
 		if user == self.author:
 			return "Author"
@@ -209,8 +175,6 @@ class Project(models.Model):
 		if m.count() > 0:
 			return m[0].role
 
-	##########################################################################
-	# Voting and score
 	
 	def add_proposed_vote(self, user):
 		if self.user_voted_proposed(user):
@@ -229,7 +193,6 @@ class Project(models.Model):
 		self.completed_votes.add(user)
 		self.update_completed_score()
 		
-		# TODO: block users from joining after project is complete
 		self.author.get_profile().add_to_completed_projects_karma(1)
 		for u in self.get_joined_users():
 			u.get_profile().add_to_completed_projects_karma(1)
@@ -267,12 +230,11 @@ class Project_Proposed_Votes(models.Model):
 
 class Comment(models.Model):
 	text = models.CharField(max_length=5000, blank=False)
-	text_html = models.CharField(max_length=5000, blank=True) # only for admin reasons is blank=True
+	text_html = models.CharField(max_length=5000, blank=True)
 	
 	author = models.ForeignKey(User)
 	project = models.ForeignKey(Project)
 	pub_date = models.DateTimeField(auto_now_add=True)
-	# blank and null is for Django admin
 	flagged_by = models.ManyToManyField(User, related_name='flagged_by', blank=True, null=True)
 
 	def save(self):
