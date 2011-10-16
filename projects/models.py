@@ -77,8 +77,8 @@ class Project(models.Model):
 	p_completed = models.BooleanField(default=False)
 	wont_be_completed = models.BooleanField(default=False)
 	
-	proposed_votes = models.ManyToManyField(User, related_name='projects_proposed_votes_related', blank=True, null=True)
-	completed_votes = models.ManyToManyField(User, related_name='projects_completed_votes_related', blank=True, null=True)
+	proposed_votes = models.ManyToManyField(User, related_name='projects_proposed_votes', blank=True, null=True)
+	completed_votes = models.ManyToManyField(User, related_name='projects_completed_votes', blank=True, null=True)
 	
 	members = models.ManyToManyField(User, through='Membership', related_name='projects_joined')
 	
@@ -221,7 +221,7 @@ class Project(models.Model):
 		self.score_completed = self.get_score_given_count(self.completed_votes.count())
 		self.save()
 
-class Project_Proposed_Votes(models.Model):
+class Proposed_Votes(models.Model):
 	user = models.ForeignKey(User, unique=True)
 	project = models.ForeignKey(Project, unique=True)
 
