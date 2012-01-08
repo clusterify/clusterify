@@ -35,7 +35,7 @@ import os.path
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^admin/(.*)', admin.site.root),
+    (r'^admin/', include(admin.site.urls)),
     (r'^accounts/', include('registration.urls')),
     (r'^projects/', include('projects.urls')),
 	(r'^flag/', include('flag.urls')),

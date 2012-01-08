@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     'messages',
     'eventapp',
     'tracking',
+    'recaptcha',
 )
 
 # for registration
@@ -156,3 +157,7 @@ GOOGLE_MAPS_KEY = 'ABQIAAAAiOHwufUKS4v5JYFKgLXDJxTpH3CbXHjuCVmaTc5MkkU4wO1RRhSwX
 
 # added for openid support
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend','registration.models.OpenIdBackend',)
+
+# for captcha support
+RECAPTCHA_PUBLIC_KEY = '<your public key>'
+RECAPTCHA_PRIVATE_KEY = '<your private key>'
