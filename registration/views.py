@@ -27,6 +27,8 @@ from django.contrib.auth import views as auth_views
 from projects.models import Comment, Project
 from clusterify.utils import get_paginator_page, get_query, oops, get_full_url
 
+from recaptcha.client import captcha
+
 # NOTE: the code of django-registration was heavily modified...
 # it almost isn't used anymore, due to the bypass of the activation email process
 
@@ -160,7 +162,9 @@ def register(request, success_url=None,
     """
     if request.method == 'POST':
         form = form_class(data=request.POST, files=request.FILES)
-        if form.is_valid():
+        check_captcha = captcha.submit(request.POST['recaptcha_challenge_field'], request.POST['recaptcha_response_field'], settings.RECAPTCHA_PRIVATE_KEY, request.META['REMOTE_ADDR'])
+        
+        if form.is_valid() and check_captcha.is_valid():
             new_user = User.objects.create_user(form.cleaned_data['username'],
                                                 form.cleaned_data['email'],
                                                 form.cleaned_data['password1'])
@@ -186,6 +190,8 @@ def register(request, success_url=None,
             #return HttpResponseRedirect(success_url or reverse('registration_complete'))
     else:
         form = form_class()
+        html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUB_KEY)
+        
     
     if extra_context is None:
         extra_context = {}
@@ -193,7 +199,7 @@ def register(request, success_url=None,
     for key, value in extra_context.items():
         context[key] = callable(value) and value() or value
     return render_to_response(template_name,
-                              { 'form': form },
+                              { 'form': form, 'html_captcha': html_captcha },
                               context_instance=context)
 
 
@@ -500,4 +506,4 @@ def view_default_profile(request):
         # WAS: return view_profile(request, user.username)
         # I think this makes the url more consistent
         return HttpResponseRedirect('/accounts/profile/view/%s/' % user.username)	
-
+        
