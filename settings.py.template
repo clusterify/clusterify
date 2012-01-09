@@ -158,6 +158,7 @@ GOOGLE_MAPS_KEY = 'ABQIAAAAiOHwufUKS4v5JYFKgLXDJxTpH3CbXHjuCVmaTc5MkkU4wO1RRhSwX
 # added for openid support
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend','registration.models.OpenIdBackend',)
 
-# for captcha support
+# for captcha support. you can get these from google's recaptcha api.
+# https://www.google.com/recaptcha/admin/create
 RECAPTCHA_PUBLIC_KEY = '<your public key>'
 RECAPTCHA_PRIVATE_KEY = '<your private key>'
