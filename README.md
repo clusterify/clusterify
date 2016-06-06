@@ -1,5 +1,6 @@
 Clusterify
 ==========
+[![Slack Status](https://clusterify-slackin.herokuapp.com/badge.svg)](https://clusterify-slackin.herokuapp.com/)
 What is it?
 -------------
 Clusterify is a better way to meet other programmers working with the same technologies you are. Open source projects are great, but they usually require large investments of time. The idea here is to keep it short, just a couple hours per project. If you have a cool idea for a short project, and want to work on it with a couple other programmers, sign up here to get started!
