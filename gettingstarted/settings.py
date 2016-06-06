@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'generictemplatetags',
     #'flag',
     #'messages',
-    'recaptcha',
+    #'recaptcha',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -151,3 +151,5 @@ EMAIL_HOST_USER = os.environ.get('SENDGRID_USERNAME')
 EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+ACCOUNT_EMAIL_REQUIRED=True
