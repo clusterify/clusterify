@@ -23,7 +23,7 @@ Developer. All Rights Reserved.
 
 from django import forms
 from django.template import loader, Context
-from eventapp.models import Event
+#from eventapp.models import Event
 
 PROJECT_DESCRIPTION_TEMPLATE_FILE = 'projects/project_description_template.txt'
 ESTIMATE_CHOICES = (
@@ -53,9 +53,9 @@ class ProjectForm(forms.Form):
 				min_value=1,
 				required=False,
 				widget=forms.widgets.Select(choices=ESTIMATE_CHOICES))
-	event = forms.CharField(
-				required=False,
-				widget = forms.Select(choices=[('','')] +[(event.id, event.name[:50]) for event in Event.objects.all()]))
+	# event = forms.CharField(
+	# 			required=False,
+	# 			widget = forms.Select(choices=[('','')]))
 	not_involved = forms.BooleanField(required=False)
 	description = forms.CharField(
 				initial=get_description_template, # idea taken at http://andrewwilkinson.wordpress.com/2009/01/28/dynamic-initial-values-in-django-forms/

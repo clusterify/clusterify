@@ -35,13 +35,13 @@ from django.conf import settings
 
 from tagging.models import TaggedItem
 
-from clusterify.utils import get_paginator_page, generic_confirmation_view, get_query, get_full_url, oops
+from utils import get_paginator_page, generic_confirmation_view, get_query, get_full_url, oops
 
 from registration.models import Profile
 
 from forms import ProjectForm, CommentForm, JoinForm
 from models import Project, Comment, Membership
-from eventapp.models import Event
+#from eventapp.models import Event
 ##############################################################################
 # Constants
 
@@ -379,8 +379,8 @@ def add_or_edit_project(request, project_author=None, project_pk=None, is_add=Fa
 		form = ProjectForm(request.POST)
 		if form.is_valid():
 			project.title = form.cleaned_data['title']
-			if form.cleaned_data['event']:
-				project.event = get_object_or_404(Event, pk=form.cleaned_data['event'])
+			# if form.cleaned_data['event']:
+			# 	project.event = get_object_or_404(Event, pk=form.cleaned_data['event'])
 			project.description_markdown = form.cleaned_data['description']
 			if form.cleaned_data['time_estimate']:
 				project.hour_estimate = form.cleaned_data['time_estimate']

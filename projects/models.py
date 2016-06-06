@@ -27,7 +27,7 @@ import string
 
 from django.db import models
 from django.contrib.auth.models import User
-from eventapp.models import Event
+#from eventapp.models import Event
 
 from markdown.markdown import Markdown
 
@@ -35,7 +35,7 @@ from tagging.fields import TagField
 from tagging.models import Tag
 from tagging.utils import taglist_to_string
 
-from clusterify.utils import get_query
+from utils import get_query
 
 
 REFERENCE_DATE_FOR_SCORE = datetime.datetime(2008, 1, 1, 0, 0, 0)
@@ -71,7 +71,7 @@ class Project(models.Model):
 
 	hour_estimate = models.PositiveIntegerField(default=2)
 
-	event = models.ForeignKey(Event, related_name='projects_event', blank=True, default=False)
+	#event = models.ForeignKey(Event, related_name='projects_event', blank=True, default=False)
 
 	pub_date = models.DateTimeField(auto_now_add=False, auto_now=False)
 	p_completed = models.BooleanField(default=False)

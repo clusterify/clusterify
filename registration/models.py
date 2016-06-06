@@ -17,7 +17,7 @@ from tagging.utils import taglist_to_string
 
 from markdown.markdown import Markdown
 
-from clusterify.utils import get_query
+from utils import get_query
 
 import urllib, hashlib 
 
@@ -154,7 +154,7 @@ class RegistrationManager(models.Manager):
             send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [new_user.email])
         user_registered.send(sender=self.model, user=new_user)
         return new_user
-    create_inactive_user = transaction.commit_on_success(create_inactive_user)
+    create_inactive_user = transaction.atomic(create_inactive_user)
     
     def create_profile(self, user):
         """

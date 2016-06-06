@@ -1,0 +1,350 @@
+{% extends "base.html"  %}
+
+{% comment %}
+
+"The contents of this file are subject to the Common Public Attribution
+License Version 1.0 (the "License"); you may not use this file except 
+in compliance with the License. You may obtain a copy of the License at 
+http://www.clusterify.com/static/CODE_LICENSE.txt. The License is based 
+on the Mozilla Public License Version 1.1 but Sections 14 and 15 have 
+been added to cover use of software over a computer network and provide 
+for limited attribution for the Original Developer. In addition, Exhibit 
+A has been modified to be consistent with Exhibit B.
+
+Software distributed under the License is distributed on an "AS IS" basis, 
+WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License 
+for the specific language governing rights and limitations under the 
+License.
+
+The Original Code is Clusterify.
+
+The Initial Developer of the Original Code is "the Clusterify.com team", 
+which is described at http://www.clusterify.com/about/. All portions of 
+the code written by the Initial Developer are Copyright (c) the Initial 
+Developer. All Rights Reserved.
+
+{% endcomment %}
+
+{% load projects_tags %}
+{% load util_filters %}
+{% load flagtags %}
+
+
+{% block title %}{{ project.title }}{% endblock %}
+{% block titleInPage %}
+{{ project.title }}
+{% endblock %}
+
+{% block moreStyle %}{% endblock %}
+
+{% block content %}
+		<div class="project_row_title_on_project">
+				<br/>{% if not project.p_completed %} 
+					<span class="estimate">Estimated time: {{ project.hour_estimate }} hour{{ project.hour_estimate|pluralize }}</span>
+				{% else %}
+					<span class="estimate">This project is completed.</span>
+				{% endif %}
+				{% if project.looking_for_admin %}<span class="green_text">Just an idea (project needs admin)</span>{% endif %}
+				{% if project.wont_be_completed %}<span class="red_text">This project is closed: it is set as "won't be completed"</span>{% endif %}
+		</div>
+
+
+<div class="project_author">
+{% ifequal project.author project.proposed_by %}
+	{% if project.looking_for_admin %}
+		{% ifequal project.proposed_by "None" %}
+			Proposed anonymously {{ project.pub_date|ago }}<br/>
+		{% else %}
+			Proposed by {{ project.proposed_by.username }} {{ project.pub_date|ago }}<br/>
+		{% endifequal %}
+		<span class="green_text"><strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong></span>
+	{% else %}
+
+		<div class="user_icon_div project">
+			{% if project.looking_for_admin %}
+				<img src="/static/images/unknown_user.gif" width="50" height="50"/>
+			{% else %}
+				<a href="/accounts/profile/view/{{ project.author.username }}"><img src="{{ project.author.get_profile.get_gravatar_url }}" width="50" height="50"/></a>
+			{% endif %}
+		</div>
+		<div class="user_info_div">
+			{% if project.looking_for_admin %}
+				<strong>Needs admin</strong>
+			{% else %}
+				Administered by <a href="/accounts/profile/view/{{ project.author.username }}">{{ project.author.username }}</a> ({{ project.author.get_profile.completed_projects_karma }})
+			{% endif %}<br/>
+			Proposed {{ project.pub_date|ago }}<br/>
+			{% ifequal project.proposed_by "None" %}
+				(anonymously)
+			{% else %}
+				{% if project.looking_for_admin %}
+					(by <a href="/accounts/profile/view/{{ project.proposed_by.username }}">{{ project.proposed_by.username }}</a>)
+				{% endif %}
+			{% endifequal %}
+		</div>
+	{% endif %}
+{% else %}
+	{% if not project.looking_for_admin %}
+		Administered by {{ project.author.username }}<br/>
+	{% endif %}
+
+	{% ifequal project.proposed_by "None" %}
+		Originally proposed anonymously {{ project.pub_date|ago }}<br/>
+	{% else %}
+		Originally proposed by {{ project.proposed_by.username }} {{ project.pub_date|ago }}<br/>
+	{% endifequal %}
+
+	{% if project.looking_for_admin %}
+		<span class="green_text"><strong>This is just an idea: an admin is needed to make it happen (see button in sidebar).</strong></span>
+	{% endif %}
+{% endifequal %}
+</div>
+<hr style="border-style: none none dotted; margin-bottom:0px; clear: both;">
+{% if project.p_completed %}
+<div class="content_subtitle">Project showcase</div>
+	{% if not project.showcase_html %}
+		(No showcase created yet. The author can create one by editing the project.)
+	{% else %}
+		{% autoescape off %}{{ project.showcase_html }}{% endautoescape %}
+	{% endif %}
+<div class="content_subtitle">Project description</div>
+{% endif %}
+
+{% if project.event %}
+<div class="content_subtitle">This project is part of the <a href="{{project.event.get_absolute_url }}">{{project.event.name}}</a> event</div>
+{% endif %}
+
+<div class="project_description">
+{% if not project.description_html %}(No description yet){% endif %}
+{% autoescape off %}{{ project.description_html }}{% endautoescape %}
+</div>
+<a name="comments"></a>
+<div class="content_subtitle">Comments</div>
+<div class="content_subsubtitle">Project author and members receive automatic email notifications when comments are posted.</div>
+
+<div>
+	
+	{% with project.get_comments as project_comments %}
+		{% if not project_comments.count %}
+		<p>No comments for the moment.</p>
+		{% endif %}
+	
+		{% for comment in project_comments %}
+			{% include "projects/comment_snippet.html" %}
+		{% endfor %}
+	{% endwith %}
+	
+	{% if user.is_authenticated %}
+<div class="content_subsubtitle"><strong>New comment</strong><br/><br/>
+Use the Markdown syntax. Good summary <a href="http://crunchbang.org/wiki/formattingrules/">here</a>.
+</div>
+	<div class="form_div">
+		<form action="{{ project.get_postcomment_url }}" method="POST">
+				{{ form.text }}
+			<br/><br/>
+			<input type="submit" value="Submit" />
+		</form>
+	</div>
+	<a href="#" id="flag_link" onclick="return false;">Flag</a>
+
+	<div style="display: none;" id="flag">
+		{% flag project user %}
+	</div>
+	<script>
+		$("#flag_link").click(function () {
+			$("#flag").toggle();
+		});
+	</script>
+	
+	{% else %}
+		{% if not project_comments %}You could add a comment if you were <a href="/accounts/login/">logged in</a>.{% endif %}
+	{% endif %}
+</div>
+
+
+{% endblock %}
+
+
+
+
+{% block sidebar %}
+
+<div class="sidebar_title">Project controls</div>
+<div class="sidebar_block">
+	<div class="badge_group_container">
+		<div class="count_widget_container">
+			{% if voted_for_proposed %}
+				<div class="idea_vote_widget_button" title="You already voted for this idea"><img src="/static/images/dash.gif"></div>
+			{% else %}
+				<a href="vote/proposed/" class="idea_vote_widget_button" title="Vote for this idea"><img src="/static/images/up.gif"></a>
+			{% endif %}
+			<div class="idea_votes_container">
+				great
+				<div class="votes_count">
+				{{ project.proposed_votes.count }}
+				</div>
+				idea
+			</div>
+		</div>
+		
+		<div class="count_widget_container">
+			<div class="invisible_vote_widget_button"><img src="/static/images/empty_vote_button.gif"></div>
+			<div class="joins_count_container">
+				&nbsp;
+				<div class="joins_count">
+				{{ project.get_joined_users_count }}
+				</div>
+				joined
+			</div>
+		</div>
+		{% if project.p_completed %}
+			<div class="count_widget_container" style="margin-right: 0;">
+				{% if voted_for_completed %}
+					<div class="job_vote_widget_button" title="You already voted for this implementation"><img src="/static/images/dash.gif"></div>
+				{% else %}
+					<a href="vote/completed/" class="job_vote_widget_button" title="Vote for this implementation"><img src="/static/images/up.gif"></a>
+				{% endif %}
+				<div class="job_votes_container">
+					great
+					<div class="votes_count">{{ project.completed_votes.count }}</div>
+					job
+				</div>
+			</div>
+		{% else %}
+			<div class="count_widget_container" style="margin-right: 0;">
+				<div class="invisible_vote_widget_button"><img src="/static/images/empty_vote_button.gif"></div>
+				<div class="disabled_badge_container" style="margin: 0;">
+					great<div class="votes_count">N/A</div>job
+				</div>
+			</div>
+		{% endif %}
+	</div>
+	<br style="clear: both;">
+	
+	
+
+{% if not project.wont_be_completed %}
+	{% ifequal user project.author %}
+		<a href="{{ project.get_editing_url }}" class="sidebar_button_a">Edit this project</a>
+		{% if not project.p_completed %}
+			<a href="{{ project.get_absolute_url }}complete/" class="sidebar_button_a">Set as completed</a>
+			<a href="{{ project.get_absolute_url }}set_wont_complete/" class="sidebar_button_a">Set as "won't be completed"</a>
+		{% endif %}
+	{% endifequal %}
+{% endif %}
+</div>
+<div class="sidebar_title">Your membership</div>
+<div class="sidebar_block">
+{% if project.wont_be_completed %}
+	<div class="sidebar_info">This project is closed: it won't be completed</div>
+{% else %}
+	{% if not project.p_completed %}
+		{% if project.looking_for_admin %}
+			<div class="sidebar_info">This project needs an admin</div>
+			<a href="become_admin/" class="join_button">Become admin on this project</a>
+		{% else %}
+			{% ifequal user_project_status "None" %}
+				<form method="POST" action="join/">
+					<div style="text-align: left; margin: 5px;">
+					<strong>Your role</strong>
+					<div class="form_help_text">What do you propose to do (max 120 chars.):</div>
+					</div>
+					{{ join_form.role }}<br/>
+					<input type="submit" class="join_button" value="Join this project" style="width: 90%;">
+				</form>
+			{% else %}
+				{% ifequal user_project_status "Interested" %}
+					<div class="sidebar_info">Awaiting approval to join</div>
+					<form method="POST" action="update_role/">
+						Update your role:
+						{{ join_form.role }}<br/>
+						<input type="submit" class="sidebar_button_a" value="Update role" style="width: 90%;">
+					</form>
+				{% else %}
+					{% ifequal project.author user %}
+						<div class="sidebar_info">You are admin for this project</div>
+					{% else %}
+						<div class="sidebar_info">You are part of this project </div> 
+					{% endifequal %}
+						<form method="POST" action="update_role/">
+							Update your role:
+							{{ join_form.role }}<br/>
+							<input type="submit" class="sidebar_button_a" value="Update role" style="width: 90%;">
+						</form>
+					{% endifequal %}
+			{% endifequal %}
+		{% endif %}
+	{% endif %}
+{% endif %}
+</div>
+<div class="sidebar_title">Members and roles</div>
+<div class="sidebar_block">
+	<ul class="sidebar_ul_spaced">
+		{% for user in project.get_joined_users %}
+			
+				<li>
+				<a href="/accounts/profile/view/{{ user }}"><img style="margin-bottom:-5px;" src="{{ user.get_profile.get_gravatar_url }}" width="20" height="20"/></a>
+
+				<a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
+
+					{% ifequal user project.author %}
+						{% if not project.looking_for_admin %}
+							 (admin)
+						{% endif %}
+					{% endifequal %}
+
+					{% role_for_project user for project as cur_user_role %}
+
+					<div class="sidebar_ul_subinfo">
+					{% if cur_user_role %}
+						{{ cur_user_role }}
+					{% else %}
+						(no role specified)
+					{% endif %}
+					</div>
+
+				</li>
+		{% endfor %}
+	</ul>
+	{% ifnotequal user_project_status "None" %}
+		{% ifnotequal user_project_status "Interested" %}
+			<a href="unjoin/">Unjoin</a>
+		{% endifnotequal %}
+	{% endifnotequal %}
+</div>
+
+{% ifequal user project.author %}
+	{% if project.get_interested_users %}
+	<div class="sidebar_title">Users interested</div>
+	<div class="sidebar_block">
+		<ul class="sidebar_ul">
+			{% for user in project.get_interested_users %}
+				<li><a href="/accounts/profile/view/{{ user }}">{{ user }}</a>
+				<a href="{{user}}/approve/"> (Approve)</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+{% endifequal %}
+
+{% if project.get_tags %}
+	<div class="sidebar_title">Project tags</div>
+	<div class="sidebar_block">
+		{% for t in project.get_tags %}
+			<a class="tag_link" href="/projects/?tags={{ t }}">{{ t }}</a>
+		{% endfor %}
+		<br style="clear: both;"/>
+	</div>
+{% endif %}
+
+{% if similar_projects %}
+	<div class="sidebar_title">Similar Projects</div>
+	<div class="sidebar_block">
+		{% for project in similar_projects %}
+			<a href="{{ project.get_absolute_url }}">{{ project.title|truncatewords:4 }}</a><br/>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% endblock %}

@@ -15,3 +15,46 @@ Clusterify.com is derived from an idea proposed by François Savard on Hacker Ne
 François worked about three weeks fulltime on the project and Aneesh helped out at times on nights/weekends until, in February 2009, they launched the project on Hacker News. After receiving much feedback, further tweaks were implemented during the following weeks. Meanwhile, about a hundred users signed up.
 
 A few weeks later, Aneesh left the project. Shortly after, Sean Auriti contacted François to help with the site. After some discussion, they both agreed that responsibility for the site and project would be transfered to Sean. The transition happened around April 5, 2009, in the course of which the site changed servers and also became an open source project.
+
+Clusterify can easily be deployed to Heroku.
+
+This application supports the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
+
+## Running Locally
+
+Make sure you have Python [installed properly](http://install.python-guide.org).  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/) and [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
+
+```sh
+$ git clone git@github.com:heroku/python-getting-started.git
+$ cd python-getting-started
+
+$ pip install -r requirements.txt
+
+$ createdb python_getting_started
+
+$ python manage.py migrate
+$ python manage.py collectstatic
+
+$ heroku local
+```
+
+Your app should now be running on [localhost:5000](http://localhost:5000/).
+
+## Deploying to Heroku
+
+```sh
+$ heroku create
+$ git push heroku master
+
+$ heroku run python manage.py migrate
+$ heroku open
+```
+or
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+## Documentation
+
+For more information about using Python on Heroku, see these Dev Center articles:
+
+- [Python on Heroku](https://devcenter.heroku.com/categories/python)

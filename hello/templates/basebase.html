@@ -1,0 +1,95 @@
+{% load projects_filters %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <script src="/tags/js/"></script>
+        <script src="/static/jquery.js"></script>
+        <script src="/static/jquery.dimensions.min.js"></script>
+        <script src="/static/jquery.ui.autocomplete.js"></script>
+        <script src="/static/custom_autocomplete.js"></script>
+        <script src="/static/js/jquery.github-voice.js"></script>
+
+        <link rel="shortcut icon" href="/static/images/favicon.ico">
+        <link rel="stylesheet" href="/static/style.css"/>
+        <link rel="stylesheet" href="/static/css/github-voice.css"/>
+        <link rel="stylesheet" href="/static/jquery.ui.autocomplete.css"/>
+        {% block moreHead %}{% endblock %}
+        {% block extra-head %}{% endblock %}
+
+        <style type="text/css">
+            {% block moreStyle %}{% endblock %}
+
+        </style>
+        <title>Clusterify - {% block title %}Propose small coding projects and team up with others to realize them.{% endblock %}</title>
+    </head>
+
+    <body>
+
+        {% if not hide_announcement and has_announcement %}
+        <div id="announcements">Features will be moving fast in the next few days / weeks. <a href="http://blog.clusterify.com/?feed=rss2">Grab the announcement feed</a> <a href="http://blog.clusterify.com/?feed=rss2"><img src="/static/images/rss14.png" style="vertical-align: middle;"/></a>. &nbsp;&nbsp;&nbsp;<a href="#" onclick="$.getScript('/hide_announcement/'); $('#announcements').fadeOut('slow'); ">(hide)</a></div>
+        {% endif %}
+
+	<div id="topbar">
+		
+		<div id="logo"><a href="/"><img src="/static/images/logo_slant.gif" width="349" height="83"></a></div>
+		<div id="loginmenu_div">
+			{% if user.is_authenticated %}
+				logged in as <a href="/accounts/profile/">{{ user.username }}</a> |
+				<a href="/accounts/logout/">logout</a> |
+				<a href="/messages/">messages</a> |
+				<a href="/accounts/profile/edit/">profile</a>
+			{% else %}
+				<a href="/accounts/login/?next={% ifnotequal request.path '/accounts/logout/' %}{{ request.path }}{% endifnotequal %}">Login</a> | 
+				<a href="/accounts/signup/">Sign Up</a>
+			{% endif %}
+               | <a href="/concepts/">help</a>
+		</div>
+		<div id="sitemenu_div">
+            <ul id="sitemenu_ul">
+                <li>
+                    <a href="/projects/proposed/"
+                       class='{% ifequal page_title "Proposed projects" %}active{% endifequal %}
+                       {% ifequal page_title "Completed projects" %}active{% endifequal %}'>
+                        Projects ({% project_count %})
+                    </a>
+                </li>
+                <li>
+                    <a href="/accounts/people/"
+                       class='{% ifequal page_title "People" %}active{% endifequal %}'>
+                        People ({% people_count %})
+                    </a>
+                </li>
+            </ul>
+        </div>
+	</div>
+    
+	<div class="clear"></div>
+	<div id="maincontainer">
+	{% block maincontainer %}{% endblock %}
+	</div>
+    <div id="footer">
+        <a href="/concepts/">Help</a> |
+        <a href="/about/">About and contact</a> |
+        <a href="/terms/">Terms of Service</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+
+<script type="text/javascript">
+$('a.defaults').githubVoice('clusterify', 'clusterify');
+</script>
+<!-- Start of Google Analytics code -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-174866-9");
+pageTracker._trackPageview();
+pageTracker._setVar("{{ user.username }}");
+} catch(err) {}</script>
+<!-- End of Google Analytics code -->
+
+</body>
+</html>
