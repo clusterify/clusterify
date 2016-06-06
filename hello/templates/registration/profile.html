@@ -1,29 +1,6 @@
 {% extends "base.html" %}
+{% load humanize %}
 
-{% comment %}
-
-The contents of this file are subject to the Common Public Attribution
-License Version 1.0 (the "License"); you may not use this file except
-in compliance with the License. You may obtain a copy of the License at
-http://www.clusterify.com/static/CODE_LICENSE.txt. The License is based
-on the Mozilla Public License Version 1.1 but Sections 14 and 15 have
-been added to cover use of software over a computer network and provide
-for limited attribution for the Original Developer. In addition, Exhibit
-A has been modified to be consistent with Exhibit B.
-
-Software distributed under the License is distributed on an "AS IS" basis,
-WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
-for the specific language governing rights and limitations under the
-License.
-
-The Original Code is Clusterify.
-
-The Initial Developer of the Original Code is "the Clusterify.com team",
-which is described at http://www.clusterify.com/about/. All portions of
-the code written by the Initial Developer are Copyright (c) the Initial
-Developer. All Rights Reserved.
-
-{% endcomment %}
 
 {% load util_filters %}
 
@@ -31,13 +8,13 @@ Developer. All Rights Reserved.
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{ GOOGLE_MAPS_KEY }}" type="text/javascript"></script>
 {% endblock %}
 
-{% block title %}Profile for {{ profile.user.username }}{% endblock %}
+{% block title %}Profile for {{ user.username }}{% endblock %}
 {% block titleInPage %}
-Profile for {{ profile.user.username }} 
-{% ifequal profile.user request.user %} 
+Profile for {{ user.username }} 
+{% ifequal user request.user %} 
 <a style="font-size:19px; padding: 5px;" href="/accounts/profile/edit/">(edit)</a>
 {% else %}
-<a style="font-size:19px; padding: 5px;" href="/messages/compose/{{profile.user}}/">(send {{profile.user}} a message)</a>
+<a style="font-size:19px; padding: 5px;" href="/messages/compose/{{user}}/">(send {{user}} a message)</a>
 {% endifequal %}
 {% endblock %}
 
@@ -48,8 +25,8 @@ Profile for {{ profile.user.username }}
         <img src="{{ profile.get_large_gravatar_url }}" width="100" height="100"/>
     </div>
     <div style="float: left; width: 300px;">
-        Joined {{ profile.user.date_joined|ago}} on {{ profile.user.date_joined|date:"M d, Y" }}<br/>
-        Logged in {{ profile.user.last_login|ago }}<br/>
+        Joined {{ user.date_joined|naturaltime}} on {{ user.date_joined|date:"M d, Y" }}<br/>
+        Logged in {{ user.last_login|naturaltime }}<br/>
 
         Started {{ projects_count }} project{{ projects_count|pluralize }}, {{ projects_completed }} are complete.<br/>
         Commented {{ comments_count }} time{{ comments_count|pluralize }}<br/>
@@ -58,7 +35,7 @@ Profile for {{ profile.user.username }}
                 {{ profile.completed_projects_karma }}
             </span>
             <span style=" display: block; float: left; padding-top: 5px; padding-right: 10px;">
-                Karma<br/> point{{ profile.completed_projects_karma|pluralize }}
+                Karma<br/> point{{ user.profile.completed_projects_karma|pluralize }}
                 <small><a href="/concepts/#karma">?</a></small>
             </span>
         </div>
@@ -110,50 +87,50 @@ Profile for {{ profile.user.username }}
     {% endif %}
 </div>
 
-<div class="content_subtitle">{{ profile.user.username }}'s tags</div>
+<div class="content_subtitle">{{ user.username }}'s tags</div>
 
 {% if user_tags %}
     {% for t in user_tags %}
         <a class="tag_link" href="/projects/proposed/?tags={{ t }}">{{ t }}</a>
     {% endfor %}
 {% else %}
-    ({{ profile.user.username }} has not entered tags yet)
+    ({{ user.username }} has not entered tags yet)
 {% endif %}
 <br style="clear: both;"/>
 
-<div class="content_subtitle">{{profile.user.username}}'s extended information</div>
+<div class="content_subtitle">{{user.username}}'s extended information</div>
 
 {% if profile.description_html %}
     {% autoescape off %}{{ profile.description_html }}{% endautoescape %}
 {% else %}
-    ({{ profile.user.username }} has not entered a description yet)
+    ({{ user.username }} has not entered a description yet)
 {% endif %}
 
-<div class="content_subtitle">{{profile.user.username}}'s comment{{comments|pluralize}} 
+<div class="content_subtitle">{{user.username}}'s comment{{comments|pluralize}} 
     {% if comments_count %}({{comments|length}} of {{comments_count}}) {% endif %}
-    {% if more_than_five_comments %}<a href="/projects/comments/?foruser={{ profile.user.username }}"> (view all)</a>{% endif %}
+    {% if more_than_five_comments %}<a href="/projects/comments/?foruser={{ user.username }}"> (view all)</a>{% endif %}
 </div>
-{% if not comments_count %} ({{ profile.user.username }} has not entered any comments yet) {% endif %}
+{% if not comments_count %} ({{ user.username }} has not entered any comments yet) {% endif %}
 
 {% for comment in comments %}
     {% include "projects/comment_snippet.html" %}
 {% endfor %}
 
-<div class="content_subtitle">{{profile.user.username}}'s proposed project{{projects|pluralize}} 
+<div class="content_subtitle">{{user.username}}'s proposed project{{projects|pluralize}} 
     {% if projects_count %}({{projects|length}} of {{projects_count}}) {% endif %}
-    {% if more_than_five_projects %}<a href="/projects/?foruser={{ profile.user.username }}"> (view all)</a>{% endif %}
+    {% if more_than_five_projects %}<a href="/projects/?foruser={{ user.username }}"> (view all)</a>{% endif %}
 </div>
-{% if not projects_count %} ({{ profile.user.username }} has not proposed any projects yet) {% endif %}
+{% if not projects_count %} ({{ user.username }} has not proposed any projects yet) {% endif %}
 
 {% for project in projects %}
     {% include "projects/project_snippet.html" %}
 {% endfor %}
 
-<div class="content_subtitle">{{profile.user.username}}'s joined project{{projects_joined|pluralize}} 
+<div class="content_subtitle">{{user.username}}'s joined project{{projects_joined|pluralize}} 
     {% if projects_joined_count %}({{projects_joined|length}} of {{projects_joined_count}}) {% endif %}
-    {% if more_than_five_projects %}<a href="/projects/?foruser={{ profile.user.username }}"> (view all)</a>{% endif %}
+    {% if more_than_five_projects %}<a href="/projects/?foruser={{ user.username }}"> (view all)</a>{% endif %}
 </div>
-{% if not projects_joined_count %} ({{ profile.user.username }} has not joined any projects yet) {% endif %}
+{% if not projects_joined_count %} ({{ user.username }} has not joined any projects yet) {% endif %}
 
 {% for project in projects_joined %}
     {% include "projects/project_snippet.html" %}

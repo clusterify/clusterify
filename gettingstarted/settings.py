@@ -1,14 +1,3 @@
-"""
-Django settings for gettingstarted project, on Heroku. For more info, see:
-https://github.com/heroku/heroku-django-template
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.8/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.8/ref/settings/
-"""
-
 import os
 import dj_database_url
 
@@ -154,3 +143,11 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+GOOGLE_MAPS_KEY = 'ABQIAAAAiOHwufUKS4v5JYFKgLXDJxTpH3CbXHjuCVmaTc5MkkU4wO1RRhSwXb2vTGOxEZ3zGPscJ7KGxQp2fw'
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = os.environ.get('SENDGRID_USERNAME')
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

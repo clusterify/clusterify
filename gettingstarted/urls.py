@@ -12,6 +12,7 @@ urlpatterns = [
     ##url(r'^db', hello.views.db, name='db'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/profile/$', TemplateView.as_view(template_name='registration/profile.html')),
 	
 	url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="home"),
 
