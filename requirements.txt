@@ -1,5 +1,5 @@
 dj-database-url==0.4.0
-Django==1.9.2
+Django==2.2.24
 django-allauth==0.25.2
 django-contrib-comments==1.7.1
 gunicorn==19.4.5
